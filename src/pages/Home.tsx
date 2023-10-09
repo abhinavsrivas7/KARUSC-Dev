@@ -26,7 +26,7 @@ export const Home = () => {
                 <NavLink to="/shop">
                     <Button
                         className="hoverButton" 
-                        variant="outline-light">
+                        variant="outline-dark">
                         Shop Now!
                         <div style={{
                             display: "inline-block",
