@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Nav, Navbar as NavbarBs, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { IsMobile } from "../utilities/IsMobile";
 import { SearchBar } from "./SearchBar";
 import image  from "../media/user.svg";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
-    const isMobile = IsMobile();
+    const [isMobile, setisMobile] = useState<boolean>();
+    const handleResize = () => setisMobile(window.innerWidth < 768);
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const searchInactiveLayout = <>
         <Button 
