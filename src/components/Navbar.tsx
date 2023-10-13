@@ -6,7 +6,7 @@ import image  from "../media/user.svg";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
-    const [isMobile, setisMobile] = useState<boolean>();
+    const [isMobile, setisMobile] = useState<boolean>(window.innerWidth < 768);
     const handleResize = () => setisMobile(window.innerWidth < 768);
 
     useEffect(() => {
