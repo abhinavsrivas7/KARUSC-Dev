@@ -6,7 +6,7 @@ export const Home = () => {
     return <Container className="d-flex justify-content-center align-items-center w-100">
         <NavLink to="/shop">
             <Button className="hoverButton" variant="outline-dark">
-                Shop Now!!
+                Shop Now!
                 <div style={{
                     display: "inline-block",
                     width: "1.1rem",
