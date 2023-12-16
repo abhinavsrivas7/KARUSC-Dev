@@ -26,7 +26,13 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      - name: build and deploy
+      - name: build
         run: npm run build && npx gh-pages -d dist
+
+      - name: add origin
+        run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+
+      - name: deploy
+        run: npx gh-pages -d dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
