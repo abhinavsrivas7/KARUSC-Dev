@@ -1,6 +1,6 @@
 import { Button, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import forArrowImg from "../../resources/media/forwArrow.svg";
+import forwardArrowImg from "../../resources/media/forwArrow.svg";
 import { GoogleAuthComponent } from "../components/GoogleAuthComponent";
 
 export const Home = () => {
@@ -13,7 +13,7 @@ export const Home = () => {
                     width: "1.1rem",
                     height: "1.1rem",
                     marginLeft: "0.3em"}}>
-                    <img src = {forArrowImg} />
+                    <img src = {forwardArrowImg} />
                 </div>
             </Button>
         </NavLink>
