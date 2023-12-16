@@ -5,6 +5,7 @@ import { Loader } from "../components/Loader";
 import { NoData } from "../components/NoData";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { ProductCard } from "../components/ProductCard";
+import filterImg from "../../resources/media/filter.svg";
 
 export const Shop = () => {
     const [products, setProducts] = useState<Product[] | null>(null);
@@ -28,9 +29,7 @@ export const Shop = () => {
             <Button 
                 style={{position: "fixed", right: "2rem", bottom: "2rem", height: "3rem", width: "3rem"}}
                 variant="dark">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="white">
-                    <path d="M22.906 2.841c1.104-2.412-7.833-2.841-10.907-2.841-2.934 0-12.01.429-10.906 2.841.508 1.11 8.907 12.916 8.907 12.916v5.246l4 2.997v-8.243s8.398-11.806 8.906-12.916zm-10.901-.902c4.243 0 8.144.575 8.144 1.226s-3.9 1.18-8.144 1.18-8.042-.528-8.042-1.18 3.799-1.226 8.042-1.226z"/>
-                </svg>
+                <img src = {filterImg} />
             </Button>
           </>
         : errorState
