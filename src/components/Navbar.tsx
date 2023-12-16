@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
 import userImg  from "../../resources/media/user.svg";
 import hamburgImg from "../../resources/media/hamburg.svg";
-import seachImg from "../../resources/media/search.svg";
+import searchImg from "../../resources/media/search.svg";
 import cartImg from "../../resources/media/cart.svg";
 import backArrowImg from "../../resources/media/backArrow.svg";
 
@@ -35,7 +35,7 @@ export const Navbar = () => {
                 style={{ width: "2.25rem", height: "3rem", position: "relative" }} 
                 variant="white"
                 onClick={() => setSearchActive(true)}>
-                <img src={seachImg} />
+                <img src={searchImg} />
               </Button>
             : <Form>
                 <Row>
