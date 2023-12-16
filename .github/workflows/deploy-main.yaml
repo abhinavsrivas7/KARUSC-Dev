@@ -1,0 +1,25 @@
+name: Deploy main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v2
+
+      - name: setup node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.16.0'
+
+      - name: install dependencies
+        run: npm install
+
+      - name: build and deploy
+        run: npm run deploy         
