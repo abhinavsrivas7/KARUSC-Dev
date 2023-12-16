@@ -47,7 +47,7 @@ export const Navbar = () => {
                     </Col>
                     <Col xs="auto" style={{position: "relative"}}>
                         <Button variant="white" style={{width: "2.25rem",height: "2.25rem"}}>
-                            <img src = {seachImg} />
+                            <img src = {searchImg} />
                         </Button>
                     </Col>
                 </Row>
