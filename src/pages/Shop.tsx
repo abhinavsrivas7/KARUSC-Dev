@@ -5,7 +5,7 @@ import { Loader } from "../components/Loader";
 import { NoData } from "../components/NoData";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { ProductCard } from "../components/ProductCard";
-import uaon from "../../resources/media/uaon.svg";
+import filterImg from "../../resources/media/filter.svg";
 
 export const Shop = () => {
     const [products, setProducts] = useState<Product[] | null>(null);
@@ -29,7 +29,7 @@ export const Shop = () => {
             <Button 
                 style={{position: "fixed", right: "2rem", bottom: "2rem", height: "3rem", width: "3rem"}}
                 variant="dark">
-                <img src = {uaon} />
+                <img src = {filterImg} />
             </Button>
           </>
         : errorState
