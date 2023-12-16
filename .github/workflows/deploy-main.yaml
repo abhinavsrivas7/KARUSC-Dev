@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: build
-        run: npm run build && npx gh-pages -d dist
+        run: npm run build
 
       - name: add origin
         run: git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
