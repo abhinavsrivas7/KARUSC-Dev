@@ -27,4 +27,4 @@ jobs:
         run: npm install
 
       - name: build and deploy
-        run: npm run build && npx gh-pages -d dist -u "${{ secrets.ACCESS_TOKEN }}"
+        run: npm run build && npx gh-pages -d dist -u "abhinavsrivas7 130465627+abhinavsrivas@users.noreply.github.com"
