@@ -6,17 +6,12 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: checkout repository
         uses: actions/checkout@v2
-
-      - name: configure git
-        run: |
-          git config user.name "abhinavsrivas7"
-          git config user.email "130465627+abhinavsrivas@users.noreply.github.com"
 
       - name: setup node.js
         uses: actions/setup-node@v3
@@ -26,7 +21,18 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      - name: build and deploy
-        run: npm run deploy  
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      - name: build
+        run: npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: configure git
+        run: |
+          git config user.name "abhinavsrivas7"
+          git config user.email "130465627+abhinavsrivas@users.noreply.github.com"
+
+      - name: deploy
+        run: npx gh-pages -d dist -u ${{ secrets.ACCESS_TOKEN }}
