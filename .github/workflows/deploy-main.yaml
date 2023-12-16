@@ -22,4 +22,6 @@ jobs:
         run: npm install
 
       - name: build and deploy
-        run: npm run deploy         
+        run: npm run deploy  
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
