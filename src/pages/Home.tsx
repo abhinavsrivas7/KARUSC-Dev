@@ -17,6 +17,6 @@ export const Home = () => {
                 </div>
             </Button>
         </NavLink>
-        <GoogleAuthComponent /> 
+        <GoogleAuthComponent/> 
     </Container>;
 }
