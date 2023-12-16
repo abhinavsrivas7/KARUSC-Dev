@@ -13,6 +13,11 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v2
 
+      - name: configure git
+        run: |
+          git config user.name "abhinavsrivas7"
+          git config user.email "130465627+abhinavsrivas@users.noreply.github.com"
+
       - name: setup node.js
         uses: actions/setup-node@v3
         with:
