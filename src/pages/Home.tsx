@@ -17,6 +17,11 @@ export const Home = () => {
                 </div>
             </Button>
         </NavLink>
+        <NavLink to="/admin">
+            <Button variant = "outline-dark">
+                Go to Admin
+            </Button>
+        </NavLink>
         <GoogleAuthComponent/> 
     </Container>;
 }
