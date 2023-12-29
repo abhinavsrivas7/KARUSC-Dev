@@ -18,6 +18,11 @@ export const Home = () => {
                 </div>
             </Button>
         </NavLink>
+        <NavLink to="/admin">
+            <Button variant = "outline-dark">
+                Go to Admin
+            </Button>
+        </NavLink>
         <div style={{display: "none"}}>
             <GoogleOAuthProvider clientId="406061486952-6r67hp2bqmmqj9s8lbfok3lv4t04oqbg.apps.googleusercontent.com">
                 <GoogleLogin
