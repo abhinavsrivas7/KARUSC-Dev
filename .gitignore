@@ -1,22 +1,10 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
-node_modules
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+/Karusc.Server/bin/Release/net8.0
+/Karusc.Server/obj
+/Karusc.Server/Properties/PublishProfiles
+/Karusc.Server/Properties/ServiceDependencies/KaruscWebAppDev - Zip Deploy
+/karusc.client/obj/Release
+/.vs/Karusc
