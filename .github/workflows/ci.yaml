@@ -1,0 +1,46 @@
+name: Karusc CI
+
+on: 
+  pull_request:
+    branches:
+      - main
+
+env:
+  AZURE_WEBAPP_NAME: KaruscWebAppDev    
+  AZURE_WEBAPP_PACKAGE_PATH: '.'    
+  DOTNET_VERSION: '8.0.100'
+
+jobs:
+  karusc-build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }} 
+      
+    - name: Publish
+      id: publish
+      run: |
+        dotnet restore
+        dotnet build --configuration Release
+        dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc 
+        
+    - name: Check Published Files
+      run: |
+        if [ -z "$(find "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc" -maxdepth 1 -name 'Karusc.Server*' -print -quit)" ]; then
+          echo "Error: 'somefile' not found in the publish folder."
+          exit 1
+        fi
+        if [ ! -d "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc/wwwroot" ]; then
+          echo "Error: 'wwwroot' folder not found in the publish folder."
+          exit 1
+        fi
+        if [ ! -e "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc/wwwroot/index.html" ]; then
+          echo "Error: 'index.html' not found in the 'wwwroot' folder."
+          exit 1
+        fi
