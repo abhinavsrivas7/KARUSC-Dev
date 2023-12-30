@@ -11,7 +11,7 @@ env:
   DOTNET_VERSION: '8.0.100'
 
 jobs:
-  build:
+  karusc-build:
     runs-on: ubuntu-latest
 
     steps:
