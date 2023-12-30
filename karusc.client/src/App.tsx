@@ -40,7 +40,7 @@ function App() {
 
     return (
         <div>
-            <h1 id="tabelLabel">Weather forecastsss</h1>
+            <h1 id="tabelLabel">Weather forecasts!!</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
         </div>
