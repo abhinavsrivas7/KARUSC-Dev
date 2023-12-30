@@ -8,3 +8,5 @@
 /Karusc.Server/Properties/ServiceDependencies/KaruscWebAppDev - Zip Deploy
 /karusc.client/obj/Release
 /.vs/Karusc
+/Karusc.Server/bin/Debug/net8.0
+/karusc.client/obj/Debug
