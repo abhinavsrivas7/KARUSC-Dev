@@ -2,6 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ActiveDebugProfile>https</ActiveDebugProfile>
-    <NameOfLastUsedPublishProfile>C:\Users\abhin\OneDrive\Desktop\React\eCommerce\Karusc.Server\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\pande\OneDrive\Desktop\AMA\KARUSC-Dev\.github\workflows\ci.yaml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
