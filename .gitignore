@@ -16,3 +16,6 @@
 /Karusc.Server.Application/obj
 /Karusc.Server.Domain/obj
 /Karusc.Server.Infrastructure/obj
+/Karusc.Server.Domain/bin/Debug/net8.0
+/Karusc.Server.Infrastructure/bin/Debug/net8.0
+/Karusc.Server.Application/bin/Debug/net8.0
