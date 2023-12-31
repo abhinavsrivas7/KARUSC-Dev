@@ -11,3 +11,5 @@
 /Karusc.Server/bin/Debug/net8.0
 /karusc.client/obj/Debug
 /Karusc.Server/Properties/launchSettings.json
+/Karusc.Server/bin/Release/publish
+/.vs/ProjectEvaluation
