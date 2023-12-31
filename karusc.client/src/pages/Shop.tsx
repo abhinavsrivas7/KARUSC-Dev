@@ -12,7 +12,7 @@ export const Shop = () => {
     const [errorState, setErrorState] = useState<boolean>(false);
     
     useEffect(() => {
-        axios.get("https://localhost:7068/api/product")
+        axios.get("https://karuscwebappdev.azurewebsites.net/api/product")
             .then(response => {
                 console.log(response);
                 setProducts(response.data)
