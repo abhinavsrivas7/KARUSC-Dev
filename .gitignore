@@ -13,3 +13,6 @@
 /Karusc.Server/Properties/launchSettings.json
 /Karusc.Server/bin/Release/publish
 /.vs/ProjectEvaluation
+/Karusc.Server.Application/obj
+/Karusc.Server.Domain/obj
+/Karusc.Server.Infrastructure/obj
