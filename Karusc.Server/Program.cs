@@ -11,13 +11,8 @@ var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-
-if (builder.Environment.IsDevelopmentOrLocal())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseSwagger(); // Comment these 2 lines
+app.UseSwaggerUI(); // to turn of swagger
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

@@ -2,12 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Karusc.Server.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     { 
         [HttpGet]
-        public IActionResult Get() => Ok(new List<Product>() 
+        public IActionResult Get() => Ok(
+        new List<Product> 
         { 
             new()
             {
@@ -17,7 +17,7 @@ namespace Karusc.Server.Controllers
                Category = "Clothes",
                Price = 30.24,
                Image = "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg"
-            } 
+            }
         });
     }
 }

@@ -13,8 +13,5 @@
                         .WithOrigins(configuration.GetSection(_corsConfigSection).Value!)
                         .AllowAnyHeader()
                         .AllowAnyMethod()));
-
-        public static bool IsDevelopmentOrLocal(this IWebHostEnvironment environment) => 
-            environment.IsDevelopment() || environment.EnvironmentName.Equals("Local");
     }
 }

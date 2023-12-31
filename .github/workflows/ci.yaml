@@ -33,14 +33,14 @@ jobs:
     - name: Check Published Files
       run: |
         if [ -z "$(find "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc" -maxdepth 1 -name 'Karusc.Server*' -print -quit)" ]; then
-          echo "Error: 'somefile' not found in the publish folder."
+          echo "Error, 'server file' not found in the publish folder."
           exit 1
         fi
         if [ ! -d "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc/wwwroot" ]; then
-          echo "Error: 'wwwroot' folder not found in the publish folder."
+          echo "Error, 'wwwroot' folder not found in the publish folder."
           exit 1
         fi
         if [ ! -e "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc/wwwroot/index.html" ]; then
-          echo "Error: 'index.html' not found in the 'wwwroot' folder."
+          echo "Error, 'index.html' not found in the 'wwwroot' folder."
           exit 1
         fi
