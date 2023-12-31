@@ -12,7 +12,7 @@ export const Shop = () => {
     const [errorState, setErrorState] = useState<boolean>(false);
     
     useEffect(() => {
-        axios.get("https://localhost:7068/product")
+        axios.get("https://localhost:7068/api/product")
             .then(response => {
                 console.log(response);
                 setProducts(response.data)
