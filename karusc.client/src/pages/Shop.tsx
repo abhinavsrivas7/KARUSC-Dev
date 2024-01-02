@@ -6,13 +6,14 @@ import { NoData } from "../components/NoData";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { ProductCard } from "../components/ProductCard";
 import filterImg from "../../resources/media/filter.svg";
+import { GetProductsEndpoint } from "../utilities/EndpointUtils";
+
 
 export const Shop = () => {
     const [products, setProducts] = useState<Product[] | null>(null);
     const [errorState, setErrorState] = useState<boolean>(false);
-    
     useEffect(() => {
-        axios.get("https://karuscwebappdev.azurewebsites.net/api/product")
+        axios.get(GetProductsEndpoint())
             .then(response => {
                 console.log(response);
                 setProducts(response.data)
