@@ -34,8 +34,9 @@ jobs:
       run: |
         cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         dotnet tool install -g dotnet-ef --version ${{ env.DOTNET_EF_VERSION }}
-        export KARUSC_DB_CONNECTION_STRING="${{ secrets.DATABASE_CONNECTION_STRING }}"
         dotnet ef database update -p Karusc.Server.Infrastructure -s Karusc.Server
+      env:
+        KARUSC_DB_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
           
     - name: Deploy
       uses: azure/webapps-deploy@v2
