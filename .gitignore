@@ -19,3 +19,6 @@
 /Karusc.Server.Domain/bin/Debug/net8.0
 /Karusc.Server.Infrastructure/bin/Debug/net8.0
 /Karusc.Server.Application/bin/Debug/net8.0
+/Karusc.Server.Infrastructure/bin/Release/net8.0
+/Karusc.Server.Domain/bin/Release/net8.0
+/Karusc.Server.Application/bin/Release/net8.0
