@@ -8,8 +8,11 @@ on:
 env:
   AZURE_WEBAPP_NAME: KaruscWebAppDev    
   AZURE_WEBAPP_PACKAGE_PATH: '.'    
+  AZURE_RESOURCE_GROUP: KaruscRG
+  AZURE_MYSQL_SERVER_NAME: 'karusc-db-dev'
+  AZURE_MYSQL_FIREWALL_RULE_NAME: GithubRunnerRule
   DOTNET_VERSION: '8.0.100'
-  DOTNET_EF_VERSION: '8.0.0'
+  DOTNET_EF_TOOL_VERSION: '8.0.0'
 
 jobs:
   karusc-deploy:
@@ -23,20 +26,42 @@ jobs:
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}  
-      
+
+    - name: Setup Azure CLI
+      run: |
+        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        
     - name: Publish
       run: |
         dotnet restore
         dotnet build --configuration Release
         dotnet publish -c Release -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/karusc 
+    
+    - name: Login to Azure
+      run: |
+        az login --service-principal --username ${{ secrets.AZURE_SP_APP_ID }} --password ${{ secrets.AZURE_SP_PASSWORD }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+
+    - name: Add Firewall Rule
+      run: |
+        runner_ip=$(curl -s https://api.ipify.org)
+        echo "Runner IP Address=$runner_ip"
+        az mysql flexible-server firewall-rule create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_MYSQL_SERVER_NAME }} --rule-name ${{ env.AZURE_MYSQL_FIREWALL_RULE_NAME }} --start-ip-address $runner_ip --end-ip-address $runner_ip
 
     - name: Update database
       run: |
         cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        dotnet tool install -g dotnet-ef --version ${{ env.DOTNET_EF_VERSION }}
+        dotnet tool install -g dotnet-ef --version ${{ env.DOTNET_EF_TOOL_VERSION }}
         dotnet ef database update -p Karusc.Server.Infrastructure -s Karusc.Server
       env:
         KARUSC_DB_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
+
+    - name: Delete Firewall Rule
+      run: |
+        az mysql flexible-server firewall-rule delete --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_MYSQL_SERVER_NAME }} --rule-name ${{ env.AZURE_MYSQL_FIREWALL_RULE_NAME }}
+
+    - name: Logout from Azure
+      run: |
+        az logout
           
     - name: Deploy
       uses: azure/webapps-deploy@v2
