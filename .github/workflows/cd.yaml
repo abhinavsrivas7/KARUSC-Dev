@@ -57,7 +57,7 @@ jobs:
 
     - name: Delete Firewall Rule
       run: |
-        az mysql flexible-server firewall-rule delete --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_MYSQL_SERVER_NAME }} --rule-name ${{ env.AZURE_MYSQL_FIREWALL_RULE_NAME }}
+        az mysql flexible-server firewall-rule delete --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_MYSQL_SERVER_NAME }} --rule-name ${{ env.AZURE_MYSQL_FIREWALL_RULE_NAME }} --yes
 
     - name: Logout from Azure
       run: |
