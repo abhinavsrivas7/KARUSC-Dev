@@ -1,9 +1,9 @@
 ﻿using Karusc.Server.Domain;
 using MediatR;
 
-namespace Karusc.Server.Application.Products.GetAllProducts
+namespace Karusc.Server.Application.Products.Get
 {
-    public record GetAllProductsRequest(
+    public record GetProductsQuery(
         int pageSize,
         int pageNumber) : IRequest<List<Product>>;
 }
