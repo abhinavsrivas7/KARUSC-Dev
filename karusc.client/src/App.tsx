@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import { Home } from "./pages/Home";
 import { Shop } from "./pages/Shop";
 import { About } from "./pages/About";
+import { Admin } from "./pages/Admin";
 import { Navbar } from "./components/Navbar";
 
 const App = () => <>
@@ -12,6 +13,7 @@ const App = () => <>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<Admin />} />
         </Routes>
     </Container>
 </>;
