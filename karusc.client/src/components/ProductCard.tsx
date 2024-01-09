@@ -4,7 +4,7 @@ import { FormatProductPrice, FormatProductTitle } from "../utilities/ProductCard
 
 let quantity = 0;
 export const ProductCard = (product: Product) => <Card className="h-100">
-    <Card.Img variant="top" src={product.image} height="150px" style={{objectFit: "cover"}}/>
+    <Card.Img variant="top" src={product.image[0]} height="150px" style={{objectFit: "cover"}}/>
     <Card.Body className="d-flex flex-column">
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
             <span className="fs-5" title={product.title}>
