@@ -1,9 +1,9 @@
-// ProductForm.tsx
 import React, { useState, useRef } from 'react';
 import { Form, Button, Card, Col, Row, Modal } from 'react-bootstrap';
+import { Product } from '../models/Product';
 
 interface ProductFormProps {
-  onAddProduct: (product: { productName: string, productCategory: string, productDescription: string, images: string[] }) => void;
+  onAddProduct: (product: Product) => void;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
@@ -13,6 +13,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
   const [productName, setProductName] = useState<string>('');
   const [productCategory, setProductCategory] = useState<string>('');
   const [productDescription, setProductDescription] = useState<string>('');
+  const [productPrice, setProductPrice] = useState<number | ''>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,17 +51,21 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
   };
 
   const handleAddProduct = () => {
-    const product = {
-      productName,
-      productCategory,
-      productDescription,
-      images
+    const product: Product = {
+      id: -1,
+      title: productName,
+      price: typeof productPrice === 'number' ? productPrice : 0,
+      description: productDescription,
+      category: productCategory,
+      image: images,
     };
+    console.log(product);
     onAddProduct(product);
 
     setProductName('');
     setProductCategory('');
     setProductDescription('');
+    setProductPrice('');
     setImages([]);
   };
 
@@ -94,6 +99,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ onAddProduct }) => {
               placeholder="Enter product description"
               value={productDescription}
               onChange={(e) => setProductDescription(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="productPrice">
+            <Form.Label>Product Price</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter product price"
+              value={productPrice}
+              onChange={(e) => setProductPrice(parseInt(e.target.value) || 0)}
             />
           </Form.Group>
 

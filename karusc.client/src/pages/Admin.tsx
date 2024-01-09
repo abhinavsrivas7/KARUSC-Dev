@@ -1,10 +1,10 @@
-// Admin.tsx
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import ProductForm from './ProductForm';
+import { Product } from '../models/Product'; 
 
 export const Admin: React.FC = () => {
-  const handleAddProduct = (product: { productName: string, productCategory: string, productDescription: string, images: string[] }) => {
+  const handleAddProduct = (product: Product) => {
     console.log(product);
   };
 
