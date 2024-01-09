@@ -17,6 +17,18 @@ export const Home = () => {
                 </div>
             </Button>
         </NavLink>
+        <NavLink to="/admin">
+            <Button className="hoverButton" variant="outline-dark">
+                Admin
+                <div style={{
+                    display: "inline-block",
+                    width: "1.1rem",
+                    height: "1.1rem",
+                    marginLeft: "0.3em"}}>
+                    <img src = {forwardArrowImg} />
+                </div>
+            </Button>
+        </NavLink>
         <GoogleAuthComponent/> 
     </Container>;
 }
