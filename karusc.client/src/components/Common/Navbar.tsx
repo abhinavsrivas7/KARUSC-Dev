@@ -65,7 +65,7 @@ export const Navbar = () => {
         </Button> 
     </>;
 
-    return <NavbarBs className="shadow-sm mt-4 mb-3 pb-0 light-pink" sticky="top">
+    return <NavbarBs className="shadow-sm mt-4 pb-0 light-pink" sticky="top">
         <Container>
             {isSearchActive 
                 ? <>
