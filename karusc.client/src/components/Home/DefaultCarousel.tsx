@@ -1,11 +1,12 @@
 import { Carousel } from "react-bootstrap";
+import carousel from "../../../resources/media/carousel.svg";
 export const DefaultCarousel = () => {
     return (
-        <Carousel>
+        <Carousel controls={false} indicators={false} interval={1000}>
             <Carousel.Item>
                 <img
-                    className="d-block w-100"
-                    src="https://via.placeholder.com/800x400?text=First+Slide"
+                    className="object-cover w-full"
+                    src={carousel}
                     alt="First slide"
                 />
                 <Carousel.Caption>
@@ -15,8 +16,8 @@ export const DefaultCarousel = () => {
             </Carousel.Item>
             <Carousel.Item>
                 <img
-                    className="d-block w-100"
-                    src="https://via.placeholder.com/800x400?text=Second+Slide"
+                    className="object-cover w-full"
+                    src={carousel}
                     alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -26,8 +27,8 @@ export const DefaultCarousel = () => {
             </Carousel.Item>
             <Carousel.Item>
                 <img
-                    className="d-block w-100"
-                    src="https://via.placeholder.com/800x400?text=Third+Slide"
+                    className="object-cover w-full"
+                    src={carousel}
                     alt="Third slide"
                 />
                 <Carousel.Caption>
