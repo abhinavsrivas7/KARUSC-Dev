@@ -4,8 +4,7 @@ export const Footer = () => {
             style={{
             bottom: "0",
             left: "0",
-            width: "100%",
-            position: "fixed"
+            width: "100%"
         }}>
             <div
                 style={{} }

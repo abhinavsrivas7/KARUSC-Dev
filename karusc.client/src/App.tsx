@@ -5,12 +5,12 @@ import { Shop } from "./pages/Shop";
 import { About } from "./pages/About";
 import { Navbar } from "./components/Common/Navbar";
 import { Footer } from "./components/Common/Footer";
-import { Banner } from "./components/Common/Banner";
+import { Banner } from "./components/Home/Banner";
 
 const App = () => <>
     <Banner></Banner>
     <Navbar />
-    <Container className="mb-4">
+    <Container className="mb-4" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
