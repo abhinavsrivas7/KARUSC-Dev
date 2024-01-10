@@ -1,7 +1,7 @@
 import { Button, Container } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import forwardArrowImg from "../../resources/media/forwArrow.svg";
-import { GoogleAuthComponent } from "../components/GoogleAuthComponent";
+import { GoogleAuthComponent } from "../components/Authentication/GoogleAuthComponent";
 
 export const Home = () => {
     return <Container className="d-flex justify-content-center align-items-center w-100">

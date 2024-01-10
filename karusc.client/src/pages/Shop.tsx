@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Product } from "../models/Product";
-import { Loader } from "../components/Loader";
-import { NoData } from "../components/NoData";
+import { Loader } from "../components/Common/Loader";
+import { NoData } from "../components/Common/NoData";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { ProductCard } from "../components/ProductCard";
+import { ProductCard } from "../components/Products/ProductCard";
 import filterImg from "../../resources/media/filter.svg";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 

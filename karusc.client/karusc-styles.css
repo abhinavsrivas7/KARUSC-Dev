@@ -1,0 +1,28 @@
+.hoverButton img {
+    filter: invert(0);
+}
+
+.hoverButton:hover img {
+    filter: invert(1);
+}
+
+.search-input:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: -1px 1px 1px 1px black, 1px -1px 1px 1px black !important;
+}
+
+.regular-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 400 !important;
+}
+
+.semi-bold-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600 !important;
+}
+
+.bold-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+}

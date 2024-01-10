@@ -1,6 +1,6 @@
 import { Button, Card } from "react-bootstrap";
-import { Product } from "../models/Product";
-import { FormatProductPrice, FormatProductTitle } from "../utilities/ProductCardUtils";
+import { Product } from "../../models/Product";
+import { FormatProductPrice, FormatProductTitle } from "../../utilities/ProductCardUtils";
 
 let quantity = 0;
 export const ProductCard = (product: Product) => <Card className="h-100">
