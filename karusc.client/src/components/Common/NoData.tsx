@@ -1,7 +1,7 @@
 import { Button } from "react-bootstrap";
-import noDataImg  from "../../resources/media/noData.svg";
+import noDataImg  from "../../../resources/media/noData.svg";
 import { NavLink } from "react-router-dom";
-import backArrowImg from "../../resources/media/backArrow.svg";
+import backArrowImg from "../../../resources/media/backArrow.svg";
 
 export const NoData = () => <>
     <div className="d-flex justify-content-center align-items-center">          

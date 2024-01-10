@@ -1,6 +1,7 @@
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 export const GoogleAuthComponent = () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSuccess = (credentialResponse: any) => {
     console.log(credentialResponse);
   };

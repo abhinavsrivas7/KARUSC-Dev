@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Nav, Navbar as NavbarBs, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
-import userImg  from "../../resources/media/user.svg";
-import hamburgImg from "../../resources/media/hamburg.svg";
-import searchImg from "../../resources/media/search.svg";
-import cartImg from "../../resources/media/cart.svg";
-import backArrowImg from "../../resources/media/backArrow.svg";
+import userImg from "../../../resources/media/user.svg";
+import hamburgImg from "../../../resources/media/hamburg.svg";
+import searchImg from "../../../resources/media/search.svg";
+import cartImg from "../../../resources/media/cart.svg";
+import backArrowImg from "../../../resources/media/backArrow.svg";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);

@@ -1,5 +1,5 @@
 import { Button, Container, InputGroup } from "react-bootstrap";
-import searchImg from "../../resources/media/search.svg";
+import searchImg from "../../../resources/media/search.svg";
 
 export const SearchBar = () => <Container>
     <InputGroup>
