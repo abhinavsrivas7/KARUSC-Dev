@@ -10,7 +10,7 @@ import { Banner } from "./components/Home/Banner";
 const App = () => <>
     <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
     <Navbar />
-    <Container className="mb-4" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
+    <Container className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />

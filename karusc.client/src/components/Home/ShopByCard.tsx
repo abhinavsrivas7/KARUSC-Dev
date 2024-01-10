@@ -7,9 +7,9 @@ export interface ShopByCardData {
 
 export const ShopByCard = ({ imageURL, title }: ShopByCardData) => {
     return <>
-        <Card style={{border: "none"}}>
+        <Card style={{ border: "none" }}>
             <Card.Img variant="top" src={imageURL} />
-            <Card.Body>
+            <Card.Body className="light-pink">
                 <Card.Text className="d-flex justify-content-center align-items-center">{title}</Card.Text>
             </Card.Body>
         </Card>
