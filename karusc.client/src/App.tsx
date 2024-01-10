@@ -5,8 +5,10 @@ import { Shop } from "./pages/Shop";
 import { About } from "./pages/About";
 import { Navbar } from "./components/Common/Navbar";
 import { Footer } from "./components/Common/Footer";
+import { Banner } from "./components/Common/Banner";
 
 const App = () => <>
+    <Banner></Banner>
     <Navbar />
     <Container className="mb-4">
         <Routes>

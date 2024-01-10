@@ -1,22 +1,15 @@
-import { Button, Container } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
-import forwardArrowImg from "../../resources/media/forwArrow.svg";
 import { GoogleAuthComponent } from "../components/Authentication/GoogleAuthComponent";
+import { ShopBy } from "../components/Home/ShopBy";
+import { DefaultCarousel } from "../components/Home/DefaultCarousel"
+import { Container } from "react-bootstrap";
 
 export const Home = () => {
-    return <Container className="d-flex justify-content-center align-items-center w-100">
-        <NavLink to="/shop">
-            <Button className="hoverButton" variant="outline-dark">
-                Shop Now!!
-                <div style={{
-                    display: "inline-block",
-                    width: "1.1rem",
-                    height: "1.1rem",
-                    marginLeft: "0.3em"}}>
-                    <img src = {forwardArrowImg} />
-                </div>
-            </Button>
-        </NavLink>
-        <GoogleAuthComponent/> 
-    </Container>;
+    return <>
+        <Container className="d-flex justify-content-center align-items-center w-100">
+            <GoogleAuthComponent />
+        </Container>
+        <DefaultCarousel></DefaultCarousel>
+        <ShopBy componentFor="Category"></ShopBy>
+        <ShopBy componentFor="Collections"></ShopBy>
+    </>
 }

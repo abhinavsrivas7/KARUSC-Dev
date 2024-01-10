@@ -1,12 +1,11 @@
 export const Footer = () => {
     return <>
-        <footer style={{
+        <footer className="purple"
+            style={{
             bottom: "0",
             left: "0",
             width: "100%",
-            position: "fixed",
-            color: "white",
-            backgroundColor: "#890074"
+            position: "fixed"
         }}>
             <div
                 style={{} }

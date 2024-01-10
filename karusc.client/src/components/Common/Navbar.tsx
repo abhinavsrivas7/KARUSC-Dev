@@ -26,7 +26,7 @@ export const Navbar = () => {
             <img src={hamburgImg}/>
         </Button>
         <Nav className="me-auto">
-            <Nav.Link to="/" as={NavLink} style={{fontSize: "1.25em"}}>
+            <Nav.Link to="/" as={NavLink} style={{ fontSize: "1.25em" }} className="light-pink semi-bold-font">
                 <strong>KARUSC</strong>
             </Nav.Link>
         </Nav>
@@ -43,7 +43,7 @@ export const Navbar = () => {
                         <Form.Control
                             type="text"
                             placeholder="Search"
-                            className=" mr-sm-2 search-input" />
+                            className=" mr-sm-2 search-input custom-placeholder" />
                     </Col>
                     <Col xs="auto" style={{position: "relative"}}>
                         <Button variant="white" style={{width: "2.25rem",height: "2.25rem"}}>
@@ -60,27 +60,12 @@ export const Navbar = () => {
         </Button>
         <Button 
             style={{ width: "3rem", height: "3rem", position: "relative" }} 
-            variant="white"
-            className="mb-2">
+            variant="white">
             <img src = {cartImg} />
-            <div 
-                className="rounded-circle bg-dark d-flex justify-content-center align-items-center"
-                style={{
-                    color: "white",
-                    width: "1.25rem",
-                    height: "1.25rem", 
-                    position: "absolute",
-                    bottom: 0,
-                    right: 0,
-                    transform: "translate(-4%, -4%)",
-                    fontSize: "0.8em"
-                }}>
-                <strong>25</strong>
-            </div>
         </Button> 
     </>;
 
-    return <NavbarBs className="bg-white shadow-sm mb-3 pb-0" sticky="top">
+    return <NavbarBs className="shadow-sm mt-4 mb-3 pb-0 light-pink" sticky="top">
         <Container>
             {isSearchActive 
                 ? <>

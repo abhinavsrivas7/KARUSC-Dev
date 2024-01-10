@@ -26,3 +26,18 @@
     font-family: 'Outfit', sans-serif !important;
     font-weight: 700 !important;
 }
+
+.light-pink {
+    background-color: #FFF3F5;
+    color: rgba(158, 45, 79, 0.56) !important;
+}
+
+.purple {
+    background-color: #890074;
+    color: white
+}
+.custom-placeholder::placeholder {
+    color: rgba(158, 45, 79, 0.56) !important;
+}
+
+
