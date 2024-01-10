@@ -8,7 +8,7 @@ import { Footer } from "./components/Common/Footer";
 import { Banner } from "./components/Home/Banner";
 
 const App = () => <>
-    <Banner></Banner>
+    <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
     <Navbar />
     <Container className="mb-4" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
         <Routes>

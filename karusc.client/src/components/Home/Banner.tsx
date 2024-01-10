@@ -1,4 +1,10 @@
-export const Banner = () => {
+import Marquee from "react-fast-marquee";
+
+interface BannerData {
+    title: string
+}
+
+export const Banner = ({ title }: BannerData) => {
     return <>
         <div className="purple d-flex justify-content-center align-items-center regular-font"
             style={{
@@ -6,8 +12,11 @@ export const Banner = () => {
             left: "0",
             width: "100%",
             position: "fixed"
-        }}>
-            Free shipping within India, on orders above INR 1000.
+            }}>
+            <Marquee>
+                {title}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </Marquee> 
         </div>
     </>;
 }
