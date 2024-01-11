@@ -18,7 +18,7 @@ const cardsData: ShopByCardData[] = [
 export const ShopBy = ({ componentFor }: ShopByComponentData) => {
     return <>
         <Container className="mt-4">
-            <Container className="d-flex justify-content-center align-items-center mb-5">
+            <Container className="d-flex justify-content-center align-items-center mb-5 semi-bold-font">
                 <h2 >Shop By {componentFor}</h2>
             </Container>      
             <Row md={3} xs={3} lg={3} className="g-3">

@@ -12,9 +12,29 @@
     box-shadow: -1px 1px 1px 1px black, 1px -1px 1px 1px black !important;
 }
 
+.thin-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 100 !important;
+}
+
+.extra-light-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 200 !important;
+}
+
+.light-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 300 !important;
+}
+
 .regular-font {
     font-family: 'Outfit', sans-serif !important;
     font-weight: 400 !important;
+}
+
+.medium-font {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 500 !important;
 }
 
 .semi-bold-font {
