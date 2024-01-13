@@ -4,13 +4,13 @@ import { ReviewCard, ReviewCardData } from './ReviewCard';
 import authorImg from "../../../resources/media/user-profile-photo.jpg";
 
 const reviews: ReviewCardData[] = [
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!1" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!2" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!3" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!4" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!5" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!6" },
-    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!7" }
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!1" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!2" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!3" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!4" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!5" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!6" },
+    { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!7" }
 ];
 
 const responsive = {

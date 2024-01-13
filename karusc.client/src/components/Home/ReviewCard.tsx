@@ -38,7 +38,7 @@ export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
             : deviceType == DeviceTypes.DESKTOP ? "32.5%"
             : "25%",
         transform: deviceType == DeviceTypes.MOBILE ? "translate(0%, -15%)"
-            : deviceType == DeviceTypes.DESKTOP ? "translate(0%, -45%)"
+            : deviceType == DeviceTypes.DESKTOP ? "translate(0%, -20%)"
             : "translate(0%, -15%)"
     }
 
@@ -65,7 +65,7 @@ export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
         <Stack
             style={{ transform: responsiveStyles.transform }}
             className="px-3">
-            <div className="d-flex justify-content-center align-items-center semi-bold-font mb-2">
+            <div className="d-flex justify-content-center align-items-center semi-bold-font mb-3">
                 <i>""{review}""</i>
             </div>
             <div className="ms-auto regular-font">
