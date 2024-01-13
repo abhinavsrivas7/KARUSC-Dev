@@ -5,8 +5,9 @@ import { About } from "./pages/About";
 import { Navbar } from "./components/Common/Navbar";
 import { Footer } from "./components/Common/Footer";
 import { Banner } from "./components/Home/Banner";
+import { ScreenSizeProvider } from "./context/ScreenSizeContext";
 
-const App = () => <>
+const App = () => <ScreenSizeProvider>
     <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
     <Navbar />
     <div className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
@@ -17,6 +18,6 @@ const App = () => <>
         </Routes>
     </div>
     <Footer></Footer>
-</>;
+</ScreenSizeProvider>;
 
 export default App;

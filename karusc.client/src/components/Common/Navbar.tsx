@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Col, Container, Form, Nav, Navbar as NavbarBs, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { SearchBar } from "./SearchBar";
@@ -7,16 +7,11 @@ import hamburgImg from "../../../resources/media/hamburg.svg";
 import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
 import backArrowImg from "../../../resources/media/backArrow.svg";
+import { useScreenSize } from "../../context/ScreenSizeContext";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
-    const [isMobile, setisMobile] = useState<boolean>(window.innerWidth < 768);
-    const handleResize = () => setisMobile(window.innerWidth < 768);
-
-    useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    const { checkIfMobile } = useScreenSize();
 
     const searchInactiveLayout = <>
         <Button 
@@ -30,7 +25,7 @@ export const Navbar = () => {
                 <strong>KARUSC</strong>
             </Nav.Link>
         </Nav>
-        {isMobile
+        {checkIfMobile()
             ? <Button 
                 style={{ width: "2.25rem", height: "3rem", position: "relative" }} 
                 variant="white"
