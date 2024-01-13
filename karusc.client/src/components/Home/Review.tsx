@@ -1,16 +1,16 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { ReviewCard, ReviewCardData } from './ReviewCard';
-
+import authorImg from "../../../resources/media/user-profile-photo.jpg";
 
 const reviews: ReviewCardData[] = [
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" },
-    { author: "Henry", review: "Bruce Wayne is a dead man walking!!" }
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!1" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!2" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!3" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!4" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!5" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!6" },
+    { imageURL: authorImg, author: "Henry", review: "Bruce Wayne is a dead man walking!!7" }
 ];
 
 const responsive = {
@@ -26,7 +26,7 @@ export const Review = () => {
         </div>
         <Carousel
             swipeable={true}
-            draggable={true}
+            draggable={false}
             showDots={false}
             responsive={responsive}
             ssr={false} // means to render carousel on server-side.
@@ -38,7 +38,7 @@ export const Review = () => {
             transitionDuration={500}
         >
             {reviews.map((review) => <div className="px-3">
-                <ReviewCard author={review.author} review={review.review}></ReviewCard>            
+                <ReviewCard imageURL={review.imageURL} author={review.author} review={review.review} />            
             </div>)}
         </Carousel>
     </div>;

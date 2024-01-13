@@ -2,6 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { ShopByCard, ShopByCardData } from "./ShopByCard";
 import { NavLink } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
+import { DeviceTypes } from "../../models/DeviceTypes";
 
 interface ShopByComponentData {
     componentFor: string
@@ -19,14 +20,14 @@ const cardsData: ShopByCardData[] = [
 ];
 
 export const ShopBy = ({ componentFor }: ShopByComponentData) => {
-    const { checkIfMobile } = useScreenSize();
+    const { getDeviceType } = useScreenSize();
     return <>
         <Container className="mt-4 px-0">
             <Container className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">
                 <h2 >Shop By {componentFor}</h2>
             </Container>      
             <Row md={4} xs={3} lg={4} className="g-2">
-                {cardsData.slice(checkIfMobile() ? 2 : 0).map(card => <Col
+                {cardsData.slice(getDeviceType() == DeviceTypes.MOBILE ? 2 : 0).map(card => <Col
                     className="d-flex justify-content-center align-items-center">
                     <NavLink style={{ textDecoration: 'none' }} to = "/shop">
                         <ShopByCard imageURL={card.imageURL} title={card.title} />

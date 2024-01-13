@@ -1,9 +1,9 @@
 import { Stack } from "react-bootstrap";
-import authorImg from "../../../resources/media/user-profile-photo.jpg";
 import { useScreenSize } from "../../context/ScreenSizeContext";
+import { DeviceTypes } from "../../models/DeviceTypes";
 
 export type ReviewCardData = {
-    //imageURL: string,
+    imageURL: string,
     author: string,
     review: string
 }
@@ -17,15 +17,29 @@ type ResponsiveStyle = {
     transform: string
 }
 
-export const ReviewCard = ({ author, review }: ReviewCardData) => {
-    const { checkIfMobile } = useScreenSize();
+export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
+    const { getDeviceType } = useScreenSize();
+    const deviceType = getDeviceType();
+
     const responsiveStyles: ResponsiveStyle = {
-        marginTop: checkIfMobile() ? "30%" : "17.5%",
-        marginBottom: checkIfMobile() ? "-30%" : "-17.5%",
-        paddingBottom: checkIfMobile() ? "30%" : "17.5%",
-        radius: checkIfMobile() ? "60%" : "35%",
-        x_margins: checkIfMobile() ? "20%" : "32.5%",
-        transform: checkIfMobile() ? "translate(0%, -15%)" : "translate(0%, -45%)"
+        marginTop: deviceType == DeviceTypes.MOBILE ? "30%"
+            : deviceType == DeviceTypes.DESKTOP ? "17.5%"
+            : "25%",
+        marginBottom: deviceType == DeviceTypes.MOBILE ? "-30%"
+            : deviceType == DeviceTypes.DESKTOP ? "-17.5%"
+            : "-25%",
+        paddingBottom: deviceType == DeviceTypes.MOBILE ? "30%"
+            : deviceType == DeviceTypes.DESKTOP ? "17.5%"
+            : "25%",
+        radius: deviceType == DeviceTypes.MOBILE ? "60%"
+            : deviceType == DeviceTypes.DESKTOP ? "35%"
+            : "50%",
+        x_margins: deviceType == DeviceTypes.MOBILE ? "20%"
+            : deviceType == DeviceTypes.DESKTOP ? "32.5%"
+            : "25%",
+        transform: deviceType == DeviceTypes.MOBILE ? "translate(0%, -15%)"
+            : deviceType == DeviceTypes.DESKTOP ? "translate(0%, -45%)"
+            : "translate(0%, -15%)"
     }
 
     return <div className="purple"
@@ -38,7 +52,7 @@ export const ReviewCard = ({ author, review }: ReviewCardData) => {
             width: '100%'
         }}>
         <img
-            src={authorImg}
+            src={imageURL}
             height={responsiveStyles.radius}
             width={responsiveStyles.radius}
             style={{
