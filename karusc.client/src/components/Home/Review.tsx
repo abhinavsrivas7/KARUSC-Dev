@@ -15,8 +15,8 @@ const reviews: ReviewCardData[] = [
 
 const responsive = {
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3.5 },
-    tablet: { breakpoint: { max: 1024, min: 464 }, items: 3.5 },
-    mobile: { breakpoint: { max: 464, min: 0 }, items: 2.5 }
+    tablet: { breakpoint: { max: 1024, min: 464 }, items: 3.5, slidesToSlide: 2 },
+    mobile: { breakpoint: { max: 464, min: 0 }, items: 2.5, slidesToSlide: 2 }
 };
 
 export const Review = () => {
@@ -37,7 +37,7 @@ export const Review = () => {
             customTransition="all .5"
             transitionDuration={500}
         >
-            {reviews.map((review) => <div className="px-3">
+            {reviews.map((review) => <div className="px-2">
                 <ReviewCard imageURL={review.imageURL} author={review.author} review={review.review} />            
             </div>)}
         </Carousel>
