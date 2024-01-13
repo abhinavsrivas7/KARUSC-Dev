@@ -22,7 +22,7 @@ const cardsData: ShopByCardData[] = [
 export const ShopBy = ({ componentFor }: ShopByComponentData) => {
     const { getDeviceType } = useScreenSize();
     return <>
-        <Container className="mt-4 px-0">
+        <Container className="mt-4">
             <Container className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">
                 <h2 >Shop By {componentFor}</h2>
             </Container>      
