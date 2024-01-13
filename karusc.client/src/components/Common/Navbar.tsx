@@ -8,10 +8,11 @@ import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
 import backArrowImg from "../../../resources/media/backArrow.svg";
 import { useScreenSize } from "../../context/ScreenSizeContext";
+import { DeviceTypes } from "../../models/DeviceTypes";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
-    const { checkIfMobile } = useScreenSize();
+    const { getDeviceType } = useScreenSize();
 
     const searchInactiveLayout = <>
         <Button 
@@ -25,7 +26,7 @@ export const Navbar = () => {
                 <strong>KARUSC</strong>
             </Nav.Link>
         </Nav>
-        {checkIfMobile()
+        {getDeviceType() == DeviceTypes.MOBILE
             ? <Button 
                 style={{ width: "2.25rem", height: "3rem", position: "relative" }} 
                 variant="white"
