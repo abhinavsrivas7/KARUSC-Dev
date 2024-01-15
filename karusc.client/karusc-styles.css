@@ -1,12 +1,3 @@
-/*SCROLLBAR STYLES - start*/
-.os-scrollbar-handle {
-    height: 10% !important;
-    border-radius: 6px;
-}
-/*SCROLLBAR STYLES - end*/
-
-
-
 /*FONT STYLES - start*/
 .thin-font {
     font-family: 'Outfit', sans-serif !important;
