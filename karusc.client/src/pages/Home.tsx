@@ -11,7 +11,7 @@ export const Home = () => {
         </Container>
         <DefaultCarousel></DefaultCarousel>
         <ShopBy componentFor="Category"></ShopBy>
-        <ShopBy componentFor="Collections"></ShopBy>
+        <ShopBy componentFor="Collection"></ShopBy>
         <Review></Review>
     </>
 }

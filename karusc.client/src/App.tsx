@@ -6,17 +6,8 @@ import { Navbar } from "./components/Common/Navbar";
 import { Footer } from "./components/Common/Footer";
 import { Banner } from "./components/Home/Banner";
 import { ScreenSizeProvider } from "./context/ScreenSizeContext";
-import { useOverlayScrollbars } from "overlayscrollbars-react";
-import { useEffect } from "react";
 
 const App = () => {
-    const [initBodyOverlayScrollbars] = useOverlayScrollbars({
-        defer: true,     
-        options: { scrollbars: { theme: "os-theme-dark", autoHide: "scroll", autoHideDelay: 500 }},
-    });
-
-    useEffect(() => initBodyOverlayScrollbars(document.body), [initBodyOverlayScrollbars]);
-    
     return <ScreenSizeProvider>
         <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
         <Navbar />
