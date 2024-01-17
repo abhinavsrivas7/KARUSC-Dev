@@ -6,9 +6,12 @@ import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useScreenSize } from "../../context/ScreenSizeContext";
+import { DeviceTypes } from "../../models/DeviceTypes";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
+    const { getDeviceType } = useScreenSize();
 
     const searchInactiveLayout = <>
         <Stack direction="horizontal" gap={2} className="me-auto">
@@ -57,7 +60,11 @@ export const Navbar = () => {
         </Stack>
     </>;
 
-    return <NavbarBs className="shadow-sm mt-4 px-5 py-2.5 light-pink" sticky="top">
+    const navbarClass = getDeviceType() == DeviceTypes.MOBILE
+        ? "shadow-sm mt-4 px-3 py-2.75 light-pink"
+        : "shadow-sm mt-4 px-4 py-2.75 light-pink";
+
+    return <NavbarBs className={navbarClass} sticky="top">
             {isSearchActive ? searchActiveLayout : searchInactiveLayout}
     </NavbarBs>;
 }
