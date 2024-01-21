@@ -13,7 +13,12 @@ export const Shop = () => {
     const [products, setProducts] = useState<Product[] | null>(null);
     const [errorState, setErrorState] = useState<boolean>(false);
     useEffect(() => {
-        axios.get(GetProductsEndpoint())
+        axios.get(GetProductsEndpoint(), {
+            params: {
+                pageSize: 10,
+                pageNumber: 0
+            }
+        })
             .then(response => {
                 console.log(response);
                 setProducts(response.data)
@@ -24,7 +29,7 @@ export const Shop = () => {
     return products 
         ? <>
             <Container className="d-flex justify-content-center align-items-center">
-                <h1>Products</h1>
+                <h1 className="bold-font light-pink">KARUSC</h1>
             </Container>
             <hr style={{color: "white"}}/>
             <Row md={3} xs={2} lg={4} className="g-3">

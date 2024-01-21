@@ -88,4 +88,9 @@
 .pink-placeholder::-webkit-input-placeholder {
     color: rgba(158, 45, 79, 0.56);
 }
+
+div.offcanvas-start {
+    max-width: 50% !important;
+    background-color: #FFF3F5 !important;
+}
 /*CUSTOM STYLES -end*/
