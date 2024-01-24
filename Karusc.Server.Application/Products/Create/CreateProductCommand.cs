@@ -8,5 +8,5 @@ namespace Karusc.Server.Application.Products.Create
         decimal Price,
         string Description,
         string Category,
-        string Image) : IRequest<Product>;
+        List<string>? Images) : IRequest<Product>;
 }

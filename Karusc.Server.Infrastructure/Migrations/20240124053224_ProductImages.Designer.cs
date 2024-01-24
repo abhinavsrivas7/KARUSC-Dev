@@ -3,6 +3,7 @@ using System;
 using Karusc.Server.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karusc.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(KaruscDbContext))]
-    partial class KaruscDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240124053224_ProductImages")]
+    partial class ProductImages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +28,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid?>("EntityId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("FileName")
@@ -69,9 +72,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                 {
                     b.HasOne("Karusc.Server.Domain.Product", "Entity")
                         .WithMany("Images")
-                        .HasForeignKey("EntityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EntityId");
 
                     b.Navigation("Entity");
                 });

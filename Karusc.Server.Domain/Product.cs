@@ -1,28 +1,19 @@
 ﻿namespace Karusc.Server.Domain
 {
-    public class Product
+    public class Product : FileEntity
     {
-        public Guid Id { get; init; }
-        public string Title { get; init; }
-        public decimal Price { get; init; }
-        public string Description { get; init; }
-        public string Category { get; init; }
-        public string Image { get; init; }
+        public string Title { get; private set; }
+        public decimal Price { get; private set; }
+        public string Description { get; private set; }
+        public string Category { get; private set; }
+        public List<File<Product>>? Images { get; private set; } = null;
 
-        private Product(
-            Guid id,
-            string title,
-            decimal price,
-            string description,
-            string category,
-            string image)
+        private Product(string title, decimal price, string description, string category)
         {
-            Id = id;
             Title = title;
             Price = price;
             Description = description;
             Category = category;
-            Image = image;
         }
 
         public static Product Create(
@@ -30,10 +21,20 @@
             decimal price,
             string description,
             string category,
-            string image)
+            List<string>? images)
         {
-            if(price < 0) throw new InvalidOperationException("price cant be less than 0");
-            return new Product(Guid.NewGuid(), title, price, description, category, image);
+            if (price < 0)
+            {
+                throw new InvalidOperationException("Price can't be less than 0");
+            }
+
+            var product = new Product(title, price, description, category);
+
+            product.Images = images?
+                .Select((image, index) => new File<Product>(product, image, $"{index}"))
+                .ToList();
+
+            return product;
         }
     }
 }

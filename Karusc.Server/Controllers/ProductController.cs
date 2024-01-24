@@ -4,34 +4,37 @@ using Karusc.Server.Application.Products.GetById;
 using Karusc.Server.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Validations.Rules;
 
 namespace Karusc.Server.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
-
         public ProductController(IMediator mediator) => _mediator = mediator;
 
-        [HttpGet(nameof(Get))]
-        public async Task<IResult> Get(
+        [HttpGet]
+        public async Task<IActionResult> Get(
             [FromQuery] int pageSize,
             [FromQuery] int pageNumber,
-            CancellationToken cancellationToken) =>
-            Results.Ok(await _mediator.Send(new GetProductsQuery(pageSize, pageNumber), cancellationToken));
+            CancellationToken cancellationToken) => Ok(await _mediator.Send(
+                new GetProductsQuery(pageSize, pageNumber), 
+                cancellationToken));
 
-        [HttpGet(nameof(GetById))]
-        public async Task<IResult> GetById([FromQuery] Guid id, CancellationToken cancellationToken) =>
-            Results.Ok(await _mediator.Send(new GetProductByIdQuery(id), cancellationToken));
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(
+            [FromRoute] Guid id, 
+            CancellationToken cancellationToken) => Ok(await _mediator.Send(
+                new GetProductByIdQuery(id), 
+                cancellationToken));
 
-        [HttpPost(nameof(Create))]
-        public async Task<IResult> Create(
+        [HttpPost]
+        public async Task<IActionResult> Create(
             [FromBody] CreateProductCommand command,
-            CancellationToken cancellationToken)
-        {
-            var createdProduct = await _mediator.Send(command, cancellationToken);
-            return Results.Created($"/api/product/{createdProduct.Id}", createdProduct);
-        }
+            CancellationToken cancellationToken) => Created(
+                $"{nameof(Product)}/{{id}}",
+                await _mediator.Send(command, cancellationToken));
     }
 }

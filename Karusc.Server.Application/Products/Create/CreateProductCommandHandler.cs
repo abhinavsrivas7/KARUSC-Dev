@@ -7,21 +7,33 @@ namespace Karusc.Server.Application.Products.Create
     internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Product>
     {
         private readonly IKaruscDbContext _context;
+        private readonly IFileStorageService<Product> _fileStorageService;
 
-        public CreateProductCommandHandler(IKaruscDbContext context) => _context = context;
+        public CreateProductCommandHandler(
+            IKaruscDbContext context, 
+            IFileStorageService<Product> fileStorageService)
+        {
+            _context = context;
+            _fileStorageService = fileStorageService;
+        }
 
         public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var productToCreate = Product.Create(
+            var product = Product.Create(
                 command.Title,
                 command.Price,
                 command.Description,
                 command.Category,
-                command.Image);
+                command.Images);
 
-            await _context.Products.AddAsync(productToCreate, cancellationToken);
+            if (product.Images is not null && product.Images.Any())
+            {
+                await _fileStorageService.BulkUpload(product.Images);
+            }
+
+            await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return productToCreate;
+            return product;
         }
     }
 }
