@@ -5,7 +5,7 @@ using Karusc.Server.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCorsFromConfig(builder.Configuration);
-builder.Services.AddConfigurationOptions(builder.Configuration);
+builder.Services.AddConfigurationOptions(builder.Environment, builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

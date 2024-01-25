@@ -20,9 +20,13 @@ namespace Karusc.Server
 
         public static void AddConfigurationOptions(
             this IServiceCollection services,
+            IWebHostEnvironment environment,
             IConfiguration configuration)
         {
-            services.Configure<LocalFileStorage>(configuration.GetSection(nameof(LocalFileStorage)));
+            if (environment.IsLocal())
+            {
+                services.Configure<LocalFileStorage>(configuration.GetSection(nameof(LocalFileStorage)));
+            }
         }
 
         public static void UseKaruscStaticFiles(
