@@ -11,9 +11,11 @@
         {
             Entity = entity;
             EntityId = entity.Id;
-            FileName = $"{entity.Id}/{suffix}";
+            FileName = GetFileName(EntityId, file, suffix);
             FileBase64 = file;
         }
+
+        private static string GetFileName(Guid entityId, string file, string suffix) => string.Empty;
 
         public File() { }
     }
