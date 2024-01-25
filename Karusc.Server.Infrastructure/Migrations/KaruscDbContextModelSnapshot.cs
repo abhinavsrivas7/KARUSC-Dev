@@ -36,7 +36,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("EntityId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Product", b =>
@@ -62,7 +62,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.File<Karusc.Server.Domain.Product>", b =>

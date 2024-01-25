@@ -1,7 +1,8 @@
 ﻿namespace Karusc.Server.Domain
 {
-    public class File<T> : FileEntity where T : FileEntity
+    public class File<T> where T : FileEntity
     {
+        public Guid Id { get; init; } = Guid.NewGuid();
         public T Entity { get; init; }
         public Guid EntityId { get; init; }
         public string FileName { get; init; }
