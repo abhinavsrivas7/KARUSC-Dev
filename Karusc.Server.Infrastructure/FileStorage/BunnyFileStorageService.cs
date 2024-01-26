@@ -9,6 +9,7 @@ namespace Karusc.Server.Infrastructure.FileStorage
     {
         private readonly BunnyFileStorage _configuration;
         private readonly BunnyCDNStorage _client;
+        public override string? EnrichmentPrefix => _configuration.CDN_URL;
 
         public BunnyFileStorageService(IOptions<BunnyFileStorage> options)
         {

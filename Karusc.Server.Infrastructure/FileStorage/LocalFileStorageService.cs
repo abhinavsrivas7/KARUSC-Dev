@@ -8,6 +8,7 @@ namespace Karusc.Server.Infrastructure.FileStorage
         where T : FileEntity
     {
         private readonly LocalFileStorage _configuration;
+        public override string? EnrichmentPrefix => _configuration.Host;
 
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;

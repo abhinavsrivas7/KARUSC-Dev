@@ -4,7 +4,6 @@ using Karusc.Server.Application.Products.GetById;
 using Karusc.Server.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Validations.Rules;
 
 namespace Karusc.Server.Controllers
 {

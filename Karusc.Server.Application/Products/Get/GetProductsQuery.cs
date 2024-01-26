@@ -1,9 +1,8 @@
-﻿using Karusc.Server.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace Karusc.Server.Application.Products.Get
 {
     public record GetProductsQuery(
-        int pageSize,
-        int pageNumber) : IRequest<List<Product>>;
+        int PageSize,
+        int PageNumber) : IRequest<List<ProductDto>>;
 }

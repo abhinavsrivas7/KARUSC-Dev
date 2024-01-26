@@ -4,5 +4,6 @@
     {
         public string DirectoryPath { get; set; } = string.Empty;
         public string RequestPath { get; set; } = string.Empty;
+        public string Host {  get; set; } = string.Empty;
     }
 }

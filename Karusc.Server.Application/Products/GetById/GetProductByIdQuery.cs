@@ -1,7 +1,6 @@
-﻿using Karusc.Server.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace Karusc.Server.Application.Products.GetById
 {
-    public record GetProductByIdQuery(Guid Id) : IRequest<Product>;
+    public record GetProductByIdQuery(Guid Id) : IRequest<ProductDto>;
 }
