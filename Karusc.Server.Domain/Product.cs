@@ -42,6 +42,6 @@
                 .ContainsKey(image.Id) ? imageFileNames[image.Id] : image.FileName);
 
         public void EnrichImageNames(string prefix) => Images?
-            .ForEach(image => image.FileName = $"{prefix}{image.FileName}");
+            .ForEach(image => image.FileName = string.Concat(prefix, image.FileName));
     }
 }
