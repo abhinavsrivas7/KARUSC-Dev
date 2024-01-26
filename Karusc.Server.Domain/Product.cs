@@ -37,9 +37,11 @@
             return product;
         }
 
-        public void UpdateImageNames(Dictionary<Guid, string> imageFileNames)
-        {
-            throw new NotImplementedException();
-        }
+        public void UpdateImageNames(Dictionary<Guid, string> imageFileNames) => Images?.ForEach(
+            image => image.FileName = imageFileNames
+                .ContainsKey(image.Id) ? imageFileNames[image.Id] : image.FileName);
+
+        public void EnrichImageNames(string prefix) => Images?
+            .ForEach(image => image.FileName = $"{prefix}{image.FileName}");
     }
 }

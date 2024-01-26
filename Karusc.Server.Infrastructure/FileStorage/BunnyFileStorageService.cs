@@ -19,15 +19,15 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file)
         {
             await UploadFileAsync(file);
-            return (file.Id, $"{_configuration.CDN_URL}/{Container}/{file.FileName}");
+            return (file.Id, $"{Container}/{file.FileName}");
         }
 
         public override async Task<Dictionary<Guid,string>> BulkUpload(List<File<T>> files)
         {
             await Task.WhenAll(files.Select(UploadFileAsync));          
             
-            return files.Select(file => new KeyValuePair<Guid, string>(
-                            file.Id, $"{_configuration.CDN_URL}/{Container}/{file.FileName}"))
+            return files.Select(file => new 
+                            KeyValuePair<Guid, string>(file.Id, $"/{Container}/{file.FileName}"))
                         .ToDictionary();
         }
 

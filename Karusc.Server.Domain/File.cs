@@ -5,7 +5,7 @@
         public Guid Id { get; init; } = Guid.NewGuid();
         public T Entity { get; init; }
         public Guid EntityId { get; init; }
-        public string FileName { get; init; }
+        public string FileName { get; internal set; }
         public string FileBase64 { get; init; }
         
         private const string _exceptionMessage = "Invalid Base64";
