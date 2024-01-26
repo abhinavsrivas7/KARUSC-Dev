@@ -13,14 +13,29 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;
 
-        public override Task<(Guid FileId, string FileURL)> Upload(File<T> file)
+        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file)
         {
-            throw new NotImplementedException();
+            await UploadFileAsync(file);
+            return (file.Id, $"/{Container}/{file.FileName}");
         }
 
-        public override Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files)
+        public override async Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files)
         {
-            throw new NotImplementedException();
+            await Task.WhenAll(files.Select(UploadFileAsync));
+            return files.Select(file => new 
+                            KeyValuePair<Guid, string>(file.Id, $"/{Container}/{file.FileName}"))
+                        .ToDictionary();
+        }
+            
+        private async Task UploadFileAsync(File<T> file)
+        {
+            string directoryPath = $"{_configuration.DirectoryPath}/{Container}";
+            string filePath = $"{directoryPath}/{file.FileName}";
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            await File.WriteAllBytesAsync(filePath, Convert.FromBase64String(file.FileBase64));
         }
     }
 }
