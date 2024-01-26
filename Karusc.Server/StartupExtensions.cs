@@ -25,7 +25,13 @@ namespace Karusc.Server
         {
             if (environment.IsLocal())
             {
-                services.Configure<LocalFileStorage>(configuration.GetSection(nameof(LocalFileStorage)));
+                services.Configure<LocalFileStorage>(configuration
+                    .GetSection(nameof(LocalFileStorage)));
+            }
+            else
+            {
+                services.Configure<BunnyFileStorage>(configuration
+                    .GetSection(nameof(BunnyFileStorage)));
             }
         }
 

@@ -31,7 +31,7 @@
             var product = new Product(title, price, description, category);
 
             product.Images = images?
-                .Select((image, index) => new File<Product>(product, image, $"{index}"))
+                .Select((image, index) => new File<Product>(product, image, index.ToString()))
                 .ToList();
 
             return product;

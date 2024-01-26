@@ -11,7 +11,7 @@ namespace Karusc.Server.Infrastructure.FileStorage
             services.AddScoped(typeof(IFileStorageService<>), environment switch
             {
                 _localEnvironmentName => typeof(LocalFileStorageService<>),
-                _ => typeof(AzureFileService<>)
+                _ => typeof(BunnyFileStorageService<>)
             });
         }
     }
