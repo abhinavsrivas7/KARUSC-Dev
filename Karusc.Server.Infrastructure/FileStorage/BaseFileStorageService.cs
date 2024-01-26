@@ -8,7 +8,7 @@ namespace Karusc.Server.Infrastructure.FileStorage
     {
         protected string Container {  get; init; }
         protected BaseFileStorageService() => Container = typeof(T).Name;
-        public abstract Task<string> Upload(File<T> file);
-        public abstract Task<List<string>> BulkUpload(List<File<T>> files);
+        public abstract Task<(Guid FileId, string FileURL)> Upload(File<T> file);
+        public abstract Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files);
     }
 }

@@ -12,12 +12,12 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;
 
-        public override Task<string> Upload(File<T> file)
+        public override Task<(Guid FileId, string FileURL)> Upload(File<T> file)
         {
             throw new NotImplementedException();
         }
 
-        public override Task<List<string>> BulkUpload(List<File<T>> files)
+        public override Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files)
         {
             throw new NotImplementedException();
         }

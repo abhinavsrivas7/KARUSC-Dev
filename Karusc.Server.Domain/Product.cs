@@ -36,5 +36,10 @@
 
             return product;
         }
+
+        public void UpdateImageNames(Dictionary<Guid, string> imageFileNames)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

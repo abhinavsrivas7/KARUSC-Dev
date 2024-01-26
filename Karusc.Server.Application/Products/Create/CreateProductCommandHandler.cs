@@ -28,7 +28,7 @@ namespace Karusc.Server.Application.Products.Create
 
             if (product.Images is not null && product.Images.Any())
             {
-                await _fileStorageService.BulkUpload(product.Images);
+                product.UpdateImageNames(await _fileStorageService.BulkUpload(product.Images));
             }
 
             await _context.Products.AddAsync(product, cancellationToken);

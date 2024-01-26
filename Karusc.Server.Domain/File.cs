@@ -23,7 +23,7 @@
             FileBase64 = fileContent;
         }
 
-        private static (string, string, string) GetFileMetadata(string file)
+        private static (string Type, string Extension, string Content) GetFileMetadata(string file)
         {
             string[] extensionAndFile = file.Split(";");
             

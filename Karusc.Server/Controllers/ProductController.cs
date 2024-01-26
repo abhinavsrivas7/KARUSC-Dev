@@ -34,7 +34,7 @@ namespace Karusc.Server.Controllers
         public async Task<IActionResult> Create(
             [FromBody] CreateProductCommand command,
             CancellationToken cancellationToken) => Created(
-                $"{nameof(Product)}/{{id}}",
-                await _mediator.Send(command, cancellationToken));
+                $"/api/{nameof(Product)}/{(await _mediator.Send(command, cancellationToken)).Id}", 
+                null);
     }
 }
