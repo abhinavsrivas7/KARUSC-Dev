@@ -17,13 +17,13 @@ namespace Karusc.Server.Infrastructure.FileStorage
             _client = new(_configuration.StorageZone, _configuration.AccessKey, _configuration.Region);
         } 
   
-        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file)
+        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file, CancellationToken cancellationToken)
         {
             await UploadFileAsync(file);
             return (file.Id, $"{Container}/{file.FileName}");
         }
 
-        public override async Task<Dictionary<Guid,string>> BulkUpload(List<File<T>> files)
+        public override async Task<Dictionary<Guid,string>> BulkUpload(List<File<T>> files, CancellationToken cancellationToken)
         {
             await Task.WhenAll(files.Select(UploadFileAsync));          
             

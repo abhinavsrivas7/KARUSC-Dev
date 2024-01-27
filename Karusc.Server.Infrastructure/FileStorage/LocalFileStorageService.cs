@@ -14,22 +14,21 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;
 
-        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file)
+        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file, CancellationToken cancellationToken)
         {
-            await UploadFileAsync(file);
+            await UploadFileAsync(file, cancellationToken);
             return (file.Id, $"/{Container}/{file.FileName}");
         }
 
-        public override async Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files)
+        public override async Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files, CancellationToken cancellationToken)
         {
-            await Task.WhenAll(files.Select(UploadFileAsync));
-            
-            return files.Select(file => new KeyValuePair<Guid, string>(
-                file.Id, $"/{Container}/{file.FileName}"))
-                .ToDictionary();
+            await Task.WhenAll(files.Select(file => UploadFileAsync(file, cancellationToken)));
+            return files.Select(file => new 
+                            KeyValuePair<Guid, string>(file.Id, $"/{Container}/{file.FileName}"))
+                        .ToDictionary();
         }
             
-        private async Task UploadFileAsync(File<T> file)
+        private async Task UploadFileAsync(File<T> file, CancellationToken cancellationToken)
         {
             Directory.CreateDirectory(Path.Combine(_configuration.DirectoryPath, Container));
             
