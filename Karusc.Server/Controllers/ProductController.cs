@@ -1,4 +1,5 @@
 using Karusc.Server.Application.Products.Create;
+using Karusc.Server.Application.Products.Delete;
 using Karusc.Server.Application.Products.Get;
 using Karusc.Server.Application.Products.GetById;
 using Karusc.Server.Domain;
@@ -33,5 +34,11 @@ namespace Karusc.Server.Controllers
             CancellationToken cancellationToken) => Created(
                 $"/api/{nameof(Product)}/{{id}}",
                 await _mediator.Send(command, cancellationToken));
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken) => Ok(await _mediator
+                .Send(new DeleteProductCommand(id), cancellationToken));
     }
 }
