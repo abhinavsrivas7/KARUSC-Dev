@@ -8,5 +8,11 @@ namespace Karusc.Server.Infrastructure.Persistence
     {
         public KaruscDbContext(DbContextOptions<KaruscDbContext> options) : base(options) { }
         public DbSet<Product> Products { get; set; }
+        public DbSet<File<Product>> ProductImages { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(KaruscDbContext).Assembly);
+        }
     }
 }

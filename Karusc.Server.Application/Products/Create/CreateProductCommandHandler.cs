@@ -4,24 +4,43 @@ using MediatR;
 
 namespace Karusc.Server.Application.Products.Create
 {
-    internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Product>
+    internal sealed class CreateProductCommandHandler 
+        : IRequestHandler<CreateProductCommand, ProductDto>
     {
         private readonly IKaruscDbContext _context;
+        private readonly IFileStorageService<Product> _fileStorageService;
 
-        public CreateProductCommandHandler(IKaruscDbContext context) => _context = context;
-
-        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public CreateProductCommandHandler(
+            IKaruscDbContext context, 
+            IFileStorageService<Product> fileStorageService)
         {
-            var productToCreate = Product.Create(
+            _context = context;
+            _fileStorageService = fileStorageService;
+        }
+
+        public async Task<ProductDto> Handle(
+            CreateProductCommand command, 
+            CancellationToken cancellationToken)
+        {
+            var product = Product.Create(
                 command.Title,
                 command.Price,
                 command.Description,
                 command.Category,
-                command.Image);
+                command.Images);
 
-            await _context.Products.AddAsync(productToCreate, cancellationToken);
+            if (product.Images is not null && product.Images.Any())
+            {
+                product.UpdateImageNames(await _fileStorageService
+                    .BulkUpload(product.Images, cancellationToken));
+            }
+
+            await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return productToCreate;
+            
+            return _fileStorageService.EnrichmentPrefix is not null
+                ? new ProductDto(product).EnrichImageNames(_fileStorageService.EnrichmentPrefix)
+                : new ProductDto(product);
         }
     }
 }

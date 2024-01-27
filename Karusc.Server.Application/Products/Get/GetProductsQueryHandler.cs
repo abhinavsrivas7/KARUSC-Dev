@@ -5,16 +5,37 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Products.Get
 {
-    internal sealed class GetProductsQueryHandler : IRequestHandler<GetProductsQuery, List<Product>>
+    internal sealed class GetProductsQueryHandler : 
+        IRequestHandler<GetProductsQuery, List<ProductDto>>
     {
         private readonly IKaruscDbContext _context;
+        private readonly string? _enrichmentPrefix;
 
-        public GetProductsQueryHandler(IKaruscDbContext context) => _context = context;
+        public GetProductsQueryHandler(
+            IKaruscDbContext context,
+            IFileStorageService<Product> fileStorageService) => 
+            (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
 
-        public async Task<List<Product>> Handle(GetProductsQuery request, CancellationToken cancellationToken) => 
-            await _context.Products
-                .Skip(request.pageSize * request.pageNumber)
-                .Take(request.pageSize)
+        public async Task<List<ProductDto>> Handle(
+            GetProductsQuery request, CancellationToken cancellationToken)
+        {
+            var products = await _context.Products
+                .Select(product => new ProductDto(
+                    product.Id, 
+                    product.Title, 
+                    product.Price, 
+                    product.Description, 
+                    product.Category, 
+                    product.Images!.Select(image => image.FileName).ToList()))
+                .Skip(request.PageSize * request.PageNumber)
+                .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
+
+            return _enrichmentPrefix is not null 
+                ? products
+                    .Select(product => product.EnrichImageNames(_enrichmentPrefix))
+                    .ToList()
+                : products;
+        } 
     }
 }
