@@ -45,7 +45,7 @@ namespace Karusc.Server
                 .Get<LocalFileStorage>();
 
             if (environment.IsLocal() && localFileStorage is not null)
-            {              
+            {
                 app.UseStaticFiles(new StaticFileOptions()
                 {
                     FileProvider = new PhysicalFileProvider(localFileStorage.DirectoryPath),
@@ -58,7 +58,7 @@ namespace Karusc.Server
             }
         }
 
-        private static bool IsLocal(this IWebHostEnvironment environment) => environment
+        internal static bool IsLocal(this IWebHostEnvironment environment) => environment
             .EnvironmentName.Equals(_localEnvironmentName);
     }
 }

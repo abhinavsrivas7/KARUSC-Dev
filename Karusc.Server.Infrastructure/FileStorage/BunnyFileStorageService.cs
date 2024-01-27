@@ -14,16 +14,24 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public BunnyFileStorageService(IOptions<BunnyFileStorage> options)
         {
             _configuration = options.Value;
-            _client = new(_configuration.StorageZone, _configuration.AccessKey, _configuration.Region);
+            _client = new(_configuration.StorageZone, 
+                _configuration.AccessKey, _configuration.Region);
         } 
   
-        public override async Task<(Guid FileId, string FileURL)> Upload(File<T> file, CancellationToken cancellationToken)
+        public override async Task<(Guid FileId, string FileURL)> Upload(
+            File<T> file, CancellationToken cancellationToken)
         {
-            await UploadFileAsync(file);
-            return (file.Id, $"{Container}/{file.FileName}");
+            if (!cancellationToken.IsCancellationRequested)
+            {
+                await UploadFileAsync(file);
+                return (file.Id, $"{Container}/{file.FileName}");
+            }
+            
+            throw new TaskCanceledException();
         }
 
-        public override async Task<Dictionary<Guid,string>> BulkUpload(List<File<T>> files, CancellationToken cancellationToken)
+        public override async Task<Dictionary<Guid,string>> BulkUpload(
+            List<File<T>> files, CancellationToken cancellationToken)
         {
             await Task.WhenAll(files.Select(UploadFileAsync));          
             

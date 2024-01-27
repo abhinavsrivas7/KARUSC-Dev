@@ -21,16 +21,19 @@ namespace Karusc.Server.Application.Products.GetById
             CancellationToken cancellationToken)
         {
             var product = await _context.Products
-                .Include(product => product.Images)
+                .Select(product => new ProductDto(
+                    product.Id,
+                    product.Title,
+                    product.Price,
+                    product.Description,
+                    product.Category,
+                    product.Images!.Select(image => image.FileName).ToList()))
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 
-            if(_enrichmentPrefix is not null)
-            {
-                product.EnrichImageNames(_enrichmentPrefix);
-            }
-
-            return new ProductDto(product);
+            return _enrichmentPrefix is not null
+                ? product.EnrichImageNames(_enrichmentPrefix) 
+                : product;
         }
     }
 }

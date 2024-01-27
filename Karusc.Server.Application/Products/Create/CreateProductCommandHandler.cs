@@ -31,15 +31,16 @@ namespace Karusc.Server.Application.Products.Create
 
             if (product.Images is not null && product.Images.Any())
             {
-                product.UpdateImageNames(await _fileStorageService.BulkUpload(product.Images, cancellationToken));
+                product.UpdateImageNames(await _fileStorageService
+                    .BulkUpload(product.Images, cancellationToken));
             }
 
             await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             
-            return new ProductDto(_fileStorageService.EnrichmentPrefix is not null
-                ? product.EnrichImageNames(_fileStorageService.EnrichmentPrefix)
-                : product);
+            return _fileStorageService.EnrichmentPrefix is not null
+                ? new ProductDto(product).EnrichImageNames(_fileStorageService.EnrichmentPrefix)
+                : new ProductDto(product);
         }
     }
 }

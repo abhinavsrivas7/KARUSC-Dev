@@ -17,21 +17,25 @@ namespace Karusc.Server.Application.Products.Get
             (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
 
         public async Task<List<ProductDto>> Handle(
-            GetProductsQuery request, 
-            CancellationToken cancellationToken)
+            GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _context.Products
-                .Include(product => product.Images)
+                .Select(product => new ProductDto(
+                    product.Id, 
+                    product.Title, 
+                    product.Price, 
+                    product.Description, 
+                    product.Category, 
+                    product.Images!.Select(image => image.FileName).ToList()))
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            if(_enrichmentPrefix is not null)
-            {
-                products.ForEach(product => product.EnrichImageNames(_enrichmentPrefix));
-            }
-
-            return products.Select(product => new ProductDto(product)).ToList();
+            return _enrichmentPrefix is not null 
+                ? products
+                    .Select(product => product.EnrichImageNames(_enrichmentPrefix))
+                    .ToList()
+                : products;
         } 
     }
 }

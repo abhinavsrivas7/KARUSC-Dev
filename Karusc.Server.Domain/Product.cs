@@ -41,11 +41,5 @@
             .ForEach(image => image.FileName = imageFileNames.ContainsKey(image.Id) 
                 ? imageFileNames[image.Id] 
                 : image.FileName);
-
-        public Product EnrichImageNames(string prefix)
-        {
-            Images?.ForEach(image => image.FileName = string.Concat(prefix, image.FileName));
-            return this;
-        }
     }
 }
