@@ -2,8 +2,10 @@ using Karusc.Server.Application.Products.Create;
 using Karusc.Server.Application.Products.Get;
 using Karusc.Server.Application.Products.GetById;
 using Karusc.Server.Domain;
+using Karusc.Server.Infrastructure.Configuration;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Karusc.Server.Controllers
 {
@@ -12,7 +14,9 @@ namespace Karusc.Server.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public ProductController(IMediator mediator) => _mediator = mediator;
+        private readonly BunnyFileStorage _bunnyConfig;
+        public ProductController(IMediator mediator, IOptions<BunnyFileStorage> options) => 
+            (_mediator, _bunnyConfig) = (mediator, options.Value);
 
         [HttpGet]
         public async Task<IActionResult> Get(
@@ -33,5 +37,8 @@ namespace Karusc.Server.Controllers
             CancellationToken cancellationToken) => Created(
                 $"/api/{nameof(Product)}/{{id}}",
                 await _mediator.Send(command, cancellationToken));
+
+        [HttpGet(nameof(GetConfig))]
+        public IActionResult GetConfig() => Ok(_bunnyConfig);
     }
 }
