@@ -27,9 +27,9 @@ namespace Karusc.Server.Infrastructure.FileStorage
         {
             await Task.WhenAll(files.Select(UploadFileAsync));          
             
-            return files.Select(file => new 
-                            KeyValuePair<Guid, string>(file.Id, $"/{Container}/{file.FileName}"))
-                        .ToDictionary();
+            return files.Select(file => new KeyValuePair<Guid, string>(
+                file.Id, $"/{Container}/{file.FileName}"))
+                .ToDictionary();
         }
 
         private async Task UploadFileAsync(File<T> file)

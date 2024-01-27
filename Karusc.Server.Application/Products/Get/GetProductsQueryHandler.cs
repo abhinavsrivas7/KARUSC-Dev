@@ -9,12 +9,12 @@ namespace Karusc.Server.Application.Products.Get
         IRequestHandler<GetProductsQuery, List<ProductDto>>
     {
         private readonly IKaruscDbContext _context;
-        private readonly IFileStorageService<Product> _fileStorageService;
+        private readonly string? _enrichmentPrefix;
 
         public GetProductsQueryHandler(
             IKaruscDbContext context,
             IFileStorageService<Product> fileStorageService) => 
-            (_context, _fileStorageService) = (context, fileStorageService);
+            (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
 
         public async Task<List<ProductDto>> Handle(
             GetProductsQuery request, 
@@ -26,10 +26,9 @@ namespace Karusc.Server.Application.Products.Get
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            if(_fileStorageService.EnrichmentPrefix is not null)
+            if(_enrichmentPrefix is not null)
             {
-                products.ForEach(product => product
-                    .EnrichImageNames(_fileStorageService.EnrichmentPrefix));
+                products.ForEach(product => product.EnrichImageNames(_enrichmentPrefix));
             }
 
             return products.Select(product => new ProductDto(product)).ToList();

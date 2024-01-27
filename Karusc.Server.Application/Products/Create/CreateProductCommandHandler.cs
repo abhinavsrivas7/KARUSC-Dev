@@ -4,7 +4,8 @@ using MediatR;
 
 namespace Karusc.Server.Application.Products.Create
 {
-    internal sealed class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Product>
+    internal sealed class CreateProductCommandHandler 
+        : IRequestHandler<CreateProductCommand, ProductDto>
     {
         private readonly IKaruscDbContext _context;
         private readonly IFileStorageService<Product> _fileStorageService;
@@ -17,7 +18,9 @@ namespace Karusc.Server.Application.Products.Create
             _fileStorageService = fileStorageService;
         }
 
-        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<ProductDto> Handle(
+            CreateProductCommand command, 
+            CancellationToken cancellationToken)
         {
             var product = Product.Create(
                 command.Title,
@@ -33,7 +36,10 @@ namespace Karusc.Server.Application.Products.Create
 
             await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return product;
+            
+            return new ProductDto(_fileStorageService.EnrichmentPrefix is not null
+                ? product.EnrichImageNames(_fileStorageService.EnrichmentPrefix)
+                : product);
         }
     }
 }

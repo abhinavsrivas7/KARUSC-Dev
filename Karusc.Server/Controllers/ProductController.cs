@@ -18,22 +18,20 @@ namespace Karusc.Server.Controllers
         public async Task<IActionResult> Get(
             [FromQuery] int pageSize,
             [FromQuery] int pageNumber,
-            CancellationToken cancellationToken) => Ok(await _mediator.Send(
-                new GetProductsQuery(pageSize, pageNumber), 
-                cancellationToken));
+            CancellationToken cancellationToken) => Ok(await _mediator
+                .Send(new GetProductsQuery(pageSize, pageNumber), cancellationToken));
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(
             [FromRoute] Guid id, 
-            CancellationToken cancellationToken) => Ok(await _mediator.Send(
-                new GetProductByIdQuery(id), 
-                cancellationToken));
+            CancellationToken cancellationToken) => Ok(await _mediator
+                .Send(new GetProductByIdQuery(id), cancellationToken));
 
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] CreateProductCommand command,
             CancellationToken cancellationToken) => Created(
-                $"/api/{nameof(Product)}/{(await _mediator.Send(command, cancellationToken)).Id}", 
-                null);
+                $"/api/{nameof(Product)}/{{id}}",
+                await _mediator.Send(command, cancellationToken));
     }
 }

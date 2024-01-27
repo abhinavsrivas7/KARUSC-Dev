@@ -3,12 +3,12 @@
 namespace Karusc.Server.Application.Products
 {
     internal record ProductDto(
-        Guid id,
-        string title, 
-        decimal price, 
-        string description, 
-        string category,
-        List<string>? images)
+        Guid Id,
+        string Title, 
+        decimal Price, 
+        string Description, 
+        string Category,
+        List<string>? Images)
     {
         internal ProductDto(Product p) : this(
             p.Id, 
@@ -16,6 +16,6 @@ namespace Karusc.Server.Application.Products
             p.Price, 
             p.Description, 
             p.Category, 
-            p.Images?.Select(image => image.FileName)?.ToList()) { }
+            p.Images?.Select(image => image.FileName)?.ToList()) {}
     }
 }

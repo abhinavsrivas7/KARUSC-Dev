@@ -8,7 +8,8 @@ namespace Karusc.Server.Infrastructure.FileStorage
         where T : FileEntity
     {
         private readonly LocalFileStorage _configuration;
-        public override string? EnrichmentPrefix => string.Concat(_configuration.Host,_configuration.RequestPath);
+        public override string? EnrichmentPrefix => string.Concat(
+            _configuration.Host, _configuration.RequestPath);
 
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;
@@ -22,20 +23,19 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public override async Task<Dictionary<Guid, string>> BulkUpload(List<File<T>> files)
         {
             await Task.WhenAll(files.Select(UploadFileAsync));
-            return files.Select(file => new 
-                            KeyValuePair<Guid, string>(file.Id, $"/{Container}/{file.FileName}"))
-                        .ToDictionary();
+            
+            return files.Select(file => new KeyValuePair<Guid, string>(
+                file.Id, $"/{Container}/{file.FileName}"))
+                .ToDictionary();
         }
             
         private async Task UploadFileAsync(File<T> file)
         {
-            string directoryPath = $"{_configuration.DirectoryPath}/{Container}";
-            string filePath = $"{directoryPath}/{file.FileName}";
-            if (!Directory.Exists(directoryPath))
-            {
-                Directory.CreateDirectory(directoryPath);
-            }
-            await File.WriteAllBytesAsync(filePath, Convert.FromBase64String(file.FileBase64));
+            Directory.CreateDirectory(Path.Combine(_configuration.DirectoryPath, Container));
+            
+            await File.WriteAllBytesAsync(
+                Path.Combine(_configuration.DirectoryPath, Container, file.FileName), 
+                Convert.FromBase64String(file.FileBase64));
         }
     }
 }

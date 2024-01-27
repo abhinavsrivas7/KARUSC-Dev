@@ -9,12 +9,12 @@ namespace Karusc.Server.Application.Products.GetById
         IRequestHandler<GetProductByIdQuery, ProductDto>
     {
         private readonly IKaruscDbContext _context;
-        private readonly IFileStorageService<Product> _fileStorageService;
+        private readonly string? _enrichmentPrefix;
 
         public GetProductByIdQueryHandler(
             IKaruscDbContext context,
             IFileStorageService<Product> fileStorageService) =>
-            (_context, _fileStorageService) = (context, fileStorageService);
+            (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
 
         public async Task<ProductDto> Handle(
             GetProductByIdQuery request,
@@ -25,9 +25,9 @@ namespace Karusc.Server.Application.Products.GetById
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 
-            if(_fileStorageService.EnrichmentPrefix is not null)
+            if(_enrichmentPrefix is not null)
             {
-                product.EnrichImageNames(_fileStorageService.EnrichmentPrefix);
+                product.EnrichImageNames(_enrichmentPrefix);
             }
 
             return new ProductDto(product);
