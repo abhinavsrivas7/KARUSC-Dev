@@ -18,10 +18,8 @@ namespace Karusc.Server.Application.Products
             p.Category, 
             p.Images?.Select(image => image.FileName)?.ToList()) {}
 
-        internal ProductDto EnrichImageNames(string prefix)
-        {
-            Images?.ForEach(image => image = string.Concat(prefix, image));
-            return this;
-        }
+        internal ProductDto EnrichImageNames(string prefix) => this with { Images = Images?
+            .Select(image => string.Concat(prefix, image))
+            .ToList() };
     }
 }
