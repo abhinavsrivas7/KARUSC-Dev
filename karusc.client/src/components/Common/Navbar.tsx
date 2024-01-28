@@ -85,6 +85,35 @@ export const Navbar = () => {
                     <div className="bold-font">
                         Hello, User
                     </div>
+                    <ul>
+                        <li>
+                            <NavLink
+                                style={{ textDecoration: 'none' }}
+                                to="/"
+                                onClick={() => setShowDrawer(false)}
+                                className="regular-font light-pink"                            >
+                                Home
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                style={{ textDecoration: 'none' }}
+                                to="/shop"
+                                onClick={() => setShowDrawer(false)}
+                                className="regular-font light-pink"                            >
+                                Shop
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                style={{ textDecoration: 'none' }}
+                                to="/admin"
+                                onClick={() => setShowDrawer(false)}
+                                className="regular-font light-pink"                            >
+                                Admin
+                            </NavLink>
+                        </li>
+                    </ul>
                 </Offcanvas.Body>
             </Offcanvas>
         </>

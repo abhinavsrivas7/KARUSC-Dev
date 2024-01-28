@@ -6,6 +6,7 @@ import { Navbar } from "./components/Common/Navbar";
 import { Footer } from "./components/Common/Footer";
 import { Banner } from "./components/Home/Banner";
 import { ScreenSizeProvider } from "./context/ScreenSizeContext";
+import { Admin } from "./pages/Admin";
 
 const App = () => {
     return <ScreenSizeProvider>
@@ -16,6 +17,7 @@ const App = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/admin" element={<Admin />} />
             </Routes>
         </div>
         <Footer></Footer>

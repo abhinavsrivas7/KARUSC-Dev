@@ -44,7 +44,7 @@
 
 /*COLOR STYLES -start*/
 .light-pink {
-    background-color: #FFF3F5;
+    background-color: #FFF3F5 !important;
     color: rgba(158, 45, 79, 0.56) !important;
 }
 
@@ -52,7 +52,7 @@
     background-color: #890074;
     color: white
 }
-/*COLOR STYLES -start*/
+/*COLOR STYLES -end*/
 
 
 
@@ -76,9 +76,9 @@
 }
 
 .pink-placeholder {
-    color: rgba(158, 45, 79, 0.56);
+    color: rgba(158, 45, 79, 0.56) !important;
     border: none;
-    background-color: #FFF3F5;
+    background-color: #FFF3F5 !important;
 }
 
 .pink-placeholder:focus {
@@ -86,7 +86,7 @@
 }
 
 .pink-placeholder::-webkit-input-placeholder {
-    color: rgba(158, 45, 79, 0.56);
+    color: rgba(158, 45, 79, 0.56) !important;
 }
 
 div.offcanvas-start {
@@ -94,3 +94,48 @@ div.offcanvas-start {
     background-color: #FFF3F5 !important;
 }
 /*CUSTOM STYLES -end*/
+
+
+/* ADMIN STYLES - start*/
+button[id^='admin-tab-'], button[id^='admin-tab-']:hover {
+    background-color: #FFF3F5;
+    color: rgba(158, 45, 79, 0.56);
+}
+button[id^='admin-tab-'].nav-link.active {
+    background-color: #890074;
+    color: white;
+}
+.accordion-button {
+    background-color: #890074 !important;
+    color: white !important;
+}
+.accordion-button.collapsed {
+    background-color: #FFF3F5 !important;
+    color: rgba(158, 45, 79, 0.56) !important;
+}
+.accordion-button::after {
+    filter: invert(100%) grayscale();
+}
+.accordion-button.collapsed::after {
+    filter: invert(0%);
+}
+.admin-button {
+    background-color: #890074 !important;
+    color: white !important;
+    border-radius: 0 !important;
+    border: 0 !important;
+}
+.form-check-input {
+    border-radius: 0 !important;
+    --bs-form-check-bg: #FFF3F5 !important;
+}
+input[type=file]::file-selector-button {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background-color: #890074 !important;
+    color: white;
+}
+input[type=file].form-control {
+    border-radius: 0 !important;
+}
+/* ADMIN STYLES - end*/
