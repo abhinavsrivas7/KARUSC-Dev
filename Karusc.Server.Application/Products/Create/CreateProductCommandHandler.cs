@@ -1,6 +1,7 @@
 ﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Products.Create
 {
@@ -21,12 +22,13 @@ namespace Karusc.Server.Application.Products.Create
         public async Task<ProductDto> Handle(
             CreateProductCommand command, 
             CancellationToken cancellationToken)
-        {
+        {            
             var product = Product.Create(
                 command.Title,
                 command.Price,
                 command.Description,
-                command.Images);
+                command.Images,
+                await GetCategories(command.Categories));
 
             if (product.Images is not null && product.Images.Any())
             {
@@ -38,8 +40,16 @@ namespace Karusc.Server.Application.Products.Create
             await _context.SaveChangesAsync(cancellationToken);
             
             return !string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix)
-                ? new ProductDto(product).EnrichImageNames(_fileStorageService.EnrichmentPrefix)
+                ? new ProductDto(product)
+                    .EnrichImageNames(_fileStorageService.EnrichmentPrefix)
                 : new ProductDto(product);
         }
+
+        private async Task<List<Category>?> GetCategories(HashSet<Guid>? categories) =>
+            categories is not null && categories.Any()
+                ? await _context.Categories
+                    .Where(category => categories.Contains(category.Id))
+                    .ToListAsync()
+                : null;
     }
 }

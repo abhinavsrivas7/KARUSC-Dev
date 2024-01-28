@@ -20,7 +20,8 @@
             string title,
             decimal price,
             string description,
-            List<string>? images)
+            List<string>? images,
+            List<Category>? categories)
         {
             if (price < 0)
             {
@@ -32,6 +33,8 @@
             product.Images = images?
                 .Select((image, index) => new File<Product>(product, image, index.ToString()))
                 .ToList();
+
+            product.Categories = categories;
 
             return product;
         }

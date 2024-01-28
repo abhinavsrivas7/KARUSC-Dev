@@ -1,5 +1,4 @@
-﻿using Karusc.Server.Domain;
-using MediatR;
+﻿using MediatR;
 
 namespace Karusc.Server.Application.Products.Create
 {
@@ -7,5 +6,6 @@ namespace Karusc.Server.Application.Products.Create
         string Title,
         decimal Price,
         string Description,
-        List<string>? Images) : IRequest<ProductDto>;
+        List<string>? Images,
+        HashSet<Guid>? Categories) : IRequest<ProductDto>;
 }
