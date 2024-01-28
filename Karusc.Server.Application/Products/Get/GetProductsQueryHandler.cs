@@ -25,7 +25,6 @@ namespace Karusc.Server.Application.Products.Get
                     product.Title, 
                     product.Price, 
                     product.Description, 
-                    product.Category, 
                     product.Images!.Select(image => image.FileName).ToList()))
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)

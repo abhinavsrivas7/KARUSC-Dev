@@ -7,6 +7,5 @@ namespace Karusc.Server.Application.Products.Create
         string Title,
         decimal Price,
         string Description,
-        string Category,
         List<string>? Images) : IRequest<ProductDto>;
 }

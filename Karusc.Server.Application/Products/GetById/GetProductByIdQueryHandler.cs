@@ -26,7 +26,6 @@ namespace Karusc.Server.Application.Products.GetById
                     product.Title,
                     product.Price,
                     product.Description,
-                    product.Category,
                     product.Images!.Select(image => image.FileName).ToList()))
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());

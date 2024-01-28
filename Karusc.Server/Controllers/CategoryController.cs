@@ -1,0 +1,45 @@
+﻿using Karusc.Server.Application.Products.Create;
+using Karusc.Server.Application.Products.Delete;
+using Karusc.Server.Application.Products.Get;
+using Karusc.Server.Application.Products.GetById;
+using Karusc.Server.Domain;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Karusc.Server.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CategoryController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        public CategoryController(IMediator mediator) => _mediator = mediator;
+
+        [HttpGet]
+        public async Task<IActionResult> Get(
+    [FromQuery] int pageSize,
+    [FromQuery] int pageNumber,
+    CancellationToken cancellationToken) => Ok(await _mediator
+        .Send(new GetProductsQuery(pageSize, pageNumber), cancellationToken));
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken) => Ok(await _mediator
+                .Send(new GetProductByIdQuery(id), cancellationToken));
+
+        [HttpPost]
+        public async Task<IActionResult> Create(
+            [FromBody] CreateProductCommand command,
+            CancellationToken cancellationToken) => Created(
+                $"/api/{nameof(Product)}/{{id}}",
+                await _mediator.Send(command, cancellationToken));
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(
+            [FromRoute] Guid id,
+            CancellationToken cancellationToken) => Ok(await _mediator
+                .Send(new DeleteProductCommand(id), cancellationToken));
+    }
+}

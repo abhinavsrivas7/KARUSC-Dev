@@ -7,7 +7,6 @@ namespace Karusc.Server.Application.Products
         string Title, 
         decimal Price, 
         string Description, 
-        string Category,
         List<string>? Images)
     {
         internal ProductDto(Product p) : this(
@@ -15,7 +14,6 @@ namespace Karusc.Server.Application.Products
             p.Title, 
             p.Price, 
             p.Description, 
-            p.Category, 
             p.Images?.Select(image => image.FileName)?.ToList()) {}
 
         internal ProductDto EnrichImageNames(string prefix) => this with { Images = Images?

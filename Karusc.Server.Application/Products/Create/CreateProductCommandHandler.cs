@@ -26,7 +26,6 @@ namespace Karusc.Server.Application.Products.Create
                 command.Title,
                 command.Price,
                 command.Description,
-                command.Category,
                 command.Images);
 
             if (product.Images is not null && product.Images.Any())
