@@ -30,9 +30,8 @@ namespace Karusc.Server.Application.Products.Get
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            return _enrichmentPrefix is not null 
-                ? products
-                    .Select(product => product.EnrichImageNames(_enrichmentPrefix))
+            return !string.IsNullOrEmpty(_enrichmentPrefix)
+                ? products.Select(product => product.EnrichImageNames(_enrichmentPrefix))
                     .ToList()
                 : products;
         } 

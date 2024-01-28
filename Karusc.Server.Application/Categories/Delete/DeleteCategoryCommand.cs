@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace Karusc.Server.Application.Categories.Delete
 {
-    internal class DeleteCategoryCommand
-    {
-    }
+    public record DeleteCategoryCommand(Guid Id) : IRequest<Guid>;
 }

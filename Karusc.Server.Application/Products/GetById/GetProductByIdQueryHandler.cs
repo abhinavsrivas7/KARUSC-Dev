@@ -30,7 +30,7 @@ namespace Karusc.Server.Application.Products.GetById
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 
-            return _enrichmentPrefix is not null
+            return !string.IsNullOrEmpty(_enrichmentPrefix)
                 ? product.EnrichImageNames(_enrichmentPrefix) 
                 : product;
         }

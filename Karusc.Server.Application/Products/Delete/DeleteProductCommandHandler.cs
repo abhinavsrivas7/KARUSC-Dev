@@ -14,8 +14,7 @@ namespace Karusc.Server.Application.Products.Delete
             DeleteProductCommand request, 
             CancellationToken cancellationToken)
         {
-            var product = await _context.Products
-                .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
+            var product = await _context.Products.FindAsync(request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 
             _context.Products.Remove(product);

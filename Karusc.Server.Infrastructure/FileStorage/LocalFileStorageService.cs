@@ -14,11 +14,10 @@ namespace Karusc.Server.Infrastructure.FileStorage
         public LocalFileStorageService(IOptions<LocalFileStorage> options) => 
             _configuration = options.Value;
 
-        public override async Task<(Guid FileId, string FileURL)> Upload(
-            File<T> file, CancellationToken cancellationToken)
+        public override async Task<string> Upload(File<T> file, CancellationToken cancellationToken)
         {
             await UploadFileAsync(file, cancellationToken);
-            return (file.Id, $"/{Container}/{file.FileName}");
+            return $"/{Container}/{file.FileName}";
         }
 
         public override async Task<Dictionary<Guid, string>> BulkUpload(

@@ -37,7 +37,7 @@ namespace Karusc.Server.Application.Products.Create
             await _context.Products.AddAsync(product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             
-            return _fileStorageService.EnrichmentPrefix is not null
+            return !string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix)
                 ? new ProductDto(product).EnrichImageNames(_fileStorageService.EnrichmentPrefix)
                 : new ProductDto(product);
         }

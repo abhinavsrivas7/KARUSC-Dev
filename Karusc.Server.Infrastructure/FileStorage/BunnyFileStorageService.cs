@@ -18,13 +18,12 @@ namespace Karusc.Server.Infrastructure.FileStorage
                 _configuration.AccessKey, _configuration.Region);
         } 
   
-        public override async Task<(Guid FileId, string FileURL)> Upload(
-            File<T> file, CancellationToken cancellationToken)
+        public override async Task<string> Upload(File<T> file, CancellationToken cancellationToken)
         {
             if (!cancellationToken.IsCancellationRequested)
             {
                 await UploadFileAsync(file);
-                return (file.Id, $"{Container}/{file.FileName}");
+                return $"{Container}/{file.FileName}";
             }
             
             throw new TaskCanceledException();

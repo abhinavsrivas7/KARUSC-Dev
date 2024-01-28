@@ -16,5 +16,11 @@
             category.ImageURL = category.Image.FileName;
             return category;
         }
+
+        public Category UpdateImageURL(string imageURL) 
+        {
+            ImageURL = imageURL;
+            return this;
+        }
     }
 }

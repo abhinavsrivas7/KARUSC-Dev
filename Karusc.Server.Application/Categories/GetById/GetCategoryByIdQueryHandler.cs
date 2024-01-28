@@ -30,7 +30,7 @@ namespace Karusc.Server.Application.Categories.GetById
 
             return string.IsNullOrEmpty(_enrichmentPrefix)
                 ? category
-                : category with { ImageURL = string.Concat(_enrichmentPrefix, category.ImageURL)};
+                : category with { ImageURL = string.Concat(_enrichmentPrefix, category.ImageURL) };
         }
     }
 }
