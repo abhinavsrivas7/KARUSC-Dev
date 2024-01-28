@@ -10,7 +10,9 @@ namespace Karusc.Server.Application.Products.Delete
         
         public DeleteProductCommandHandler(IKaruscDbContext context) => _context = context;
 
-        public async Task<Guid> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(
+            DeleteProductCommand request, 
+            CancellationToken cancellationToken)
         {
             var product = await _context.Products
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
