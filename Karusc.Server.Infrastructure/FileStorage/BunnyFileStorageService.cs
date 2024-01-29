@@ -27,7 +27,7 @@ namespace Karusc.Server.Infrastructure.FileStorage
             if (!cancellationToken.IsCancellationRequested)
             {
                 await UploadFileAsync(file);
-                return $"{Container}/{file.FileName}";
+                return $"/{Container}/{file.FileName}";
             }
             
             throw new TaskCanceledException();
