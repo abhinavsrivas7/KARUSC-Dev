@@ -23,7 +23,8 @@ namespace Karusc.Server.Application.Products.GetById
             GetProductByIdQuery request,
             CancellationToken cancellationToken)
         {
-            var product = await _context.Products
+            var product = (await _context.Products
+                .Where(product => product.Id == request.Id)
                 .Select(product => new ProductDto(
                     product.Id,
                     product.Title,
@@ -41,8 +42,8 @@ namespace Karusc.Server.Application.Products.GetById
                             collection.Id,
                             collection.Name,
                             collection.ImageURL!))
-                        .ToList()))
-                .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
+                        .ToList()))              
+                .FirstOrDefaultAsync(cancellationToken))
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 
             return !string.IsNullOrEmpty(_enrichmentPrefix)
