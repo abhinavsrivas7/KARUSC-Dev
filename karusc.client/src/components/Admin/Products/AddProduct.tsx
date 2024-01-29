@@ -180,6 +180,7 @@ export const AddProduct = () => {
                     onChange={() => addCollection(collection.id)} />)
                 : <DissmissableAlert
                     title="No Collections Exist Yet!!"
+                    variant="danger"
                     description=
                     "Please create a new collection from the collections tab and try again" />}
         </Form.Group>
