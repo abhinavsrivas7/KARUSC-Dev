@@ -6,3 +6,4 @@ export type Product = {
     category : string
     images :string []  
 };
+

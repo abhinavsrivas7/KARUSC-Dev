@@ -6,6 +6,7 @@ import axios from "axios";
 import { GetCategoriesEndpoint, GetCollectionsEndpoint } from "../../../utilities/EndpointUtils";
 import { Collection } from "../../../models/Collection";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
+import { CreateProductCommand } from "../../../models/CreateProductCommand";
 
 type UploadFile = {
     fileContent: unknown | null,
@@ -14,6 +15,14 @@ type UploadFile = {
 
 export const AddProduct = () => {
     const maxImagesCount = 5;
+    const createCommand: CreateProductCommand = {
+        title: "",
+        price: 0,
+        description: "",
+        images: [],
+        categories: [],
+        collections: []
+    };
 
     const [images, setImages] = useState<UploadFile[]>(
         [{ fileContent: null, fileName: "" }]
@@ -72,9 +81,18 @@ export const AddProduct = () => {
         }       
     }
 
+    const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        createCommand.title = event.target.value;
+        console.log(createCommand);
+    } 
+
     return <Form>
         <Form.Group className="mb-4" controlId="formTitle">
-            <Form.Control className="pink-placeholder" type="text" placeholder="Enter Title" />
+            <Form.Control
+                className="pink-placeholder"
+                type="text"
+                placeholder="Enter Title"
+                onChange={addTitle} />
         </Form.Group>
         <Form.Group className="mb-4" controlId="formPrice">
             <Form.Control className="pink-placeholder" type="number" placeholder="Enter Price" />
