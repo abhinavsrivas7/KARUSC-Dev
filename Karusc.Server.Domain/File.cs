@@ -19,7 +19,12 @@
             var (fileType, fileExtension, fileContent) = GetFileMetadata(file);
             Entity = entity;
             EntityId = entity.Id;
-            FileName = $"{EntityId}-{fileType}-{suffix}.{fileExtension}";
+            
+            string fileName = string.IsNullOrEmpty(suffix)
+                ? $"{EntityId}-{fileType}.{fileExtension}"
+                : $"{EntityId}-{fileType}-{suffix}.{fileExtension}";
+
+            FileName = fileName;
             FileBase64 = fileContent;
         }
 

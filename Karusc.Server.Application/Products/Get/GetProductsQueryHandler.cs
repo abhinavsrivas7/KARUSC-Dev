@@ -20,20 +20,13 @@ namespace Karusc.Server.Application.Products.Get
             GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _context.Products
-                .Select(product => new ProductDto(
-                    product.Id, 
-                    product.Title, 
-                    product.Price, 
-                    product.Description, 
-                    product.Category, 
-                    product.Images!.Select(image => image.FileName).ToList()))
+                .Select(ProductSelector.Expression)
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            return _enrichmentPrefix is not null 
-                ? products
-                    .Select(product => product.EnrichImageNames(_enrichmentPrefix))
+            return !string.IsNullOrEmpty(_enrichmentPrefix)
+                ? products.Select(product => product.EnrichImageNames(_enrichmentPrefix))
                     .ToList()
                 : products;
         } 

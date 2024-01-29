@@ -1,5 +1,7 @@
 import { Container, Tab, Tabs } from "react-bootstrap"
 import { ProductOperations } from "../components/Admin/Products/ProductOperations"
+import { CategoryOperations } from "../components/Admin/Categories/CategoryOperations"
+import { CollectionOperations } from "../components/Admin/Collections/CollectionOperations"
 
 export const Admin = () => {
     return <Container
@@ -16,10 +18,10 @@ export const Admin = () => {
                 <ProductOperations />
             </Tab>
             <Tab eventKey="categories" title="Categories">
-                Tab content for Profile
+                <CategoryOperations />
             </Tab>
             <Tab eventKey="collections" title="Collections">
-                Tab content for Loooonger Tab
+                <CollectionOperations />
             </Tab>
             <Tab eventKey="orders" title="Orders">
                 Tab content for Contact
