@@ -1,14 +1,17 @@
 ﻿using Karusc.Server.Application.Contracts;
+using Karusc.Server.Domain;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Products.Delete
 {
     internal sealed class DeleteProductCommandHandler : IRequestHandler<DeleteProductCommand, Guid>
     {
         private readonly IKaruscDbContext _context;
+        private readonly IFileStorageService<Product> _fileStorageService;
         
-        public DeleteProductCommandHandler(IKaruscDbContext context) => _context = context;
+        public DeleteProductCommandHandler(
+            IKaruscDbContext context, IFileStorageService<Product> fileStorageService) => 
+            (_context, _fileStorageService) = (context, fileStorageService);
 
         public async Task<Guid> Handle(
             DeleteProductCommand request, 
@@ -19,6 +22,12 @@ namespace Karusc.Server.Application.Products.Delete
 
             _context.Products.Remove(product);
             await _context.SaveChangesAsync(cancellationToken);
+
+            if(product.Images is not null && product.Images.Any())
+            {
+                await _fileStorageService.BulkDelete(product.Images, cancellationToken);
+            }
+            
             return request.Id;
         }
     }

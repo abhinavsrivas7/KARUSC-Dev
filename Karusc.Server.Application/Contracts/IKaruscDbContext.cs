@@ -8,6 +8,7 @@ namespace Karusc.Server.Application.Contracts
         DbSet<Product> Products { get; set; }
         DbSet<File<Product>> ProductImages { get; set; }
         DbSet<Category> Categories { get; set; }
+        DbSet<Collection> Collections { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

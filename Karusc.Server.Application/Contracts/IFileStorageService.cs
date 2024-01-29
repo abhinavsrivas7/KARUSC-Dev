@@ -8,5 +8,7 @@ namespace Karusc.Server.Application.Contracts
         Task<string> Upload(File<T> file, CancellationToken cancellationToken);
         Task<Dictionary<Guid, string>> BulkUpload(
             List<File<T>> files, CancellationToken cancellationToken);
+        Task Delete(File<T> file, CancellationToken cancellationToken);
+        Task BulkDelete(List<File<T>> files, CancellationToken cancellationToken);
     }
 }

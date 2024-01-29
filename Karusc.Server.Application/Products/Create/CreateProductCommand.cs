@@ -7,5 +7,6 @@ namespace Karusc.Server.Application.Products.Create
         decimal Price,
         string Description,
         List<string>? Images,
-        HashSet<Guid>? Categories) : IRequest<ProductDto>;
+        HashSet<Guid>? Categories,
+        HashSet<Guid>? Collections) : IRequest<ProductDto>;
 }

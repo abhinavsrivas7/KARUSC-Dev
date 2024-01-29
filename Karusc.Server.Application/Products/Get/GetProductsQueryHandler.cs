@@ -1,4 +1,5 @@
 ﻿using Karusc.Server.Application.Categories;
+using Karusc.Server.Application.Collections;
 using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
 using MediatR;
@@ -32,6 +33,12 @@ namespace Karusc.Server.Application.Products.Get
                             category.Id, 
                             category.Name, 
                             category.ImageURL!))
+                        .ToList(),
+                    product.Collections!
+                        .Select(collection => new CollectionDTO(
+                            collection.Id,
+                            collection.Name,
+                            collection.ImageURL!))
                         .ToList()))
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)

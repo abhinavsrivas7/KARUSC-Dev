@@ -1,8 +1,10 @@
 ﻿using Karusc.Server.Application.Categories;
+using Karusc.Server.Application.Collections;
 using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Karusc.Server.Application.Products.GetById
 {
@@ -33,6 +35,12 @@ namespace Karusc.Server.Application.Products.GetById
                             category.Id,
                             category.Name,
                             category.ImageURL!))
+                        .ToList(),
+                    product.Collections!
+                        .Select(collection => new CollectionDTO(
+                            collection.Id,
+                            collection.Name,
+                            collection.ImageURL!))
                         .ToList()))
                 .FirstOrDefaultAsync(product => product.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());

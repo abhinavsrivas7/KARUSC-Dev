@@ -28,7 +28,8 @@ namespace Karusc.Server.Application.Products.Create
                 command.Price,
                 command.Description,
                 command.Images,
-                await GetCategories(command.Categories));
+                await GetCategories(command.Categories),
+                await GetCollections(command.Collections));
 
             if (product.Images is not null && product.Images.Any())
             {
@@ -49,6 +50,13 @@ namespace Karusc.Server.Application.Products.Create
             categories is not null && categories.Any()
                 ? await _context.Categories
                     .Where(category => categories.Contains(category.Id))
+                    .ToListAsync()
+                : null;
+
+        private async Task<List<Collection>?> GetCollections(HashSet<Guid>? collections) =>
+            collections is not null && collections.Any()
+                ? await _context.Collections
+                    .Where(category => collections.Contains(category.Id))
                     .ToListAsync()
                 : null;
     }

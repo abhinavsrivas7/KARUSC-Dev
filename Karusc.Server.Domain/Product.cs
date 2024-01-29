@@ -6,6 +6,7 @@
         public decimal Price { get; private set; }
         public string Description { get; private set; }
         public List<Category>? Categories { get; private set; } = null;
+        public List<Collection>? Collections { get; private set; } = null;
 
         public List<File<Product>>? Images { get; private set; } = null;
 
@@ -21,7 +22,8 @@
             decimal price,
             string description,
             List<string>? images,
-            List<Category>? categories)
+            List<Category>? categories,
+            List<Collection>? collections)
         {
             if (price < 0)
             {
@@ -35,7 +37,7 @@
                 .ToList();
 
             product.Categories = categories;
-
+            product.Collections = collections;
             return product;
         }
 

@@ -1,4 +1,5 @@
 ﻿using Karusc.Server.Application.Categories;
+using Karusc.Server.Application.Collections;
 using Karusc.Server.Domain;
 
 namespace Karusc.Server.Application.Products
@@ -9,7 +10,8 @@ namespace Karusc.Server.Application.Products
         decimal Price, 
         string Description, 
         List<string>? Images,
-        List<CategoryDto>? Categories)
+        List<CategoryDto>? Categories,
+        List<CollectionDTO>? Collections)
     {
         internal ProductDto(Product p) : this(
             p.Id, 
@@ -17,7 +19,8 @@ namespace Karusc.Server.Application.Products
             p.Price, 
             p.Description, 
             p.Images?.Select(image => image.FileName)?.ToList(),
-            p.Categories?.Select(category => new CategoryDto(category))?.ToList()) {}
+            p.Categories?.Select(category => new CategoryDto(category))?.ToList(),
+            p.Collections?.Select(collection => new CollectionDTO(collection)).ToList()) {}
 
         internal ProductDto EnrichImageNames(string prefix) => this with 
         { 
@@ -25,8 +28,15 @@ namespace Karusc.Server.Application.Products
                 .Select(image => string.Concat(prefix, image))
                 .ToList(),
             Categories = Categories?
-                .Select(category => category with { ImageURL = string.Concat(prefix, category.ImageURL) })
-                .ToList(),
+                .Select(category => category with 
+                { 
+                    ImageURL = string.Concat(prefix, category.ImageURL) 
+                }).ToList(),
+            Collections = Collections?
+                .Select(collection => collection with
+                {
+                    ImageURL = string.Concat(prefix, collection.ImageURL)
+                }).ToList()
         };
     }
 }
