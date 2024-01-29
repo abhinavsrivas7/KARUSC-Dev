@@ -37,22 +37,34 @@ namespace Karusc.Server.Infrastructure.FileStorage
             File<T> file, CancellationToken cancellationToken)
         {
             Directory.CreateDirectory(Path.Combine(_configuration.DirectoryPath, Container));
-            
             await File.WriteAllBytesAsync(
                 Path.Combine(_configuration.DirectoryPath, Container, file.FileName), 
                 Convert.FromBase64String(file.FileBase64));
         }
 
-        public override Task Delete(
+        public override async Task Delete(
             string fileName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            string[] fileNameParts = fileName.Split('/');
+
+            if(fileNameParts.Length != 3) 
+            {
+                throw new InvalidDataException($"File Name: {fileName}");
+            }
+
+            string filePath = Path.Combine(_configuration.DirectoryPath, fileNameParts[1], fileNameParts[2]);
+
+            if (File.Exists(filePath))
+            {
+                await Task.Run(() => File.Delete(filePath), cancellationToken);
+            }
         }
 
-        public override Task BulkDelete(
+        public override async Task BulkDelete(
             List<string> fileNames, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+        {           
+            await Task.WhenAll(fileNames.Select(file => Delete(file, cancellationToken)));
         }
+
     }
 }
