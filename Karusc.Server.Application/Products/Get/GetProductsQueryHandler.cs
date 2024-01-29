@@ -1,6 +1,4 @@
-﻿using Karusc.Server.Application.Categories;
-using Karusc.Server.Application.Collections;
-using Karusc.Server.Application.Contracts;
+﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -22,24 +20,7 @@ namespace Karusc.Server.Application.Products.Get
             GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _context.Products
-                .Select(product => new ProductDto(
-                    product.Id, 
-                    product.Title, 
-                    product.Price, 
-                    product.Description, 
-                    product.Images!.Select(image => image.FileName).ToList(),
-                    product.Categories!
-                        .Select(category => new CategoryDto(
-                            category.Id, 
-                            category.Name, 
-                            category.ImageURL!))
-                        .ToList(),
-                    product.Collections!
-                        .Select(collection => new CollectionDTO(
-                            collection.Id,
-                            collection.Name,
-                            collection.ImageURL!))
-                        .ToList()))
+                .Select(ProductSelector.Expression)
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
