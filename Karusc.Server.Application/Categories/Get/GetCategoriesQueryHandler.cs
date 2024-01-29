@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Categories.Get
 {
-    internal class GetCategoriesQueryHandler 
+    internal sealed class GetCategoriesQueryHandler 
         : IRequestHandler<GetCategoriesQuery, List<CategoryDto>>
     {
         private readonly IKaruscDbContext _context;

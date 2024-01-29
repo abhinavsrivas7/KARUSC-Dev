@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Karusc.Server.Application.Categories.Create
 {
-    internal class CreateCategoryCommandHandler
+    internal sealed class CreateCategoryCommandHandler
         : IRequestHandler<CreateCategoryCommand, CategoryDto>
     {
         private readonly IKaruscDbContext _context;

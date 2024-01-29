@@ -4,7 +4,8 @@ using MediatR;
 
 namespace Karusc.Server.Application.Categories.Delete
 {
-    internal class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryCommand, Guid>
+    internal sealed class DeleteCategoryCommandHandler 
+        : IRequestHandler<DeleteCategoryCommand, Guid>
     {
         private readonly IKaruscDbContext _context;
         private readonly IFileStorageService<Category> _fileStorageService;
