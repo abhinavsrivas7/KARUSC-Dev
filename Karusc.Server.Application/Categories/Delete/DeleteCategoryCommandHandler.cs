@@ -21,7 +21,7 @@ namespace Karusc.Server.Application.Categories.Delete
             
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync(cancellationToken);
-            await _fileStorageService.Delete(category.Image!, cancellationToken);
+            await _fileStorageService.Delete(category.ImageURL!, cancellationToken);
             return request.Id;
         }
     }

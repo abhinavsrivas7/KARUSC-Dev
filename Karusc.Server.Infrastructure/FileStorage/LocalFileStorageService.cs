@@ -44,13 +44,13 @@ namespace Karusc.Server.Infrastructure.FileStorage
         }
 
         public override Task Delete(
-            File<T> file, CancellationToken cancellationToken)
+            string fileName, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
         public override Task BulkDelete(
-            List<File<T>> files, CancellationToken cancellationToken)
+            List<string> fileNames, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

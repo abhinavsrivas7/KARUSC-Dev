@@ -51,11 +51,11 @@ namespace Karusc.Server.Infrastructure.FileStorage
         }       
 
         public override async Task Delete(
-            File<T> file, CancellationToken cancellationToken)
+            string fileName, CancellationToken cancellationToken)
         {
             if (!cancellationToken.IsCancellationRequested)
             {
-                await _client.DeleteObjectAsync(GetCompleteFileName(file.FileName, false));
+                await _client.DeleteObjectAsync(GetCompleteFileName(fileName, false));
             }
             else
             {
@@ -64,12 +64,12 @@ namespace Karusc.Server.Infrastructure.FileStorage
         }
 
         public override async Task BulkDelete(
-            List<File<T>> files, CancellationToken cancellationToken)
+            List<string> fileNames, CancellationToken cancellationToken)
         {
             if(!cancellationToken.IsCancellationRequested)
             {
-                await Task.WhenAll(files.Select(file => 
-                    _client.DeleteObjectAsync(GetCompleteFileName(file.FileName, false))));
+                await Task.WhenAll(fileNames.Select(fileName => 
+                    _client.DeleteObjectAsync(GetCompleteFileName(fileName, false))));
             }
             else
             {
