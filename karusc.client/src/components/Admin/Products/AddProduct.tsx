@@ -1,6 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
+import { Category } from "../../../models/Category";
+import axios from "axios";
+import { GetCategoriesEndpoint, GetCollectionsEndpoint } from "../../../utilities/EndpointUtils";
+import { Collection } from "../../../models/Collection";
+import { DissmissableAlert } from "../../Common/DissmissableAlert";
 
 type UploadFile = {
     fileContent: unknown | null,
@@ -8,12 +13,38 @@ type UploadFile = {
 };
 
 export const AddProduct = () => {
-    console.log("component reloaded");
     const maxImagesCount = 5;
 
     const [images, setImages] = useState<UploadFile[]>(
         [{ fileContent: null, fileName: "" }]
     );
+
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [collections, setCollections] = useState<Collection[]>([]);
+
+    useEffect(() => {
+        axios.get(GetCategoriesEndpoint(), {
+            params: {
+                pageSize: 10,
+                pageNumber: 0
+            }
+        })
+        .then(response => {
+            setCategories(response.data)
+        })
+    }, []);
+
+    useEffect(() => {
+        axios.get(GetCollectionsEndpoint(), {
+            params: {
+                pageSize: 10,
+                pageNumber: 0
+            }
+        })
+        .then(response => {
+            setCollections(response.data)
+        })
+    }, []);
 
     const shouldLoadAddButton = (): boolean => {
         const newImages = images.filter(i => i.fileContent != null && i.fileName != "");
@@ -75,11 +106,22 @@ export const AddProduct = () => {
         </Form.Group>
         <Form.Group className="mb-4" controlId="formBasicCheckbox">
             <Form.Label>Select Product Categories</Form.Label>
-            <Form.Check type="checkbox" label="Earrings" />
+            {categories.length > 0
+                ? categories.map(category => <Form.Check type="checkbox" label={category.name} />)
+                : <DissmissableAlert
+                    title="No Categories Exist Yet!!"
+                    description=
+                    "Please create a new category from the categories tab and try again" />}           
         </Form.Group>
         <Form.Group className="mb-4" controlId="formBasicCheckbox">
             <Form.Label>Select Product Collections</Form.Label>
-            <Form.Check type="checkbox" label="Winter Special" />
+            {collections.length > 0
+                ? collections.map(collection => <Form.Check type="checkbox" label={collection.name} />)
+                :
+                <DissmissableAlert
+                    title="No Collections Exist Yet!!"
+                    description=
+                    "Please create a new collection from the collections tab and try again" />}
         </Form.Group>
         <Button
             variant="primary"

@@ -10,7 +10,7 @@ import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 
 
 export const Shop = () => {
-    const [products, setProducts] = useState<Product[] | null>(null);
+    const [products, setProducts] = useState<Product[]>([]);
     const [errorState, setErrorState] = useState<boolean>(false);
     useEffect(() => {
         axios.get(GetProductsEndpoint(), {
