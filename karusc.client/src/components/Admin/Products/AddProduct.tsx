@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
 import { Category } from "../../../models/Category";
@@ -8,24 +8,26 @@ import { Collection } from "../../../models/Collection";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
 import { CreateProductCommand } from "../../../models/CreateProductCommand";
 import { Loader } from "../../Common/Loader";
-
-type UploadFile = {
-    fileContent: string,
-    fileName: string
-};
+import { UploadFile } from "../../../models/UploadFile";
 
 export const AddProduct = () => {
+
     const maxImagesCount = 5;
     const emptyCommand: CreateProductCommand = {
         title: "", price: 0, description: "", categories: [], collections: [], images: []
     };
 
+    const [disableControls, setDisableControls] = useState<boolean>(false);
+    const [formOpacity, setFormOpacity] = useState<number>(1);
+    const [errorState, setErrorState] = useState<boolean>(false);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [images, setImages] = useState<UploadFile[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [collections, setCollections] = useState<Collection[]>([]);
     const [createCommand, setCreateCommand] = useState<CreateProductCommand>(emptyCommand);
+
+    const formRef = useRef<HTMLFormElement>(null);
 
     useEffect(() => {
         axios.get(GetCategoriesEndpoint(), {
@@ -102,39 +104,63 @@ export const AddProduct = () => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setDisableControls(true);
+        setErrorState(false);
+        setShowSuccessAlert(false);
+        setFormOpacity(0.1);
         setShowLoader(true);
         axios.post(GetProductsEndpoint(), createCommand)
             .then(response => {
                 if (response.status == 201) {
+                    setDisableControls(false);
                     setShowSuccessAlert(true);
                     setShowLoader(false);
+                    setFormOpacity(1);
+                    formRef.current?.reset();
+                    setCreateCommand(emptyCommand);
+                    setImages([]);
+                    console.log(response);
                 }
+            })
+            .catch((response) => {
+                console.log(response);
+                setFormOpacity(1);
+                setShowLoader(false);
+                setErrorState(true);
+                setDisableControls(false);
             });
-        event.currentTarget.reset();
-        setCreateCommand(emptyCommand);
-        setImages([]);       
     };
 
-    return <Form onSubmit={handleSubmit}>
+    return <Form ref={formRef} onSubmit={handleSubmit} style={{opacity: formOpacity}}>
         {showSuccessAlert
             ? < DissmissableAlert
                     title="Product Created Successfully!"
                     variant="success"
                     description={null} />
-            : null}
+            : null
+        }
+        {errorState
+            ? < DissmissableAlert
+                title="Product Could Not Be Created!"
+                variant="danger"
+                description={null} />
+            : null
+        }
         <Form.Group className="mb-4" controlId="formTitle">
             <Form.Control
                 className="pink-placeholder"
                 type="text"
                 placeholder="Enter Title"
-                onChange={addTitle} />
+                onChange={addTitle}
+                disabled={disableControls} />
         </Form.Group>
         <Form.Group className="mb-4" controlId="formPrice">
             <Form.Control
                 className="pink-placeholder"
                 type="number"
                 placeholder="Enter Price"
-                onChange={addPrice} />
+                onChange={addPrice}
+                disabled={disableControls} />
         </Form.Group>
         <Form.Group className="mb-4" controlId="formDescription">
             <Form.Control
@@ -142,7 +168,8 @@ export const AddProduct = () => {
                 rows={3}
                 placeholder="Enter Description"
                 className="pink-placeholder"
-                onChange={addDescription} />
+                onChange={addDescription}
+                disabled={disableControls} />
         </Form.Group>     
         <Form.Group className="mb-4" controlId="formImage">
             <Form.Label className="semi-bold-font">Upload Product Images</Form.Label>
@@ -151,9 +178,10 @@ export const AddProduct = () => {
                 : null}
             {images.length < maxImagesCount
             ? <Form.Control
-                className="pink-placeholder"
-                type="file"
-                onChange={addImage} />
+                    className="pink-placeholder"
+                    type="file"
+                    onChange={addImage}
+                    disabled={disableControls} />
                 : null}         
         </Form.Group>
         <Form.Group className="mb-4" controlId="formCategoryCheckbox">
@@ -163,7 +191,8 @@ export const AddProduct = () => {
                     key={category.id}
                     type="checkbox"
                     label={category.name}
-                    onChange={() => addCategory(category.id)} />)
+                    onChange={() => addCategory(category.id)}
+                    disabled={disableControls} />)
                 : <DissmissableAlert
                     title="No Categories Exist Yet!!"
                     variant="danger"
@@ -177,7 +206,8 @@ export const AddProduct = () => {
                     key={collection.id}
                     type="checkbox"
                     label={collection.name}
-                    onChange={() => addCollection(collection.id)} />)
+                    onChange={() => addCollection(collection.id)}
+                    disabled={disableControls} />)
                 : <DissmissableAlert
                     title="No Collections Exist Yet!!"
                     variant="danger"
@@ -189,7 +219,8 @@ export const AddProduct = () => {
             variant="primary"
             className="admin-button mt-4"
             style={{ width: '100%' }}
-            type="submit">
+            type="submit"
+            disabled={disableControls} >
             Create Product
         </Button>
     </Form>;
