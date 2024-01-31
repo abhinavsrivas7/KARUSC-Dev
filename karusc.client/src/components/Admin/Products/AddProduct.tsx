@@ -8,7 +8,7 @@ import { Collection } from "../../../models/Collection";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
 import { CreateProductCommand } from "../../../models/CreateProductCommand";
 import { Loader } from "../../Common/Loader";
-import { UploadFile } from "../../../models/UploadFile";
+import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
 
 export const AddProduct = () => {
 
@@ -19,7 +19,12 @@ export const AddProduct = () => {
 
     const [disableControls, setDisableControls] = useState<boolean>(false);
     const [formOpacity, setFormOpacity] = useState<number>(1);
-    const [errorState, setErrorState] = useState<boolean>(false);
+
+    const [errorState, setErrorState] = useState<ErrorAlert>({
+        showErrorAlert: false,
+        errorAlertDescription: null
+    });
+
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [images, setImages] = useState<UploadFile[]>([]);
@@ -67,6 +72,7 @@ export const AddProduct = () => {
             const updatedCommand = createCommand;
             updatedCommand.images.push(fileBase64);
             setCreateCommand(updatedCommand);
+            formRef.current?.reset();
         }
     };
 
@@ -105,7 +111,10 @@ export const AddProduct = () => {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setDisableControls(true);
-        setErrorState(false);
+        setErrorState({
+            showErrorAlert: false,
+            errorAlertDescription: null
+        });
         setShowSuccessAlert(false);
         setFormOpacity(0.1);
         setShowLoader(true);
@@ -119,14 +128,21 @@ export const AddProduct = () => {
                     formRef.current?.reset();
                     setCreateCommand(emptyCommand);
                     setImages([]);
-                    console.log(response);
                 }
             })
             .catch((response) => {
                 console.log(response);
+                console.log(response.response.data.Message);
                 setFormOpacity(1);
                 setShowLoader(false);
-                setErrorState(true);
+                setErrorState({
+                    showErrorAlert: true,
+                    errorAlertDescription: response.response.data.Message
+                        && response.response.data.Message.length
+                        && response.response.data.Message.length > 0
+                            ? response.response.data.Message[0] 
+                            : null
+                });
                 setDisableControls(false);
             });
     };
@@ -139,11 +155,11 @@ export const AddProduct = () => {
                     description={null} />
             : null
         }
-        {errorState
+        {errorState.showErrorAlert
             ? < DissmissableAlert
                 title="Product Could Not Be Created!"
                 variant="danger"
-                description={null} />
+                description={errorState.errorAlertDescription} />
             : null
         }
         <Form.Group className="mb-4" controlId="formTitle">
@@ -152,7 +168,8 @@ export const AddProduct = () => {
                 type="text"
                 placeholder="Enter Title"
                 onChange={addTitle}
-                disabled={disableControls} />
+                disabled={disableControls}
+                defaultValue={createCommand.title} />
         </Form.Group>
         <Form.Group className="mb-4" controlId="formPrice">
             <Form.Control
@@ -160,7 +177,8 @@ export const AddProduct = () => {
                 type="number"
                 placeholder="Enter Price"
                 onChange={addPrice}
-                disabled={disableControls} />
+                disabled={disableControls}
+                defaultValue={createCommand.price} />
         </Form.Group>
         <Form.Group className="mb-4" controlId="formDescription">
             <Form.Control
@@ -169,7 +187,8 @@ export const AddProduct = () => {
                 placeholder="Enter Description"
                 className="pink-placeholder"
                 onChange={addDescription}
-                disabled={disableControls} />
+                disabled={disableControls}
+                defaultValue={createCommand.description} />
         </Form.Group>     
         <Form.Group className="mb-4" controlId="formImage">
             <Form.Label className="semi-bold-font">Upload Product Images</Form.Label>
@@ -191,6 +210,7 @@ export const AddProduct = () => {
                     key={category.id}
                     type="checkbox"
                     label={category.name}
+                    defaultChecked={createCommand.categories.includes(category.id)}
                     onChange={() => addCategory(category.id)}
                     disabled={disableControls} />)
                 : <DissmissableAlert
@@ -206,6 +226,7 @@ export const AddProduct = () => {
                     key={collection.id}
                     type="checkbox"
                     label={collection.name}
+                    defaultChecked={createCommand.collections.includes(collection.id)}
                     onChange={() => addCollection(collection.id)}
                     disabled={disableControls} />)
                 : <DissmissableAlert
