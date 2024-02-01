@@ -1,5 +1,5 @@
 export type Collection = {
     id: string
-    name: string
-    imageURL: string
+    title: string
+    image: string
 };
