@@ -25,7 +25,7 @@
             List<Category>? categories,
             List<Collection>? collections)
         {
-            if (price < 0)
+            if (price <= 0)
             {
                 throw new InvalidOperationException("Price can't be less than 0");
             }
