@@ -19,7 +19,7 @@ export const ShopBy = ({ componentFor, data }: ShopByComponentProps) => {
                 {data.map((item) => (
                     <Col key={item.id} className="d-flex justify-content-center align-items-center">
                         <NavLink style={{ textDecoration: 'none' }} to="/shop">
-                            <ShopByCard imageURL={item.imageURL} title={item.name} />
+                            <ShopByCard imageURL={item.image} title={item.name} />
                         </NavLink>
                     </Col>
                 ))}
