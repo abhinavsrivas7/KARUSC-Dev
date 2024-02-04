@@ -10,6 +10,7 @@ interface ShopByComponentProps {
 }
 
 export const ShopBy = ({ componentFor, data }: ShopByComponentProps) => {
+    const link = `/shop?${componentFor.toLowerCase()}=`;
     return (
         <Container className="mt-4">
             <Container className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">
@@ -18,8 +19,11 @@ export const ShopBy = ({ componentFor, data }: ShopByComponentProps) => {
             <Row md={4} xs={3} lg={4} className="g-2">
                 {data.map((item) => (
                     <Col key={item.id} className="d-flex justify-content-center align-items-center">
-                        <NavLink style={{ textDecoration: 'none' }} to="/shop">
-                            <ShopByCard imageURL={item.image} title={item.name} />
+                        <NavLink style={{ textDecoration: 'none' }} to={link + item.id}>
+                            <ShopByCard
+                                imageURL={item.imageURL}
+                                name={item.name}
+                                id={item.id} />
                         </NavLink>
                     </Col>
                 ))}
