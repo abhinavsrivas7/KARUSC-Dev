@@ -12,6 +12,11 @@ import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 export const Shop = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [errorState, setErrorState] = useState<boolean>(false);
+    //console.log(window.location.href
+    //    .substring(window.location.href.indexOf('?') + 1)
+    //    .split('&')
+    //    .map(keyValuePair => keyValuePair.split('=')));
+
     useEffect(() => {
         axios.get(GetProductsEndpoint(), {
             params: {

@@ -15,35 +15,15 @@ export const Home = () => {
     const [collectionData, setCollectionData] = useState<Collection[]>([]);
 
     useEffect(() => {
-        axios.get(GetCollectionsEndpoint(), {
-            params: {
-                pageSize: 8,
-                pageNumber: 0
-            }
-        })
-            .then(response => {
-                console.log(response);
-                setCollectionData(response.data)
-            })
-            .catch((error) => {
-                console.error("Error fetching collection data:", error);
-            });
+        axios
+            .get(GetCollectionsEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
+            .then(response => setCollectionData(response.data));
     }, []);
 
     useEffect(() => {
-        axios.get(GetCategoriesEndpoint(), {
-            params: {
-                pageSize: 8,
-                pageNumber: 0
-            }
-        })
-            .then(response => {
-                console.log(response);
-                setCategoryData(response.data)
-            })
-            .catch((error) => {
-                console.error("Error fetching category data:", error);
-            });
+        axios
+            .get(GetCategoriesEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
+            .then(response => setCategoryData(response.data));
     }, []);
 
     return <>
