@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  AZURE_WEBAPP_NAME: KaruscWebAppDev    
+  AZURE_WEBAPP_NAME: KaruscDev    
   AZURE_WEBAPP_PACKAGE_PATH: '.'    
   AZURE_RESOURCE_GROUP: KaruscRG
   AZURE_MYSQL_SERVER_NAME: 'karusc-dev-db'
