@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 
 namespace Karusc.Server.Application.Products
 {
-    internal static class ProductSelector
+    internal static class ProductExpressions
     {
-        internal static Expression<Func<Product, ProductDto>> Expression =>
+        internal static Expression<Func<Product, ProductDto>> Selector =>
             product => new ProductDto(
                     product.Id,
                     product.Title,
@@ -26,5 +26,19 @@ namespace Karusc.Server.Application.Products
                             collection.Name,
                             collection.ImageURL!))
                         .ToList());
+
+        internal static Expression<Func<Product, bool>> Filter(
+            HashSet<Guid> categories,
+            HashSet<Guid> collections) => categories.Any() && collections.Any()
+            ? product => 
+                product.Categories!.Any(category => categories.Contains(category.Id)) &&
+                product.Collections!.Any(collection => collections.Contains(collection.Id))
+            : categories.Any() && !collections.Any()
+            ? product => product.Categories!.Any(category => categories.Contains(category.Id))
+            : collections.Any() && !categories.Any()
+            ? product => product.Collections!.Any(collection => collections.Contains(collection.Id))
+            : product => true;
+
+
     }
 }
