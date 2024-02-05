@@ -11,6 +11,7 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations
             builder.HasKey(p => p.Id);
             builder.HasMany(p => p.Images).WithOne(i => i.Entity);
             builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Price).HasPrecision(7, 2);
         }
     }
 }

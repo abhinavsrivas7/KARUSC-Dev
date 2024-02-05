@@ -10,7 +10,7 @@ interface ShopByComponentProps {
 }
 
 export const ShopBy = ({ componentFor, data }: ShopByComponentProps) => {
-    const link = `/shop?${componentFor.toLowerCase()}=`;
+    const link = `/ProductList?${componentFor.toLowerCase()}=`;
     return (
         <Container className="mt-4">
             <Container className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">

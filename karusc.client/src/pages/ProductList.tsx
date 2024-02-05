@@ -13,13 +13,12 @@ import { NavLink } from "react-router-dom";
 
 
 
-export const Shop = () => {
+export const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [errorState, setErrorState] = useState<boolean>(false);
     const { getDeviceType } = useScreenSize();
     const gapVal = getDeviceType() == DeviceTypes.DESKTOP ? 0 : 1;
     const gapClass = getDeviceType() == DeviceTypes.DESKTOP ? "my -2 px-3" : "my-2 px-1";
-    const link = "/shop?product=";
 
     //console.log(window.location.href
     //    .substring(window.location.href.indexOf('?') + 1)
@@ -51,7 +50,7 @@ export const Shop = () => {
                 <Row md={4} xs={3} lg={4} gap={gapVal}>
                     {products.map((item) => (
                         <Col key={item.id} className={gapClass}>
-                            <NavLink style={{ textDecoration: 'none', width: '100%' }} to={link + item.id}>
+                            <NavLink style={{ textDecoration: 'none', width: '100%' }} to={"/ProductDetails?id=" + item.id}>
                                 <ProductCard
                                     images={item.images}
                                     title={item.title}

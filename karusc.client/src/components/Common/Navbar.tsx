@@ -98,16 +98,16 @@ export const Navbar = () => {
                         <li>
                             <NavLink
                                 style={{ textDecoration: 'none' }}
-                                to="/shop"
+                                to="/ProductList"
                                 onClick={() => setShowDrawer(false)}
                                 className="regular-font light-pink"                            >
-                                Shop
+                                Product List
                             </NavLink>
                         </li>
                         <li>
                             <NavLink
                                 style={{ textDecoration: 'none' }}
-                                to="/admin"
+                                to="/Admin"
                                 onClick={() => setShowDrawer(false)}
                                 className="regular-font light-pink"                            >
                                 Admin
