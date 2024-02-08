@@ -1,5 +1,4 @@
 import { Carousel } from "react-bootstrap";
-import { Circles } from "react-loader-spinner";
 
 type CarouselData = { images: string[] };
 
