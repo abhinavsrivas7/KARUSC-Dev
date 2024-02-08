@@ -8,6 +8,7 @@ import { Collection } from "../models/Collection";
 import { GetCategoriesEndpoint, GetCollectionsEndpoint } from "../utilities/EndpointUtils";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Loader } from "../components/Common/Loader";
 
 export const Home = () => {
 
@@ -17,22 +18,30 @@ export const Home = () => {
     useEffect(() => {
         axios
             .get(GetCollectionsEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
-            .then(response => setCollectionData(response.data));
-    }, []);
+            .then(response => {
+                setCollectionData(response.data);
+                console.log(categoryData.length);
+            });
 
-    useEffect(() => {
         axios
             .get(GetCategoriesEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
-            .then(response => setCategoryData(response.data));
+            .then(response => {
+                setCategoryData(response.data);
+            });
     }, []);
 
+
     return <>
-        <Container className="d-flex justify-content-center align-items-center w-100">
-            <GoogleAuthComponent />
-        </Container>
-        <DefaultCarousel></DefaultCarousel>
-        <ShopBy componentFor="Category" data={categoryData}></ShopBy>
-        <ShopBy componentFor="Collection" data={collectionData}></ShopBy>
-        <Review></Review>
-    </>
+            <Container className="d-flex justify-content-center align-items-center w-100">
+                <GoogleAuthComponent />
+            </Container>
+            <DefaultCarousel />
+            {categoryData.length > 0
+                ? <ShopBy componentFor="Category" data={categoryData} />
+                : <Loader />}
+            {collectionData.length > 0
+                ? <ShopBy componentFor="Collection" data={collectionData} />
+                : <Loader />}           
+            <Review />
+        </>;
 }
