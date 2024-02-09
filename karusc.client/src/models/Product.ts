@@ -3,7 +3,8 @@ export type Product = {
     title: string
     price : number
     description : string
-    category : string
+    category: string
+    collection: string
     images :string []  
 };
 
