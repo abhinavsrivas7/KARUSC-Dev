@@ -24,7 +24,7 @@ namespace Karusc.Server.Application.Collections.Create
             collection.UpdateImageURL(await _fileStorageService
                 .Upload(collection.Image!, cancellationToken));
 
-            await _context.Collections.AddAsync(collection);
+            await _context.Collections.AddAsync(collection, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
             return string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix)
