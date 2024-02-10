@@ -11,7 +11,7 @@ export const ProductCard = (product: Product) => {
                         {FormatProductTitle(product.title)}
                 </Card.Text>
                 <Card.Text className="d-flex justify-content-begin align-items-center regular-font">
-                    {FormatProductPrice(product.price)}
+                        {FormatProductPrice(product.price)}
                 </Card.Text>
             </Card.Body>
     </Card>
