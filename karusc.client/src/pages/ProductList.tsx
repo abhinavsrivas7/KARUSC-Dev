@@ -34,7 +34,7 @@ export const ProductList = () => {
         })
             .then(response => {
                 console.log(response);
-                setProducts(response.data)
+                setProducts(response.data.products)
             })
             .catch(() => setErrorState(true))    
     }, []);
