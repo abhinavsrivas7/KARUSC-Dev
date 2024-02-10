@@ -24,7 +24,7 @@ namespace Karusc.Server.Application.Categories.Create
             category.UpdateImageURL(await _fileStorageService
                 .Upload(category.Image!, cancellationToken));
 
-            await _context.Categories.AddAsync(category);
+            await _context.Categories.AddAsync(category, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
             return string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix)
