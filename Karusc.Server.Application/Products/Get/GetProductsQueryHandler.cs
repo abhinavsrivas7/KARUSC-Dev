@@ -1,6 +1,4 @@
-﻿using Karusc.Server.Application.Categories;
-using Karusc.Server.Application.Collections;
-using Karusc.Server.Application.Contracts;
+﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Karusc.Server.Application.Products.Get
 {
     internal sealed class GetProductsQueryHandler : 
-        IRequestHandler<GetProductsQuery, List<ProductDto>>
+        IRequestHandler<GetProductsQuery, ProductWithCountDto>
     {
         private readonly IKaruscDbContext _context;
         private readonly string? _enrichmentPrefix;
@@ -18,7 +16,7 @@ namespace Karusc.Server.Application.Products.Get
             IFileStorageService<Product> fileStorageService) => 
             (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
 
-        public async Task<List<ProductDto>> Handle(
+        public async Task<ProductWithCountDto> Handle(
             GetProductsQuery request, CancellationToken cancellationToken)
         {
             var products = await _context.Products
@@ -28,10 +26,14 @@ namespace Karusc.Server.Application.Products.Get
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            return !string.IsNullOrEmpty(_enrichmentPrefix)
-                ? products.Select(product => product.EnrichImageNames(_enrichmentPrefix))
-                    .ToList()
-                : products;
+            var count = await _context.Products.CountAsync(cancellationToken);
+
+            return new ProductWithCountDto(
+                !string.IsNullOrEmpty(_enrichmentPrefix)
+                    ? products
+                        .Select(product => product.EnrichImageNames(_enrichmentPrefix))
+                        .ToList()
+                    : products, count);
         } 
     }
 }
