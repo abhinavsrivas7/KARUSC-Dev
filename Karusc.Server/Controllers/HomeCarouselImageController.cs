@@ -1,5 +1,4 @@
-﻿using Karusc.Server.Application.HomeCarousel.BulkCreate;
-using Karusc.Server.Application.HomeCarousel.Create;
+﻿using Karusc.Server.Application.HomeCarousel.Create;
 using Karusc.Server.Application.HomeCarousel.Delete;
 using Karusc.Server.Application.HomeCarousel.Get;
 using MediatR;
@@ -23,12 +22,6 @@ namespace Karusc.Server.Controllers
             [FromBody] CreateHomeCarouselImageCommand command,
             CancellationToken cancellationToken) => 
                 Created(string.Empty, await _mediator.Send(command, cancellationToken));
-
-        [HttpPost(nameof(BulkCreate))]
-        public async Task<IActionResult> BulkCreate(
-            [FromBody] BulkCreateHomeCarouselImagesCommand command,
-            CancellationToken cancellationToken) => Ok(await _mediator
-                .Send(command, cancellationToken));
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(

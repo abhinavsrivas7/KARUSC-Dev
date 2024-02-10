@@ -23,13 +23,6 @@ export const ProductOperations = () => {
                 <DeleteProduct />
             </Accordion.Body>
         </Accordion.Item>
-        <Accordion.Item eventKey="3">
-            <Accordion.Header>View All Products</Accordion.Header>
-            <Accordion.Body>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </Accordion.Body>
-        </Accordion.Item>
     </Accordion>;
 }
 
