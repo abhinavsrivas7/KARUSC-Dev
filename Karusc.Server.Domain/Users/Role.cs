@@ -1,4 +1,4 @@
-﻿namespace Karusc.Server.Domain.User
+﻿namespace Karusc.Server.Domain.Users
 {
     public enum Role
     {

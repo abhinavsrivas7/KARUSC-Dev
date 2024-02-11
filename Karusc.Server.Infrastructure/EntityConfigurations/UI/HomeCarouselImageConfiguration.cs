@@ -2,9 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Karusc.Server.Infrastructure.EntityConfigurations
+namespace Karusc.Server.Infrastructure.EntityConfigurations.UI
 {
-    internal class HomeCarouselImageConfiguration : IEntityTypeConfiguration<HomeCarouselImage>
+    internal class HomeCarouselImageConfiguration 
+        : IEntityTypeConfiguration<HomeCarouselImage>
     {
         public void Configure(EntityTypeBuilder<HomeCarouselImage> builder)
         {

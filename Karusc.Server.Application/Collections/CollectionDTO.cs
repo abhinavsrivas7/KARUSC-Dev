@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Domain.Product;
+﻿using Karusc.Server.Domain.Products;
 
 namespace Karusc.Server.Application.Collections
 {

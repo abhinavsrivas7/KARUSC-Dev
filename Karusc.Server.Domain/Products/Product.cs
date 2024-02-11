@@ -1,6 +1,6 @@
-﻿using Karusc.Server.Domain.File;
+﻿using Karusc.Server.Domain.Files;
 
-namespace Karusc.Server.Domain.Product
+namespace Karusc.Server.Domain.Products
 {
     public class Product : FileEntity
     {
@@ -35,7 +35,8 @@ namespace Karusc.Server.Domain.Product
             var product = new Product(title, price, description);
 
             product.Images = images?
-                .Select((image, index) => new File<Product>(product, image, index.ToString()))
+                .Select((image, index) => new File<Product>(
+                    product, image, index.ToString()))
                 .ToList();
 
             product.Categories = categories;
@@ -43,9 +44,10 @@ namespace Karusc.Server.Domain.Product
             return product;
         }
 
-        public void UpdateImageNames(Dictionary<Guid, string> imageFileNames) => Images?
-            .ForEach(image => image.FileName = imageFileNames.ContainsKey(image.Id)
-                ? imageFileNames[image.Id]
-                : image.FileName);
+        public void UpdateImageNames(Dictionary<Guid, string> imageFileNames) => 
+            Images?.ForEach(image => image.FileName = imageFileNames
+                .ContainsKey(image.Id)
+                    ? imageFileNames[image.Id]
+                    : image.FileName);
     }
 }

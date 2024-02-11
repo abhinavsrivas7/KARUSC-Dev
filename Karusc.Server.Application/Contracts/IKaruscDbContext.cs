@@ -1,7 +1,8 @@
-﻿using Karusc.Server.Domain.File;
-using Karusc.Server.Domain.Product;
+﻿using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Products;
+using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;
-using Karusc.Server.Domain.User;
+using Karusc.Server.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Contracts
@@ -14,6 +15,8 @@ namespace Karusc.Server.Application.Contracts
         DbSet<Collection> Collections { get; set; }
         DbSet<HomeCarouselImage> HomeCarouselImages { get; set; }
         DbSet<User> Users { get; set; }
+        DbSet<Address> Addresses { get; set; }
+        DbSet<Review> Reviews { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
