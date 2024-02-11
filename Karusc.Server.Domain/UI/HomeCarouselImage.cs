@@ -1,4 +1,6 @@
-﻿namespace Karusc.Server.Domain.UI
+﻿using Karusc.Server.Domain.File;
+
+namespace Karusc.Server.Domain.UI
 {
     public class HomeCarouselImage : FileEntity
     {

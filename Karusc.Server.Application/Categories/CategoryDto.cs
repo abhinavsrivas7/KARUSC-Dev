@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Domain;
+﻿using Karusc.Server.Domain.Product;
 
 namespace Karusc.Server.Application.Categories
 {

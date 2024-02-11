@@ -1,4 +1,6 @@
-﻿namespace Karusc.Server.Domain
+﻿using Karusc.Server.Domain.File;
+
+namespace Karusc.Server.Domain.Product
 {
     public class Product : FileEntity
     {
@@ -42,8 +44,8 @@
         }
 
         public void UpdateImageNames(Dictionary<Guid, string> imageFileNames) => Images?
-            .ForEach(image => image.FileName = imageFileNames.ContainsKey(image.Id) 
-                ? imageFileNames[image.Id] 
+            .ForEach(image => image.FileName = imageFileNames.ContainsKey(image.Id)
+                ? imageFileNames[image.Id]
                 : image.FileName);
     }
 }

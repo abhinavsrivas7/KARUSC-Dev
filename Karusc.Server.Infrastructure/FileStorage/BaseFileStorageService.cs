@@ -1,5 +1,5 @@
 ﻿using Karusc.Server.Application.Contracts;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.File;
 
 namespace Karusc.Server.Infrastructure.FileStorage
 {

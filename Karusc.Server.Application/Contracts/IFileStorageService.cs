@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Domain;
+﻿using Karusc.Server.Domain.File;
 
 namespace Karusc.Server.Application.Contracts
 {

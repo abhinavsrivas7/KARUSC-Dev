@@ -6,7 +6,7 @@ using Karusc.Server.Application.Collections.Create;
 using Karusc.Server.Application.Collections.Delete;
 using Karusc.Server.Application.Collections.Get;
 using Karusc.Server.Application.Collections.GetById;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,8 @@
 ﻿using Karusc.Server.Application.Contracts;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.File;
+using Karusc.Server.Domain.Product;
 using Karusc.Server.Domain.UI;
+using Karusc.Server.Domain.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Infrastructure.Persistence
@@ -13,6 +15,7 @@ namespace Karusc.Server.Infrastructure.Persistence
         public DbSet<Category> Categories { get; set; }
         public DbSet<Collection> Collections { get; set; }
         public DbSet<HomeCarouselImage> HomeCarouselImages { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -2,7 +2,7 @@
 using Karusc.Server.Application.Categories.Delete;
 using Karusc.Server.Application.Categories.Get;
 using Karusc.Server.Application.Categories.GetById;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
