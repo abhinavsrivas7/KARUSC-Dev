@@ -1,6 +1,6 @@
 ﻿using Karusc.Server.Application.Categories;
 using Karusc.Server.Application.Collections;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.Product;
 using System.Linq.Expressions;
 
 namespace Karusc.Server.Application.Products

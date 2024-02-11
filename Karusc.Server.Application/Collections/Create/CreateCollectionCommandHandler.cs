@@ -1,5 +1,5 @@
 ﻿using Karusc.Server.Application.Contracts;
-using Karusc.Server.Domain;
+using Karusc.Server.Domain.Product;
 using MediatR;
 
 namespace Karusc.Server.Application.Collections.Create
@@ -21,8 +21,8 @@ namespace Karusc.Server.Application.Collections.Create
         {
             var collection = Collection.Create(request.Name, request.Image);
 
-            collection.UpdateImageURL(await _fileStorageService
-                .Upload(collection.Image!, cancellationToken));
+            collection.ImageURL = await _fileStorageService
+                .Upload(collection.Image!, cancellationToken);
 
             await _context.Collections.AddAsync(collection, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

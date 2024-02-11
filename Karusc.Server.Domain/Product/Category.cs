@@ -1,10 +1,12 @@
-﻿namespace Karusc.Server.Domain
+﻿using Karusc.Server.Domain.File;
+
+namespace Karusc.Server.Domain.Product
 {
     public class Category : FileEntity
     {
         public string Name { get; private set; }
         public File<Category>? Image { get; private set; } = null;
-        public string? ImageURL { get; private set; } = null;
+        public string? ImageURL { get; set; } = null;
         public List<Product>? Products { get; private set; } = null;
 
         private Category(string name) => Name = name;
@@ -15,12 +17,6 @@
             category.Image = new File<Category>(category, image, string.Empty);
             category.ImageURL = category.Image.FileName;
             return category;
-        }
-
-        public Category UpdateImageURL(string imageURL) 
-        {
-            ImageURL = imageURL;
-            return this;
         }
     }
 }

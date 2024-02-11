@@ -1,5 +1,6 @@
 ﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain;
+using Karusc.Server.Domain.Product;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

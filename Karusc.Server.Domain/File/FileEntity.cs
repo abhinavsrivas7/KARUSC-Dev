@@ -1,4 +1,4 @@
-﻿namespace Karusc.Server.Domain
+﻿namespace Karusc.Server.Domain.File
 {
     public abstract class FileEntity
     {

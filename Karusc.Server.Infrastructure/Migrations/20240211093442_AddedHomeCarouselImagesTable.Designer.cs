@@ -3,6 +3,7 @@ using System;
 using Karusc.Server.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Karusc.Server.Infrastructure.Migrations
 {
     [DbContext(typeof(KaruscDbContext))]
-    partial class KaruscDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240211093442_AddedHomeCarouselImagesTable")]
+    partial class AddedHomeCarouselImagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,27 +52,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.ToTable("CollectionProduct");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.File.File<Karusc.Server.Domain.Product.Product>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("EntityId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EntityId");
-
-                    b.ToTable("ProductImages");
-                });
-
-            modelBuilder.Entity("Karusc.Server.Domain.Product.Category", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -90,7 +73,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Product.Collection", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.Collection", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -110,7 +93,27 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.ToTable("Collections");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Product.Product", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.File<Karusc.Server.Domain.Product>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityId");
+
+                    b.ToTable("ProductImages");
+                });
+
+            modelBuilder.Entity("Karusc.Server.Domain.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -150,43 +153,15 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.ToTable("HomeCarouselImages");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.User.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ProfilePictureURL")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("CategoryProduct", b =>
                 {
-                    b.HasOne("Karusc.Server.Domain.Product.Category", null)
+                    b.HasOne("Karusc.Server.Domain.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Karusc.Server.Domain.Product.Product", null)
+                    b.HasOne("Karusc.Server.Domain.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -195,22 +170,22 @@ namespace Karusc.Server.Infrastructure.Migrations
 
             modelBuilder.Entity("CollectionProduct", b =>
                 {
-                    b.HasOne("Karusc.Server.Domain.Product.Collection", null)
+                    b.HasOne("Karusc.Server.Domain.Collection", null)
                         .WithMany()
                         .HasForeignKey("CollectionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Karusc.Server.Domain.Product.Product", null)
+                    b.HasOne("Karusc.Server.Domain.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.File.File<Karusc.Server.Domain.Product.Product>", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.File<Karusc.Server.Domain.Product>", b =>
                 {
-                    b.HasOne("Karusc.Server.Domain.Product.Product", "Entity")
+                    b.HasOne("Karusc.Server.Domain.Product", "Entity")
                         .WithMany("Images")
                         .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -219,7 +194,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Product.Product", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.Product", b =>
                 {
                     b.Navigation("Images");
                 });
