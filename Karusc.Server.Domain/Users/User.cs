@@ -1,6 +1,7 @@
-﻿using Karusc.Server.Domain.File;
+﻿using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Reviews;
 
-namespace Karusc.Server.Domain.User
+namespace Karusc.Server.Domain.Users
 {
     public class User : FileEntity
     {
@@ -9,6 +10,8 @@ namespace Karusc.Server.Domain.User
         public string? ProfilePictureURL { get; set; } = null;
         public File<User>? ProfilePicture { get; private set; } = null;
         public Role Role { get; init; }
+        public List<Address>? Addresses { get; private set; } = null;
+        public List<Review>? Reviews { get; private set; } = null;
 
         private User(string email, string passwordHash, Role role)
         {
@@ -28,5 +31,7 @@ namespace Karusc.Server.Domain.User
             user.ProfilePictureURL = user.ProfilePicture.FileName;
             return user;
         }
+
+        public void AddAddress(List<Address> addresses) => Addresses = addresses;
     }
 }

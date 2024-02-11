@@ -1,9 +1,9 @@
-﻿using Karusc.Server.Domain.File;
-using Karusc.Server.Domain.Product;
+﻿using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Karusc.Server.Infrastructure.EntityConfigurations
+namespace Karusc.Server.Infrastructure.EntityConfigurations.Products
 {
     internal class ProductImagesConfiguration : IEntityTypeConfiguration<File<Product>>
     {

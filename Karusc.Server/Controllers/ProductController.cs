@@ -2,7 +2,7 @@ using Karusc.Server.Application.Products.Create;
 using Karusc.Server.Application.Products.Delete;
 using Karusc.Server.Application.Products.Get;
 using Karusc.Server.Application.Products.GetById;
-using Karusc.Server.Domain.Product;
+using Karusc.Server.Domain.Products;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

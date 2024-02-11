@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Domain.File;
+﻿using Karusc.Server.Domain.Files;
 using Karusc.Server.Infrastructure.Configuration;
 using Microsoft.Extensions.Options;
 

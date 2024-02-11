@@ -1,6 +1,6 @@
-﻿using Karusc.Server.Domain.File;
+﻿using Karusc.Server.Domain.Files;
 
-namespace Karusc.Server.Domain.Product
+namespace Karusc.Server.Domain.Products
 {
     public class Category : FileEntity
     {
