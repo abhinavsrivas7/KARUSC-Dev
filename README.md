@@ -16,9 +16,24 @@
 #### Setup
 - Change the value `ASPNETCORE_ENVIRONMENT` from `Production` to `Local` in `launchSettings.json`.
 - Update the connection string to your local MySQL in `appSettings.json`.
+- Update the value in `LocalFileStorage` to your directory path.
 - Update the API base URL in the `.env` file of `Karusc.Client` project based on local API URL.
 - Update the API base URL - `CLIENT-CORS-ORIGIN` - in the `appSettings.json` file of `Karusc.Server` project based on local API URL.
 - To apply latest migrations, run `Update-Database` command with `Karusc.Server.Infrastructure` as the default project and `Karusc.Server` as the startup project.
+  
+### Sample `appSettings.Local.Json` after changes:
+```  {
+  "CLIENT-CORS-ORIGIN": "https://localhost:5173",
+  "ConnectionStrings": {
+    "KaruscDB": "Server=localhost;User=your_username;Password=your_password;Database=KaruscDB"
+  },
+  "LocalFileStorage": {
+    "DirectoryPath": "D:\\LocalBlobStorage",
+    "RequestPath": "/localBlobStorage",
+    "Host": "https://localhost:7068"
+  }
+}
+```  
 
 ### External Links
 #### ERD
