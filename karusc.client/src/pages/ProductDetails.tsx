@@ -38,24 +38,6 @@ export const ProductDetails = () => {
                         <Row className="d-flex align-items-center justify-content-center">
                             <ProductCarousel images={product.images} />
                             </Row>
-                        <Row className="d-flex align-items-center justify-content-center">
-                            <Button
-                                variant="primary"
-                                className="admin-button mt-4"
-                                type="submit"
-                                style={{ width: "100%" }}>
-                                Add To Cart
-                            </Button>
-                        </Row>
-                        <Row className="d-flex align-items-center justify-content-center">
-                            <Button
-                                variant="primary"
-                                className="admin-button mt-4 mb-4"
-                                type="submit"
-                                style={{ width: "100%" }}>
-                                Buy Now
-                            </Button>
-                        </Row>
                     </Col>
                     <Col className={marginClass}>
                         <Row className="mb-3">
@@ -69,6 +51,24 @@ export const ProductDetails = () => {
                                 <span>{product.price}</span>
                                 <p className="light-font" style={{ fontSize: "small" }}>Tax Included</p>
                             </Col>
+                        </Row>
+                        <Row>
+                            <Button
+                                variant="primary"
+                                className="admin-button mt-1"
+                                type="submit"
+                                style={{ width: "50%" }}>
+                                Add To Cart
+                            </Button>
+                        </Row>
+                        <Row>
+                            <Button
+                                variant="primary"
+                                className="admin-button mt-4 mb-4"
+                                type="submit"
+                                style={{ width: "50%" }}>
+                                Buy Now
+                            </Button>
                         </Row>
                         <Row>
                             <Col>
@@ -85,7 +85,7 @@ export const ProductDetails = () => {
                         <Row>
                             <Button variant="white" style={{ display: 'flex', alignItems: 'center', border: 0, paddingLeft:""}}>
                                 <img src={shareImg} style={{ width: '1.45rem', height: 'auto'}} />
-                                <span className="ms-2 light-pink regular-font">Share</span>
+                                <span className="ms-1 light-pink regular-font">Share</span>
                             </Button>
                         </Row>
                     </Col>

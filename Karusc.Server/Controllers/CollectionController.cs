@@ -1,8 +1,4 @@
-﻿using Karusc.Server.Application.Categories.Create;
-using Karusc.Server.Application.Categories.Delete;
-using Karusc.Server.Application.Categories.Get;
-using Karusc.Server.Application.Categories.GetById;
-using Karusc.Server.Application.Collections.Create;
+﻿using Karusc.Server.Application.Collections.Create;
 using Karusc.Server.Application.Collections.Delete;
 using Karusc.Server.Application.Collections.Get;
 using Karusc.Server.Application.Collections.GetById;

@@ -20,16 +20,23 @@ export const ProductList = () => {
     const gapVal = getDeviceType() == DeviceTypes.DESKTOP ? 0 : 1;
     const gapClass = getDeviceType() == DeviceTypes.DESKTOP ? "my -2 px-3" : "my-2 px-1";
 
-    //console.log(window.location.href
-    //    .substring(window.location.href.indexOf('?') + 1)
-    //    .split('&')
-    //    .map(keyValuePair => keyValuePair.split('=')));
+    const queryParams = window.location.href
+        .substring(window.location.href.indexOf('?') + 1)
+        .split('&')
+        .map(keyValuePair => keyValuePair.split('='));
+
 
     useEffect(() => {
+
+        const categoryId = queryParams.find(param => param[0] === 'category')?.[1] || '';
+        const collectionId = queryParams.find(param => param[0] === 'collection')?.[1] || '';
+
         axios.get(GetProductsEndpoint(), {
             params: {
                 pageSize: 10,
-                pageNumber: 0
+                pageNumber: 0,
+                categories: categoryId === '' ? null : categoryId,
+                collections: collectionId === '' ? null : collectionId
             }
         })
             .then(response => {

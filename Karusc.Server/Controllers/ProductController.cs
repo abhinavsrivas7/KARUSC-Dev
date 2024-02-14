@@ -17,12 +17,12 @@ namespace Karusc.Server.Controllers
 
         [HttpGet]
         public async Task<IActionResult> Get(
+            [FromQuery] Guid[] categories,
+            [FromQuery] Guid[] collections,
             [FromQuery] int pageSize = 100,
             [FromQuery] int pageNumber = 0,
-            [FromQuery] string categories = "",
-            [FromQuery] string collections = "",
             CancellationToken cancellationToken = default) => Ok(await _mediator.Send(
-                new GetProductsQuery(pageSize, pageNumber, categories, collections),
+                new GetProductsQuery(pageSize, pageNumber, categories.ToHashSet(), collections.ToHashSet()),
                 cancellationToken));
 
         [HttpGet("{id}")]
