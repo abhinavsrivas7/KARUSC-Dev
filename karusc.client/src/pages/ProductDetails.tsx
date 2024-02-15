@@ -4,7 +4,7 @@ import { Product } from "../models/Product";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 import axios from "axios";
 import { Loader } from "../components/Common/Loader";
-import { ProductCarousel } from "../components/Products/ProductCarousel";
+import { DefaultCarousel } from "../components/Common/DefaultCarousel";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
@@ -36,7 +36,12 @@ export const ProductDetails = () => {
                 <Row md={2} xs={1} lg={2} >
                     <Col>
                         <Row className="d-flex align-items-center justify-content-center">
-                            <ProductCarousel images={product.images} />
+                            <DefaultCarousel
+                                images={product.images}
+                                setControls={true}
+                                showIndicators={true}
+                                intervalValue={null}
+                                isDraggable={true} />
                             </Row>
                     </Col>
                     <Col className={marginClass}>

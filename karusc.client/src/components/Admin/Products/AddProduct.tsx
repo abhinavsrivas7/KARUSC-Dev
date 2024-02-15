@@ -13,6 +13,7 @@ import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
 export const AddProduct = () => {
 
     const maxImagesCount = 5;
+
     const emptyCommand: CreateProductCommand = {
         title: "", price: 0, description: "", categories: [], collections: [], images: []
     };
