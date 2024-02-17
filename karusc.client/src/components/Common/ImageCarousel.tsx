@@ -8,7 +8,7 @@ type CarouselData = {
     isDraggable: boolean
 };
 
-export const DefaultCarousel = (carouselData : CarouselData) => {
+export const ImageCarousel = (carouselData : CarouselData) => {
     return (
         <Carousel controls={carouselData.setControls}
             indicators={carouselData.showIndicators}
