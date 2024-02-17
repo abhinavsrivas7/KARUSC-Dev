@@ -24,7 +24,9 @@ namespace Karusc.Server.Infrastructure.Authentication
             var roleClaim = context.HttpContext.User.Claims
                 .FirstOrDefault(claim => claim.Type.Contains(nameof(Role).ToLower()));
 
-            if (roleClaim is null || !roleClaim.Value.Equals(_role.ToString()))
+            if (roleClaim is null ||
+                (!roleClaim.Value.Equals(Role.Administrator.ToString()) &&
+                !roleClaim.Value.Equals(_role.ToString())))
             {
                 throw new InvalidOperationException("Invalid JWT");
             }
