@@ -24,10 +24,10 @@ export const Footer = () => {
                     <div>
                         <p className="semi-bold-font">Links</p>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                            <p>Privacy Policy</p>
+                            <p className="mb-1">Privacy Policy</p>
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                            <p>Return & Exchange</p>
+                            <p className="mb-1">Return & Exchange</p>
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
                             <p>Shipping & Delivery</p>
@@ -40,10 +40,10 @@ export const Footer = () => {
                     <div>
                         <p className="semi-bold-font">Info</p>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                            <p>About Us</p>
+                            <p className="mb-1">About Us</p>
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
-                            <p>Bulk Orders</p>
+                            <p className="mb-1">Bulk Orders</p>
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
                             <p>International Orders</p>

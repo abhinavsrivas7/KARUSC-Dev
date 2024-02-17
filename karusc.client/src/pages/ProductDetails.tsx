@@ -4,7 +4,7 @@ import { Product } from "../models/Product";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 import axios from "axios";
 import { Loader } from "../components/Common/Loader";
-import { ProductCarousel } from "../components/Products/ProductCarousel";
+import { ImageCarousel } from "../components/Common/ImageCarousel";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
@@ -15,6 +15,15 @@ export const ProductDetails = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const { getDeviceType } = useScreenSize();
     const marginClass = getDeviceType() === DeviceTypes.MOBILE ? "mt-4 px-5" : "px-5";
+
+
+    const handleSharing = (title: string, text: string) => navigator
+        .share({
+            text: text,
+            title: title,
+            url: window.location.href
+        })
+        .then(() => console.log("Hooray! Your content was shared to tha world"));
    
 
     useEffect(() => {
@@ -36,7 +45,12 @@ export const ProductDetails = () => {
                 <Row md={2} xs={1} lg={2} >
                     <Col>
                         <Row className="d-flex align-items-center justify-content-center">
-                            <ProductCarousel images={product.images} />
+                            <ImageCarousel
+                                images={product.images}
+                                setControls={true}
+                                showIndicators={true}
+                                intervalValue={null}
+                                isDraggable={true} />
                             </Row>
                     </Col>
                     <Col className={marginClass}>
@@ -83,7 +97,7 @@ export const ProductDetails = () => {
                             </Col>
                         </Row>
                         <Row>
-                            <Button variant="white" style={{ display: 'flex', alignItems: 'center', border: 0, paddingLeft:""}}>
+                            <Button onClick={() => handleSharing(product.title, product.description)} variant="white" style={{ display: 'flex', alignItems: 'center', border: 0, paddingLeft: "" }}>
                                 <img src={shareImg} style={{ width: '1.45rem', height: 'auto'}} />
                                 <span className="ms-1 light-pink regular-font">Share</span>
                             </Button>

@@ -1,42 +1,30 @@
 import { Button, Form } from "react-bootstrap";
-import { CreateCollectionCommand } from "../../../models/CreateCollectionCommand";
 import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
-import { GetCollectionsEndpoint } from "../../../utilities/EndpointUtils";
+import { useRef, useState } from "react";
+import { ConvertToBase64 } from "../../../utilities/FileUtils";
+import { GetHomeCarouselImageEndpoint } from "../../../utilities/EndpointUtils";
 import axios from "axios";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
-import { ConvertToBase64 } from "../../../utilities/FileUtils";
-import { useRef, useState } from "react";
 import { Loader } from "../../Common/Loader";
 
-export const AddCollection = () => {
+export const AddHomeCarouselImage = () => {
     const emptyUploadFile: UploadFile = { fileContent: "", fileName: "" };
-    const emptyCommand: CreateCollectionCommand = { name: "", image: "" };
     const formRef = useRef<HTMLFormElement>(null);
     const [disableControls, setDisableControls] = useState<boolean>(false);
     const [formOpacity, setFormOpacity] = useState<number>(1);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
-    const [createCommand, setCreateCommand] = useState<CreateCollectionCommand>(emptyCommand);
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
         errorAlertDescription: null
     });
 
 
-    const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const updatedCommand = createCommand;
-        updatedCommand.name = event.target.value;
-        setCreateCommand(updatedCommand);
-    };
-
     const addImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files?.length > 0) {
             const fileBase64 = await ConvertToBase64(event.target.files[0]) as string;
             setImage({ fileContent: fileBase64, fileName: event.target.files[0].name });
-            const updatedCommand = createCommand;
-            updatedCommand.image = fileBase64;
-            setCreateCommand(updatedCommand);
             formRef.current?.reset();
         }
     };
@@ -51,7 +39,7 @@ export const AddCollection = () => {
         setShowSuccessAlert(false);
         setFormOpacity(0.1);
         setShowLoader(true);
-        axios.post(GetCollectionsEndpoint(), createCommand)
+        axios.post(GetHomeCarouselImageEndpoint(), { image: image.fileContent })
             .then(response => {
                 if (response.status == 201) {
                     setDisableControls(false);
@@ -59,11 +47,12 @@ export const AddCollection = () => {
                     setShowLoader(false);
                     setFormOpacity(1);
                     formRef.current?.reset();
-                    setCreateCommand(emptyCommand);
                     setImage(emptyUploadFile);
                 }
             })
             .catch((response) => {
+                console.log(response);
+                console.log(response.response.data.Message);
                 setFormOpacity(1);
                 setShowLoader(false);
                 setErrorState({
@@ -83,38 +72,29 @@ export const AddCollection = () => {
     return <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
         {showSuccessAlert
             ? < DissmissableAlert
-                title="Collection Created Successfully!"
+                title="Home Carousel Image Added Successfully!"
                 variant="success"
                 description={null} />
             : null
         }
         {errorState.showErrorAlert
             ? < DissmissableAlert
-                title="Collection Could Not Be Created!"
+                title="Home Carousel Image Could Not Be Added!"
                 variant="danger"
                 description={errorState.errorAlertDescription} />
             : null
         }
-        <Form.Group className="mb-4" controlId="formTitle">
-            <Form.Control
-                className="pink-placeholder"
-                type="text"
-                placeholder="Enter Title"
-                onChange={addTitle}
-                disabled={disableControls}
-                defaultValue={createCommand.name} />
-        </Form.Group>
         <Form.Group className="mb-4" controlId="formImage">
-            <Form.Label className="semi-bold-font">Upload Collection Image</Form.Label>
+            <Form.Label className="semi-bold-font">Upload Home Carousel Image</Form.Label>
             {image != emptyUploadFile
                 ? <p>{image.fileName}</p>
                 : null}
             <Form.Control
-                    className="pink-placeholder"
-                    type="file"
-                    onChange={addImage}
-                    disabled={disableControls}
-                    defaultValue={createCommand.image} />
+                className="pink-placeholder"
+                type="file"
+                onChange={addImage}
+                disabled={disableControls}
+                defaultValue={image.fileContent} />
         </Form.Group>
         {showLoader ? <Loader /> : null}
         <Button
@@ -123,7 +103,7 @@ export const AddCollection = () => {
             style={{ width: '100%' }}
             type="submit"
             disabled={disableControls} >
-            Create Collection
+            Add Carousel Image
         </Button>
     </Form>;
 }

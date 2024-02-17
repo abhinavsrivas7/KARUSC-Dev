@@ -106,7 +106,7 @@ export const AddCategory = () => {
                 disabled={disableControls}
                 defaultValue={createCommand.name} />
         </Form.Group>
-        <Form.Group className="mb-4" controlId="formTitle">
+        <Form.Group className="mb-4" controlId="formImage">
             <Form.Label className="semi-bold-font">Upload Category Image</Form.Label>
             {image != emptyUploadFile
                 ? <p>{image.fileName}</p>

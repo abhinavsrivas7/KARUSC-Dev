@@ -19,14 +19,16 @@ namespace Karusc.Server.Application.Products.Get
         public async Task<ProductWithCountDto> Handle(
             GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await _context.Products
-                .Where(ProductExpressions.Filter(request.Categories, request.Collections))
+            var filteredProducts = _context.Products
+                .Where(ProductExpressions.Filter(request.Categories, request.Collections));
+
+            var products = await filteredProducts
                 .Select(ProductExpressions.Selector)
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var count = await _context.Products.CountAsync(cancellationToken);
+            var count = await filteredProducts.CountAsync(cancellationToken);
 
             return new ProductWithCountDto(
                 !string.IsNullOrEmpty(_enrichmentPrefix)
