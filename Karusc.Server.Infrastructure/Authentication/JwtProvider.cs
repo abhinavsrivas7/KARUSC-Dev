@@ -18,6 +18,7 @@ namespace Karusc.Server.Infrastructure.Authentication
         {
             _configuration = options.Value;
         }
+
         private Token GenerateToken(User user, TokenType tokenType)
         {
             DateTime expirtyTime = DateTime.UtcNow.AddHours(
@@ -31,12 +32,10 @@ namespace Karusc.Server.Infrastructure.Authentication
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(nameof(Role), user.Role.ToString()),
                 new(nameof(TokenType), tokenType.ToString())
-
             };
 
             var signingCredentials = new SigningCredentials(
-                new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration.SecretKey)),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
@@ -48,8 +47,7 @@ namespace Karusc.Server.Infrastructure.Authentication
                 signingCredentials);
 
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return new(tokenType.ToString() ,tokenValue, expirtyTime);
+            return new(tokenType.ToString(), tokenValue, expirtyTime);
         }
 
         public Token GenerateAccessToken(User user) => GenerateToken(user, TokenType.AccessToken);

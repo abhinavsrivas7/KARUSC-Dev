@@ -9,7 +9,7 @@ namespace Karusc.Server.Application.Users
             .HashData(Encoding.UTF8.GetBytes(password))
             .Aggregate(
                 new StringBuilder(), 
-                (hashedPassword, hashByte) => hashedPassword.Append(hashByte.ToString("X2")))
+                (builder, hashByte) => builder.Append(hashByte.ToString("X2")))
             .ToString();
     }
 }

@@ -10,15 +10,20 @@ namespace Karusc.Server.Infrastructure.Authentication
 {
     internal static class DependencyInjection
     {
-
-        public static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        internal static void AddJwtAuthentication(
+            this IServiceCollection services, 
+            IConfiguration configuration)
         {
+            services.Configure<JwtConfiguration>(
+                configuration.GetSection(nameof(JwtConfiguration)));
+
+            services.AddScoped<IJwtProvider, JwtProvider>();
+
             JwtConfiguration jwtOptions = new();
             configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtOptions);
-            services.Configure<JwtConfiguration>(configuration.GetSection(nameof(JwtConfiguration)));
-            services.AddScoped(typeof(IJwtProvider), typeof(JwtProvider));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -29,7 +34,8 @@ namespace Karusc.Server.Infrastructure.Authentication
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = jwtOptions.Issuer,
                         ValidAudience = jwtOptions.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
                     };
                 });
         }
