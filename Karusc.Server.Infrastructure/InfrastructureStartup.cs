@@ -1,19 +1,26 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Karusc.Server.Infrastructure.Persistence;
+﻿using Karusc.Server.Infrastructure.Authentication;
 using Karusc.Server.Infrastructure.FileStorage;
+using Karusc.Server.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Karusc.Server.Infrastructure
 {
     public static class InfrastructureStartup
     {
+        private const string _localEnvironmentName = "Local";
         public static void AddInfrastructure(
             this IServiceCollection services, 
             IConfiguration configuration,
-            string environment)
+            IWebHostEnvironment environment)
         {
             services.AddPersistence(configuration);
-            services.AddFileStorage(environment);
+            services.AddFileStorage(configuration, environment);
+            services.AddJwtAuthentication(configuration);
         }
+
+        public static bool IsLocal(this IWebHostEnvironment environment) => environment
+            .EnvironmentName.Equals(_localEnvironmentName);
     }
 }
