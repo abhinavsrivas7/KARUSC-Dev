@@ -8,7 +8,7 @@ import { GetCategoriesEndpoint, GetCollectionsEndpoint, GetHomeCarouselImageEndp
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Loader } from "../components/Common/Loader";
-import { DefaultCarousel } from "../components/Common/DefaultCarousel";
+import { ImageCarousel } from "../components/Common/ImageCarousel";
 
 export const Home = () => {
 
@@ -28,26 +28,20 @@ export const Home = () => {
             .then(response => {
                 setCategoryData(response.data);
             }); 
-    }, []);
 
-    useEffect(() => {
         axios
             .get(GetHomeCarouselImageEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
             .then(response => {
                 const imageUrls = response.data.map((item: { image: string; }) => item.image);
-                console.log("Carousel Data");
-                console.log(imageUrls);
                 setCarouselData(imageUrls);
-                console.log(carouselData);
             });
     }, []);
-
 
     return <>
             <Container className="d-flex justify-content-center align-items-center w-100">
                 <GoogleAuthComponent />
         </Container>
-        <DefaultCarousel
+        <ImageCarousel
             images={carouselData}
             setControls={false}
             showIndicators={false}

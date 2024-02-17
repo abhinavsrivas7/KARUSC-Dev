@@ -30,7 +30,7 @@ export const Pagination = (paginationData: PaginationData) => {
                     variant="pink"
                     size="lg"
                     style={{ minWidth: '110px' }}
-                    disabled={paginationData.currentPage > paginationData.totalCount - 2}
+                    disabled={paginationData.currentPage > paginationData.totalCount - 1}
                     onClick={() => handlePageChange(paginationData.currentPage + 1)} >
                     Next
                 </Button>

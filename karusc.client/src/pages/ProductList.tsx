@@ -3,16 +3,13 @@ import { useEffect, useState } from "react";
 import { Product } from "../models/Product";
 import { Loader } from "../components/Common/Loader";
 import { NoData } from "../components/Common/NoData";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { ProductCard } from "../components/Products/ProductCard";
-import filterImg from "../../resources/media/filter.svg";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
 import { NavLink } from "react-router-dom";
 import { Pagination } from "../components/Common/Pagination";
-
-
 
 export const ProductList = () => {
 
@@ -24,7 +21,7 @@ export const ProductList = () => {
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
 
-    const pageSize = 12;
+    const pageSize = getDeviceType() === DeviceTypes.MOBILE ? 9 : 12;
 
     const queryParams = window.location.href
         .substring(window.location.href.indexOf('?') + 1)
@@ -47,9 +44,8 @@ export const ProductList = () => {
         })
             .then(response => {
                 setProducts(response.data.products)
-                setTotalPages(Math.ceil(response.data.count / pageSize));
-                console.log(response.data.count)
-                console.log(response.data.count / pageSize);
+                setTotalPages(response.data.count);
+
             })
             .catch(() => setErrorState(true))
     }, [currentPage]);
@@ -82,7 +78,7 @@ export const ProductList = () => {
             <Container className="mt-3 d-flex justify-content-center">
                 <Pagination
                     currentPage={currentPage}
-                    totalCount={totalPages}
+                    totalCount={totalPages / pageSize}
                     onPageChange={(newPage) => setCurrentPage(newPage)}
                 />
             </Container>
