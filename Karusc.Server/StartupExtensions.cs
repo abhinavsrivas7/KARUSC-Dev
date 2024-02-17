@@ -40,7 +40,5 @@ namespace Karusc.Server
                 app.UseStaticFiles();
             }
         }
-
-        
     }
 }

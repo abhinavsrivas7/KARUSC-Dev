@@ -30,8 +30,8 @@ namespace Karusc.Server.Infrastructure.Authentication
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
-                new(nameof(Role), user.Role.ToString()),
-                new(nameof(TokenType), tokenType.ToString())
+                new(nameof(Role).ToLower(), user.Role.ToString()),
+                new(nameof(TokenType).ToLower(), tokenType.ToString())
             };
 
             var signingCredentials = new SigningCredentials(

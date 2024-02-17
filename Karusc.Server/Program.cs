@@ -9,11 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCorsFromConfig(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen(options => options.AddSecurityDefinition(
-    JwtBearerDefaults.AuthenticationScheme, 
-    new() { Scheme = JwtBearerDefaults.AuthenticationScheme }));
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
