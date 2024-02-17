@@ -26,7 +26,9 @@ namespace Karusc.Server.Application.Products.Get
                 .Take(request.PageSize)
                 .ToListAsync(cancellationToken);
 
-            var count = await _context.Products.CountAsync(cancellationToken);
+            var count = await _context.Products
+                .Where(ProductExpressions.Filter(request.Categories, request.Collections))
+                .CountAsync(cancellationToken);
 
             return new ProductWithCountDto(
                 !string.IsNullOrEmpty(_enrichmentPrefix)
