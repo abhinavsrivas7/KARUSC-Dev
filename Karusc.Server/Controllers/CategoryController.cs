@@ -3,6 +3,8 @@ using Karusc.Server.Application.Categories.Delete;
 using Karusc.Server.Application.Categories.Get;
 using Karusc.Server.Application.Categories.GetById;
 using Karusc.Server.Domain.Products;
+using Karusc.Server.Domain.Users;
+using Karusc.Server.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,6 +37,7 @@ namespace Karusc.Server.Controllers
                 $"/api/{nameof(Category)}/{{id}}",
                 await _mediator.Send(command, cancellationToken));
 
+        [HasRole(Role.Administrator)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(
             [FromRoute] Guid id,
