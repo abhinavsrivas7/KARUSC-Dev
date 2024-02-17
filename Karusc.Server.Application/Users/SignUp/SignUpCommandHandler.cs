@@ -25,9 +25,12 @@ namespace Karusc.Server.Application.Users.SignUp
                 command.Role,
                 command.ProfilePicture);
 
-            user.ProfilePictureURL = await _fileStorageService
-                .Upload(user.ProfilePicture!, cancellationToken);
-
+            if (!string.IsNullOrEmpty(user.ProfilePictureURL) && user.ProfilePicture is not null)
+            {
+                user.ProfilePictureURL = await _fileStorageService
+                    .Upload(user.ProfilePicture, cancellationToken);
+            }
+            
             await _context.Users.AddAsync(user, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -35,8 +38,10 @@ namespace Karusc.Server.Application.Users.SignUp
                 user.Id, 
                 user.Email, 
                 string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix) 
-                    ? user.ProfilePictureURL! 
-                    : string.Concat(_fileStorageService.EnrichmentPrefix, user.ProfilePictureURL!));
+                    ? user.ProfilePictureURL
+                    : string.IsNullOrEmpty(user.ProfilePictureURL) 
+                    ? user.ProfilePictureURL
+                    : string.Concat(_fileStorageService.EnrichmentPrefix, user.ProfilePictureURL));
         }
     }
 }

@@ -24,11 +24,16 @@ namespace Karusc.Server.Domain.Users
             string email, 
             string passwordHash, 
             Role role,
-            string profilePicture)
+            string? profilePicture)
         {
             User user = new User(email, passwordHash, role);
-            user.ProfilePicture = new File<User>(user, profilePicture, string.Empty);
-            user.ProfilePictureURL = user.ProfilePicture.FileName;
+            
+            if (!string.IsNullOrEmpty(profilePicture))
+            {
+                user.ProfilePicture = new File<User>(user, profilePicture, string.Empty);
+                user.ProfilePictureURL = user.ProfilePicture.FileName;
+            }
+            
             return user;
         }
 

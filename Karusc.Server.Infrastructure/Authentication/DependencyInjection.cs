@@ -35,7 +35,8 @@ namespace Karusc.Server.Infrastructure.Authentication
                         ValidIssuer = jwtOptions.Issuer,
                         ValidAudience = jwtOptions.Audience,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                            Encoding.UTF8.GetBytes(jwtOptions.SecretKey)),
+                        LifetimeValidator = (_, end, _, _) => end > DateTime.UtcNow
                     };
                 });
         }

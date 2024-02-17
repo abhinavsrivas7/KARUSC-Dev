@@ -6,7 +6,7 @@ namespace Karusc.Server.Application.Users.SignUp
     public record SignUpCommand(
         string Email, 
         string Password,
-        string ProfilePicture,
+        string? ProfilePicture,
         Role Role = Role.Customer) : IRequest<UserDto>;
 }
             
