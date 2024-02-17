@@ -15,6 +15,15 @@ export const ProductDetails = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const { getDeviceType } = useScreenSize();
     const marginClass = getDeviceType() === DeviceTypes.MOBILE ? "mt-4 px-5" : "px-5";
+
+
+    const handleSharing = (title: string, text: string) => navigator
+        .share({
+            text: text,
+            title: title,
+            url: window.location.href
+        })
+        .then(() => console.log("Hooray! Your content was shared to tha world"));
    
 
     useEffect(() => {
@@ -88,7 +97,7 @@ export const ProductDetails = () => {
                             </Col>
                         </Row>
                         <Row>
-                            <Button variant="white" style={{ display: 'flex', alignItems: 'center', border: 0, paddingLeft:""}}>
+                            <Button onClick={() => handleSharing(product.title, product.description)} variant="white" style={{ display: 'flex', alignItems: 'center', border: 0, paddingLeft: "" }}>
                                 <img src={shareImg} style={{ width: '1.45rem', height: 'auto'}} />
                                 <span className="ms-1 light-pink regular-font">Share</span>
                             </Button>
