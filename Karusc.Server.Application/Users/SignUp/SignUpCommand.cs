@@ -7,6 +7,6 @@ namespace Karusc.Server.Application.Users.SignUp
         string Email, 
         string Password, 
         Role Role, 
-        string ProfilePicture ) : IRequest<UserDto>;
+        string ProfilePicture) : IRequest<UserDto>;
 }
             

@@ -9,7 +9,9 @@ namespace Karusc.Server.Application.Users.SignUp
         private readonly IKaruscDbContext _context;
         private readonly IFileStorageService<User> _fileStorageService;
 
-        public SignUpCommandHandler(IKaruscDbContext context, IFileStorageService<User> fileStorageService)
+        public SignUpCommandHandler(
+            IKaruscDbContext context, 
+            IFileStorageService<User> fileStorageService)
         {
             _context = context;
             _fileStorageService = fileStorageService;
@@ -28,6 +30,7 @@ namespace Karusc.Server.Application.Users.SignUp
 
             await _context.Users.AddAsync(user, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
+
             return new UserDto(
                 user.Id, 
                 user.Email, 

@@ -5,5 +5,4 @@
         AccessToken,
         RefreshToken
     }
-
 }

@@ -11,6 +11,5 @@
         public int AccessTokenExpiryTime { get; set; }
 
         public int RefreshTokenExpiryTime { get; set; }
-
     }
 }

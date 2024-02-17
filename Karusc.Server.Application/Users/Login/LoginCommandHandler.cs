@@ -20,8 +20,12 @@ namespace Karusc.Server.Application.Users.Login
                 ?? throw new KeyNotFoundException(command.Email);
 
             return user.PasswordHash.Equals(command.Password.HashPassword())
-                ? new() { _jwtProvider.GenerateAccessToken(user), _jwtProvider.GenerateRefreshToken(user) }
-                : throw new ArgumentException(command.Password);
+                ? new() 
+                { 
+                    _jwtProvider.GenerateAccessToken(user), 
+                    _jwtProvider.GenerateRefreshToken(user) 
+                }
+                : throw new ArgumentException("Invalid Credentials");
         }
     }
 }
