@@ -22,7 +22,11 @@ namespace Karusc.Server.Controllers
             [FromQuery] int pageSize = 100,
             [FromQuery] int pageNumber = 0,
             CancellationToken cancellationToken = default) => Ok(await _mediator.Send(
-                new GetProductsQuery(pageSize, pageNumber, categories.ToHashSet(), collections.ToHashSet()),
+                new GetProductsQuery(
+                    pageSize, 
+                    pageNumber, 
+                    categories.ToHashSet(), 
+                    collections.ToHashSet()),
                 cancellationToken));
 
         [HttpGet("{id}")]
