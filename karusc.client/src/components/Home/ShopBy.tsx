@@ -1,8 +1,8 @@
 import { Col, Container, Row } from "react-bootstrap";
 import { ShopByCard } from "./ShopByCard";
 import { NavLink } from "react-router-dom";
-import { Category } from "../../models/Category";
-import { Collection } from "../../models/Collection";
+import { Category } from "../../models/CategoryModels";
+import { Collection } from "../../models/CollectionModels";
 
 interface ShopByComponentProps {
     componentFor: string;

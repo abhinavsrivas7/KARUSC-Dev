@@ -8,10 +8,12 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
 import { DeviceTypes } from "../../models/DeviceTypes";
+import { LoginModal } from "../Authentication/LoginModal";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { getDeviceType } = useScreenSize();
 
     const searchInactiveLayout = <>
@@ -30,7 +32,10 @@ export const Navbar = () => {
                 style={{ width: '1.45rem', padding: 0, border: 0 }}>
                 <img src={searchImg} />
             </Button>
-            <Button variant="white" style={{ width: '1.5rem', padding: 0, border: 0 }}>
+            <Button
+                variant="white"
+                style={{ width: '1.5rem', padding: 0, border: 0 }}
+                onClick={() =>setShowLoginModal(true)}>
                 <img src={userImg} />
             </Button>
             <Button variant="white" style={{ width: '1.75rem', padding: 0, border: 0 }}>
@@ -116,6 +121,7 @@ export const Navbar = () => {
                     </ul>
                 </Offcanvas.Body>
             </Offcanvas>
+            <LoginModal show={showLoginModal} onHide={() => setShowLoginModal(false)} />
         </>
     );
 }

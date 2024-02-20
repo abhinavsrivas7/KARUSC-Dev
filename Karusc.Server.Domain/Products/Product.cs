@@ -7,22 +7,25 @@ namespace Karusc.Server.Domain.Products
         public string Title { get; private set; }
         public decimal Price { get; private set; }
         public string Description { get; private set; }
+        public string CareInstructions { get; private set; }
         public List<Category>? Categories { get; private set; } = null;
         public List<Collection>? Collections { get; private set; } = null;
 
         public List<File<Product>>? Images { get; private set; } = null;
 
-        private Product(string title, decimal price, string description)
+        private Product(string title, decimal price, string description, string careInstructions)
         {
             Title = title;
             Price = price;
             Description = description;
+            CareInstructions = careInstructions;
         }
 
         public static Product Create(
             string title,
             decimal price,
             string description,
+            string careInstructions,
             List<string>? images,
             List<Category>? categories,
             List<Collection>? collections)
@@ -32,7 +35,7 @@ namespace Karusc.Server.Domain.Products
                 throw new InvalidOperationException("Price can't be less than 0");
             }
 
-            var product = new Product(title, price, description);
+            var product = new Product(title, price, description, careInstructions);
 
             product.Images = images?
                 .Select((image, index) => new File<Product>(

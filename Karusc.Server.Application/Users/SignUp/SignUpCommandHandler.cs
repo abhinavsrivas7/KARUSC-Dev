@@ -21,8 +21,9 @@ namespace Karusc.Server.Application.Users.SignUp
         {
             var user = User.Create(
                 command.Email,
+                command.Name,
                 command.Password.HashPassword(),
-                command.Role,
+                Role.Customer,
                 command.ProfilePicture);
 
             if (!string.IsNullOrEmpty(user.ProfilePictureURL) && user.ProfilePicture is not null)
@@ -37,6 +38,7 @@ namespace Karusc.Server.Application.Users.SignUp
             return new UserDto(
                 user.Id, 
                 user.Email, 
+                user.Name,
                 string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix) 
                     ? user.ProfilePictureURL
                     : string.IsNullOrEmpty(user.ProfilePictureURL) 

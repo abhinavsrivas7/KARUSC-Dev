@@ -8,9 +8,12 @@ import { Banner } from "./components/Home/Banner";
 import { ScreenSizeProvider } from "./context/ScreenSizeContext";
 import { Admin } from "./pages/Admin";
 import { ProductDetails } from "./pages/ProductDetails";
+import { LoggedInUserProvider } from "./context/UserContext";
 
 const App = () => {
-    return <ScreenSizeProvider>
+
+    return <LoggedInUserProvider>
+    <ScreenSizeProvider>
         <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
         <Navbar />
         <div className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
@@ -23,7 +26,8 @@ const App = () => {
             </Routes>
         </div>
         <Footer></Footer>
-    </ScreenSizeProvider>
+        </ScreenSizeProvider>
+    </LoggedInUserProvider>
 };
 
 export default App;

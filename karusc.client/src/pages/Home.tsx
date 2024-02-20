@@ -1,9 +1,7 @@
-import { GoogleAuthComponent } from "../components/Authentication/GoogleAuthComponent";
 import { ShopBy } from "../components/Home/ShopBy";
-import { Container } from "react-bootstrap";
 import { Review } from "../components/Home/Review";
-import { Category } from "../models/Category";
-import { Collection } from "../models/Collection";
+import { Category } from "../models/CategoryModels";
+import { Collection } from "../models/CollectionModels";
 import { GetCategoriesEndpoint, GetCollectionsEndpoint, GetHomeCarouselImageEndpoint } from "../utilities/EndpointUtils";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,7 +18,7 @@ export const Home = () => {
         axios
             .get(GetCollectionsEndpoint(), { params: { pageSize: 100, pageNumber: 0 } })
             .then(response => {
-                setCollectionData(response.data);
+                setCollectionData(response.data);   
             });
 
         axios
@@ -38,9 +36,6 @@ export const Home = () => {
     }, []);
 
     return <>
-            <Container className="d-flex justify-content-center align-items-center w-100">
-                <GoogleAuthComponent />
-        </Container>
         <ImageCarousel
             images={carouselData}
             setControls={false}

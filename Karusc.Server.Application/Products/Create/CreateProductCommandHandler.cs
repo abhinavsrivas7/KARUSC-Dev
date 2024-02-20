@@ -28,6 +28,7 @@ namespace Karusc.Server.Application.Products.Create
                 command.Title,
                 command.Price,
                 command.Description,
+                command.CareInstructions,
                 command.Images,
                 await GetCategories(command.Categories),
                 await GetCollections(command.Collections));

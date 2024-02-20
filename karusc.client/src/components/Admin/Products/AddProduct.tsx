@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
-import { Category } from "../../../models/Category";
+import { Category } from "../../../models/CategoryModels";
 import axios from "axios";
 import { GetCategoriesEndpoint, GetCollectionsEndpoint, GetProductsEndpoint } from "../../../utilities/EndpointUtils";
-import { Collection } from "../../../models/Collection";
+import { Collection } from "../../../models/CollectionModels";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
-import { CreateProductCommand } from "../../../models/CreateProductCommand";
+import { CreateProductCommand } from "../../../models/ProductModels";
 import { Loader } from "../../Common/Loader";
 import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
 

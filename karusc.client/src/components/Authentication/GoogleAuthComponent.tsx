@@ -11,16 +11,14 @@ export const GoogleAuthComponent = () => {
   };
 
   return (
-    <div style = {{display: "none"}}>
+    <div>
       <GoogleOAuthProvider clientId="406061486952-6r67hp2bqmmqj9s8lbfok3lv4t04oqbg.apps.googleusercontent.com">
         <GoogleLogin
           onSuccess={handleSuccess}
           onError={handleError}
           useOneTap
-          auto_select
           theme="filled_blue"
-          logo_alignment="left"
-        />
+          logo_alignment="left" />
       </GoogleOAuthProvider>
     </div>
   );

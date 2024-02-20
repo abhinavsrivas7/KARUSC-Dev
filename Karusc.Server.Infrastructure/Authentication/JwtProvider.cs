@@ -13,10 +13,14 @@ namespace Karusc.Server.Infrastructure.Authentication
     internal sealed class JwtProvider : IJwtProvider
     {
         private readonly JwtConfiguration _configuration;
+        private readonly IFileStorageService<User> _fileStorageService;
 
-        public JwtProvider(IOptions<JwtConfiguration> options)
+        public JwtProvider(
+            IOptions<JwtConfiguration> options, 
+            IFileStorageService<User> fileStorageService)
         {
             _configuration = options.Value;
+            _fileStorageService = fileStorageService;
         }
 
         private Token GenerateToken(User user, TokenType tokenType)
@@ -31,7 +35,9 @@ namespace Karusc.Server.Infrastructure.Authentication
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(nameof(Role).ToLower(), user.Role.ToString()),
-                new(nameof(TokenType).ToLower(), tokenType.ToString())
+                new(nameof(TokenType).ToLower(), tokenType.ToString()),
+                new(nameof(user.ProfilePictureURL).ToLower(), 
+                string.Concat(_fileStorageService.EnrichmentPrefix, user.ProfilePictureURL))
             };
 
             var signingCredentials = new SigningCredentials(
