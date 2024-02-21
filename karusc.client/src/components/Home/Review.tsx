@@ -2,6 +2,8 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { ReviewCard, ReviewCardData } from './ReviewCard';
 import authorImg from "../../../resources/media/user-profile-photo.jpg";
+import addImg from "../../../resources/media/circle-add.svg";
+import { Button } from 'react-bootstrap';
 
 const reviews: ReviewCardData[] = [
     { imageURL: authorImg, author: "Henry", review: "Great!! Bruce Wayne is a dead man walking!!1" },
@@ -16,7 +18,8 @@ const reviews: ReviewCardData[] = [
 const responsive = {
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3.5, slidesToSlide: 4 },
     tablet: { breakpoint: { max: 1024, min: 464 }, items: 3.5, slidesToSlide: 2 },
-    mobile: { breakpoint: { max: 464, min: 0 }, items: 2.5, slidesToSlide: 4 }
+    mobile: { breakpoint: { max: 464, min: 350 }, items: 2.5, slidesToSlide: 4 },
+    narrowMobile: { breakpoint: { max: 350, min: 0 }, items: 1.5, slidesToSlide: 4 }
 };
 
 export const Review = () => {
@@ -33,7 +36,7 @@ export const Review = () => {
             infinite={false}
             autoPlay={false}
             keyBoardControl={true}
-            removeArrowOnDeviceType={["mobile"]}
+            removeArrowOnDeviceType={["mobile", "narrowMobile"]}
             minimumTouchDrag={1}
             
         >
@@ -41,5 +44,11 @@ export const Review = () => {
                 <ReviewCard imageURL={review.imageURL} author={review.author} review={review.review} />            
             </div>)}
         </Carousel>
+        <div className="mt-4 d-flex justify-content-center align-items-center">
+            <Button variant="white">
+                <img src={addImg} />
+                <span className="regular-font ms-1 purple-text">Add Review</span>
+            </Button>
+        </div>
     </div>;
 }

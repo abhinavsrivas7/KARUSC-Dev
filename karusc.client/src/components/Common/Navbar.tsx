@@ -1,4 +1,4 @@
-import { Button, Container, Nav, Navbar as NavbarBs, Offcanvas, Stack, } from "react-bootstrap";
+import { Button, Container, Dropdown, DropdownButton, Nav, Navbar as NavbarBs, Offcanvas, Stack, } from "react-bootstrap";
 import backArrowImg from "../../../resources/media/backArrow.svg";
 import userImg from "../../../resources/media/user.svg";
 import hamburgImg from "../../../resources/media/hamburger.svg";
@@ -9,12 +9,15 @@ import { NavLink } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
 import { DeviceTypes } from "../../models/DeviceTypes";
 import { LoginModal } from "../Authentication/LoginModal";
+import { useUserContext } from "../../hooks/useUserHook";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { getDeviceType } = useScreenSize();
+    const { getUser } = useUserContext();
+    const user = getUser();
 
     const searchInactiveLayout = <>
         <Stack direction="horizontal" gap={2} className="me-auto">
@@ -32,12 +35,30 @@ export const Navbar = () => {
                 style={{ width: '1.45rem', padding: 0, border: 0 }}>
                 <img src={searchImg} />
             </Button>
-            <Button
-                variant="white"
-                style={{ width: '1.5rem', padding: 0, border: 0 }}
-                onClick={() =>setShowLoginModal(true)}>
-                <img src={userImg} />
-            </Button>
+            {
+                user === null
+                    ? <Button
+                        variant="white"
+                        style={{ width: '1.5rem', padding: 0, border: 0 }}
+                        onClick={() => setShowLoginModal(true)}>
+                        <img src={userImg} />
+                    </Button>
+                    : <Dropdown align="end">
+                        <Dropdown.Toggle variant="white" className="light-pink">
+                            <img height="25" src={user.profilePicture} />
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu className="light-pink">
+                            <Dropdown.Item href="#/action-1" className="light-pink">
+                                Change Picture
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2" className="light-pink">
+                                Logout
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+            }
+            
             <Button variant="white" style={{ width: '1.75rem', padding: 0, border: 0 }}>
                 <img src={cartImg} />
             </Button>
@@ -87,9 +108,11 @@ export const Navbar = () => {
                     </Container>
                 </Offcanvas.Header>
                 <Offcanvas.Body className="pt-0">
-                    <div className="bold-font">
-                        Hello, User
-                    </div>
+                    {user !== null
+                        ? <div className="bold-font">
+                            Hello, {user?.name}
+                        </div> 
+                        : null}
                     <ul>
                         <li>
                             <NavLink
