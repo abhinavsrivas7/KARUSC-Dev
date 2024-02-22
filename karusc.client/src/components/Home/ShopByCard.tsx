@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
-import { Category } from "../../models/Category";
-import { Collection } from "../../models/Collection";
+import { Category } from "../../models/CategoryModels";
+import { Collection } from "../../models/CollectionModels";
 
 export const ShopByCard = (data: Category | Collection) => {
     return <>

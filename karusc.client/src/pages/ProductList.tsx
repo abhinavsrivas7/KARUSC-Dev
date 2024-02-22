@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Product } from "../models/Product";
+import { Product } from "../models/ProductModels";
 import { Loader } from "../components/Common/Loader";
 import { NoData } from "../components/Common/NoData";
 import { Col, Container, Row } from "react-bootstrap";

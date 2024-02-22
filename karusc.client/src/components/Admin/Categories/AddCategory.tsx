@@ -1,6 +1,6 @@
 import { Button, Form } from "react-bootstrap";
 import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
-import { CreateCategoryCommand } from "../../../models/CreateCategoryCommand";
+import { CreateCategoryCommand } from "../../../models/CategoryModels";
 import { useRef, useState } from "react";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
 import { GetCategoriesEndpoint } from "../../../utilities/EndpointUtils";
@@ -18,11 +18,11 @@ export const AddCategory = () => {
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
     const [createCommand, setCreateCommand] = useState<CreateCategoryCommand>(emptyCommand);
+
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
         errorAlertDescription: null
     });
-
 
     const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         const updatedCommand = createCommand;
@@ -79,8 +79,6 @@ export const AddCategory = () => {
                 setDisableControls(false);
             });
     };
-
-
 
     return <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
         {showSuccessAlert

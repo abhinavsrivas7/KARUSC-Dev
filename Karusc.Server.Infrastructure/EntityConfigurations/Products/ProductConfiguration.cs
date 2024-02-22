@@ -15,6 +15,9 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Products
                 .HasForeignKey(f => f.EntityId);
 
             builder.Property(p => p.Title).IsRequired();
+            builder.Property(p => p.Price).IsRequired();
+            builder.Property(p => p.Description).IsRequired();
+            builder.Property(p => p.CareInstructions).IsRequired();
             builder.Property(p => p.Price).HasPrecision(7, 2);
             builder.HasMany(p => p.Categories).WithMany(c => c.Products);
             builder.HasMany(p => p.Collections).WithMany(c => c.Products);

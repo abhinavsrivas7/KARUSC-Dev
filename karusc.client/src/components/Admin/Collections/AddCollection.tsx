@@ -1,5 +1,5 @@
 import { Button, Form } from "react-bootstrap";
-import { CreateCollectionCommand } from "../../../models/CreateCollectionCommand";
+import { CreateCollectionCommand } from "../../../models/CollectionModels";
 import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
 import { GetCollectionsEndpoint } from "../../../utilities/EndpointUtils";
 import axios from "axios";

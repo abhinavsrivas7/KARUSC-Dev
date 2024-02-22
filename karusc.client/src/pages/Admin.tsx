@@ -3,6 +3,7 @@ import { ProductOperations } from "../components/Admin/Products/ProductOperation
 import { CategoryOperations } from "../components/Admin/Categories/CategoryOperations"
 import { CollectionOperations } from "../components/Admin/Collections/CollectionOperations"
 import { HomeCarouselOperations } from "../components/Admin/HomeCarousel/HomeCarouselOperations"
+import { UserOperations } from "../components/Admin/Users/UserOperations"
 
 export const Admin = () => {
     return <Container className="p-4 light-pink" style={{ minHeight: '80vh' }}>
@@ -21,6 +22,9 @@ export const Admin = () => {
             </Tab>
             <Tab eventKey="homeCarousel" title="Home Carousel">
                 <HomeCarouselOperations />
+            </Tab>
+            <Tab eventKey="users" title="Users">
+                <UserOperations />
             </Tab>
         </Tabs>
     </Container>;   

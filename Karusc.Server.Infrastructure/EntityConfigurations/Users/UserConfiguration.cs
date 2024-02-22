@@ -12,6 +12,7 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Users
             builder.HasIndex(u => u.Email).IsUnique();
             builder.Ignore(u => u.ProfilePicture);
             builder.Property(u => u.Email).IsRequired();
+            builder.Property(u => u.Name).IsRequired();
             builder.Property(u => u.ProfilePictureURL).IsRequired();
             builder.Property(u => u.Role).IsRequired();
             

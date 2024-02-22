@@ -1,5 +1,5 @@
 import {Card } from "react-bootstrap";
-import { Product } from "../../models/Product";
+import { Product } from "../../models/ProductModels";
 import { FormatProductPrice, FormatProductTitle } from "../../utilities/ProductCardUtils";
 
 export const ProductCard = (product: Product) => { 
