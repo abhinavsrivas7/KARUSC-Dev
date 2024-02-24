@@ -2,20 +2,20 @@
 using Karusc.Server.Domain.Users;
 using MediatR;
 
-namespace Karusc.Server.Application.Users.SignUp
+namespace Karusc.Server.Application.Users.CreateAdminUser
 {
-    internal sealed class SignUpCommandHandler : IRequestHandler<SignUpCommand, UserDto>
+    internal class CreateAdminUserCommandHandler : IRequestHandler<CreateAdminUserCommand, UserDto>
     {
-        private readonly IKaruscDbContext _context;
+        private IKaruscDbContext _context;
         private readonly IFileStorageService<User> _fileStorageService;
 
-        public SignUpCommandHandler(
-            IKaruscDbContext context, 
-            IFileStorageService<User> fileStorageService) =>
+        public CreateAdminUserCommandHandler(
+            IKaruscDbContext context,
+            IFileStorageService<User> fileStorageService) => 
             (_context, _fileStorageService) = (context, fileStorageService);
 
         public async Task<UserDto> Handle(
-            SignUpCommand command,
+            CreateAdminUserCommand command, 
             CancellationToken cancellationToken) => await command
             .SaveUser(_fileStorageService, _context, cancellationToken);
     }

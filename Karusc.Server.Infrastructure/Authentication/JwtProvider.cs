@@ -34,10 +34,15 @@ namespace Karusc.Server.Infrastructure.Authentication
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
+                new(nameof(User.Id).ToLower(), user.Id.ToString()),
+                new(nameof(User.Name).ToLower(), user.Name),
                 new(nameof(Role).ToLower(), user.Role.ToString()),
                 new(nameof(TokenType).ToLower(), tokenType.ToString()),
-                new(nameof(user.ProfilePictureURL).ToLower(), 
-                string.Concat(_fileStorageService.EnrichmentPrefix, user.ProfilePictureURL))
+                new(
+                    nameof(user.ProfilePictureURL).ToLower(), 
+                    string.Concat(
+                        _fileStorageService.EnrichmentPrefix, 
+                        user.ProfilePictureURL))
             };
 
             var signingCredentials = new SigningCredentials(

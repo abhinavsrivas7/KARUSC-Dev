@@ -16,6 +16,7 @@ namespace Karusc.Server.Application.Users.Login
         public async Task<List<Token>> Handle(LoginCommand command, CancellationToken cancellationToken)
         {
             var user = await _context.Users
+                .AsNoTracking()
                 .FirstOrDefaultAsync(user => user.Email.Equals(command.Email), cancellationToken)
                 ?? throw new KeyNotFoundException(command.Email);
 

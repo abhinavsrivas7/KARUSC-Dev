@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { SingupCommand } from "../../../models/UserModels";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
 import axios from "axios";
-import { GetSignupEndpoint } from "../../../utilities/EndpointUtils";
+import { GetCreateAdminUserEndpoint } from "../../../utilities/EndpointUtils";
 import { Loader } from "../../Common/Loader";
 
 export const AddUser = () => {
@@ -19,7 +19,6 @@ export const AddUser = () => {
     const [signupCommand, setSignupCommand] = useState<SingupCommand>(emptySignUpCommand);
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
-
 
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
@@ -35,7 +34,7 @@ export const AddUser = () => {
         });
         setFormOpacity(0.1);
         setShowLoader(true);
-        axios.post(GetSignupEndpoint(), signupCommand)
+        axios.post(GetCreateAdminUserEndpoint(), signupCommand)
             .then(response => {
                 console.log("Success");
                 console.log(response);

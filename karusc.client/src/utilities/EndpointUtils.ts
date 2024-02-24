@@ -6,3 +6,4 @@ export const GetCollectionsEndpoint = () => baseUrl + 'collection';
 export const GetHomeCarouselImageEndpoint = () => baseUrl + 'homecarouselimage';
 export const GetLoginEndpoint = () => baseUrl + 'user/login'; 
 export const GetSignupEndpoint = () => baseUrl + 'user/signup'; 
+export const GetCreateAdminUserEndpoint = () => baseUrl + 'user/createAdminUser'; 

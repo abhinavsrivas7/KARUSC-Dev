@@ -2,15 +2,15 @@
 using MediatR;
 using System.Text.Json.Serialization;
 
-namespace Karusc.Server.Application.Users.SignUp
+namespace Karusc.Server.Application.Users.CreateAdminUser
 {
-    public record SignUpCommand(
+    public record CreateAdminUserCommand(
         string Email,
         string Name,
         string Password,
         string ProfilePicture) : CreateUserCommand(Email, Name, Password, ProfilePicture)
     {
         [JsonIgnore]
-        public override Role Role {  get => Role.Customer; }
+        public override Role Role { get => Role.Administrator; }
     }
 }
