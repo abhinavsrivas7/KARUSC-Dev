@@ -16,8 +16,13 @@ export const Navbar = () => {
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const { getDeviceType } = useScreenSize();
-    const { getUser } = useUserContext();
+    const { getUser, logOut } = useUserContext();
     const user = getUser();
+    console.log("Component reloaded and new user values is " + JSON.stringify(user));
+
+    const handleLogout = () => {
+        logOut();
+    };
 
     const searchInactiveLayout = <>
         <Stack direction="horizontal" gap={2} className="me-auto">
@@ -45,14 +50,14 @@ export const Navbar = () => {
                     </Button>
                     : <Dropdown align="end">
                         <Dropdown.Toggle variant="white" className="light-pink">
-                            <img height="25" src={user.profilePicture} />
+                            <img height="25" src={user.profilePictureUrl} />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="light-pink">
-                            <Dropdown.Item href="#/action-1" className="light-pink">
+                            <Dropdown.Item className="light-pink">
                                 Change Picture
                             </Dropdown.Item>
-                            <Dropdown.Item href="#/action-2" className="light-pink">
+                            <Dropdown.Item onClick={handleLogout} className="light-pink">
                                 Logout
                             </Dropdown.Item>
                         </Dropdown.Menu>
