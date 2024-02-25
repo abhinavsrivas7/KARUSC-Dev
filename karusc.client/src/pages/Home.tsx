@@ -13,7 +13,7 @@ export const Home = () => {
     const [categoryData, setCategoryData] = useState<Category[]>([]);
     const [collectionData, setCollectionData] = useState<Collection[]>([]);
     const [carouselData, setCarouselData] = useState<string[]>([]);
-    const [reviewData, setReviewData] = useState<>([]);
+    //const [reviewData, setReviewData] = useState<>([]);
 
     useEffect(() => {
         axios
