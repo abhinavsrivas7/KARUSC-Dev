@@ -20,7 +20,7 @@ type ResponsiveStyle = {
 export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
     const { getDeviceType } = useScreenSize();
     const deviceType = getDeviceType();
-
+    console.log(imageURL);
     const responsiveStyles: ResponsiveStyle = {
         marginTop: deviceType == DeviceTypes.MOBILE ? "30%"
             : deviceType == DeviceTypes.DESKTOP ? "17.5%"

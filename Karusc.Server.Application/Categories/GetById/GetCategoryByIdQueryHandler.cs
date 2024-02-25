@@ -25,6 +25,7 @@ namespace Karusc.Server.Application.Categories.GetById
                     category.Id,
                     category.Name,
                     category.ImageURL!))
+                .AsNoTracking()
                 .FirstOrDefaultAsync(category => category.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 

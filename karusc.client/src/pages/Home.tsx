@@ -9,7 +9,7 @@ import { Loader } from "../components/Common/Loader";
 import { ImageCarousel } from "../components/Common/ImageCarousel";
 
 export const Home = () => {
-
+    
     const [categoryData, setCategoryData] = useState<Category[]>([]);
     const [collectionData, setCollectionData] = useState<Collection[]>([]);
     const [carouselData, setCarouselData] = useState<string[]>([]);

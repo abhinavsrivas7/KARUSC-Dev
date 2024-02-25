@@ -19,14 +19,14 @@ namespace Karusc.Server.Application.HomeCarousel.Get
 
         public async Task<List<HomeCarouselImageDto>> Handle(
             GetHomeCarouselImagesQuery request,
-            CancellationToken cancellationToken) => (await _context
-            .HomeCarouselImages
-            .ToListAsync(cancellationToken))
-            .Select(image => new HomeCarouselImageDto(
-                image.Id,
-                string.IsNullOrEmpty(_enrichmentPrefix)
-                    ? image.ImageURL!
-                    : string.Concat(_enrichmentPrefix, image.ImageURL!)))
-            .ToList();
+            CancellationToken cancellationToken) => (await _context.HomeCarouselImages
+                .AsNoTracking()
+                .ToListAsync(cancellationToken))
+                .Select(image => new HomeCarouselImageDto(
+                    image.Id,
+                    string.IsNullOrEmpty(_enrichmentPrefix)
+                        ? image.ImageURL!
+                        : string.Concat(_enrichmentPrefix, image.ImageURL!)))
+                .ToList();
     }
 }

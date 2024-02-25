@@ -17,7 +17,7 @@ namespace Karusc.Server.Infrastructure
         {
             services.AddPersistence(configuration);
             services.AddFileStorage(configuration, environment);
-            services.AddJwtAuthentication(configuration);
+            services.AddAuthentication(configuration);
         }
 
         public static bool IsLocal(this IWebHostEnvironment environment) => environment
