@@ -224,8 +224,7 @@ export const LoginModal = (modalData: LoginModalData) => {
         ? <ImageCropper
             aspectRatio={1}
             image={image.fileContent}
-            minWidth={150}
-            onCancel={() => setShowImageCropper(false)} />
+            minWidth={150} />
         : <Form
             style={{ width: '100%', opacity: formOpacity }}
             ref={singupFormRef}
