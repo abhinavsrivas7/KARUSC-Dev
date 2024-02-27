@@ -94,6 +94,21 @@
     color: rgba(158, 45, 79, 0.56) !important;
 }
 
+.purple-placeholder {
+    color: #890074 !important;
+    border: none;
+    background-color: #FFFFFF !important;
+    border-radius: 0 !important;
+}
+
+.purple-placeholder:focus {
+    outline: none;
+}
+
+.purple-placeholder::-webkit-input-placeholder {
+    color: #890074 !important;
+}
+
 div.offcanvas-start {
     max-width: 50% !important;
     background-color: #FFF3F5 !important;

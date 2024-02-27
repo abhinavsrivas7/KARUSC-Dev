@@ -1,13 +1,13 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { ReviewCard } from './ReviewCard';
-import { Review as ReviewModel } from '../../models/ReviewModels';
-//import authorImg from "../../../resources/media/user-profile-photo.jpg";
+import { ReviewCardModel, Review as ReviewModel } from '../../models/ReviewModels';
 import addImg from "../../../resources/media/circle-add.svg";
 import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { GetReviewEndpoint } from '../../utilities/EndpointUtils';
 import axios from 'axios';
+import { useUserContext } from '../../hooks/useUserHook';
 
 const responsive = {
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3.5, slidesToSlide: 4 },
@@ -17,18 +17,44 @@ const responsive = {
 };
 
 export const Review = () => {
-    const [reviews, setReviews] = useState<ReviewModel[] | null>(null);
+    const [reviews, setReviews] = useState<ReviewCardModel[] | null>(null);
     const [showReviewsSection, setShowReviewsSection] = useState<boolean>(true);
+    const { getUser } = useUserContext();
+    const user = getUser();
 
     useEffect(() => {
         axios
             .get(GetReviewEndpoint())
-            .then(response => setReviews(response.data))
+            .then(response => setReviews(response.data.map((review: ReviewModel) => {
+                const reviewCard: ReviewCardModel = {
+                    id: review.id,
+                    author: review.author,
+                    isInputCard: false,
+                    rating: review.rating,
+                    title: review.title
+                };
+
+                return reviewCard;
+            })))
             .catch(() => setShowReviewsSection(false));
     }, []);
-    console.log(reviews);
+
+    const handleAddReview = () => {
+        if (user === null) throw new Error("User must be logged in");
+
+        const addReview: ReviewCardModel = {
+            id: "create-card",
+            author: user,
+            isInputCard: true,
+            rating: null,
+            title: null
+        };
+
+        setReviews(reviews !== null ? [...reviews, addReview] : [addReview]);
+    };
+    
     return <>
-        {showReviewsSection && reviews !== null
+        {showReviewsSection && reviews !== null && reviews.length > 0
             ? <div className="px-4 py-5">
                 <div className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">
                     <h2>Customer Reviews</h2>
@@ -48,13 +74,16 @@ export const Review = () => {
                 >
                     {reviews.map((review) => <div className="px-2">
                         <ReviewCard
-                            imageURL={review.author.profilePictureUrl}
-                            author={review.author.name}
-                            review={review.title} />
+                            author={review.author}
+                            isInputCard={review.isInputCard}
+                            rating={review.rating}
+                            title={review.title}
+                            id={review.id}
+                            key={review.id} />
                     </div>)}
                 </Carousel>
                 <div className="mt-4 d-flex justify-content-center align-items-center">
-                    <Button variant="white">
+                    <Button variant="white" onClick={handleAddReview}>
                         <img src={addImg} />
                         <span className="regular-font ms-1 purple-text">Add Review</span>
                     </Button>

@@ -16,6 +16,9 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Reviews
                 .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.AuthorId)
                 .IsRequired();
+
+            builder.ToTable(b => 
+                b.HasCheckConstraint("Review_Rating_Check", "Rating >= 1 AND Rating <= 5"));
         }
     }
 }

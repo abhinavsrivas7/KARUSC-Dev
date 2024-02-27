@@ -9,7 +9,8 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Products
         public void Configure(EntityTypeBuilder<Product> builder)
         {
             builder.HasKey(p => p.Id);
-            
+            builder.HasIndex(p => p.Title);
+
             builder.HasMany(p => p.Images)
                 .WithOne(i => i.Entity)
                 .HasForeignKey(f => f.EntityId);

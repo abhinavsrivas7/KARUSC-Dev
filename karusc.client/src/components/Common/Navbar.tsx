@@ -50,7 +50,7 @@ export const Navbar = () => {
                     </Button>
                     : <Dropdown align="end">
                         <Dropdown.Toggle variant="white" className="light-pink">
-                            <img height="25" src={user.profilePictureUrl} />
+                            <img height="25" style={{ borderRadius: "50%" }} src={user.profilePictureUrl} />
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="light-pink">
@@ -93,8 +93,8 @@ export const Navbar = () => {
     </>;
 
     const navbarClass = getDeviceType() == DeviceTypes.MOBILE
-        ? "shadow-sm mt-4 px-3 py-2.75 light-pink"
-        : "shadow-sm mt-4 px-4 py-2.75 light-pink";
+        ? "shadow-sm px-3 py-2.75 light-pink"
+        : "shadow-sm px-4 py-4.75 light-pink";
 
     return (
         <>
