@@ -1,12 +1,9 @@
-import { Stack } from "react-bootstrap";
+import { Form, Stack } from "react-bootstrap";
 import { useScreenSize } from "../../context/ScreenSizeContext";
 import { DeviceTypes } from "../../models/DeviceTypes";
-
-export type ReviewCardData = {
-    imageURL: string,
-    author: string,
-    review: string
-}
+import { ReviewCardModel } from "../../models/ReviewModels";
+import starEmpty from "../../../resources/media/star-empty.svg";
+import starFilled from "../../../resources/media/star-filled.svg";
 
 type ResponsiveStyle = {
     marginTop: string,
@@ -14,13 +11,15 @@ type ResponsiveStyle = {
     paddingBottom: string,
     radius: string,
     x_margins: string,
-    transform: string
+    transform: string,
+    starSize: string
 }
 
-export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
+export const ReviewCard = ({ author, title, rating, isInputCard }: ReviewCardModel) => {
     const { getDeviceType } = useScreenSize();
     const deviceType = getDeviceType();
-    console.log(imageURL);
+    console.log(isInputCard); 
+
     const responsiveStyles: ResponsiveStyle = {
         marginTop: deviceType == DeviceTypes.MOBILE ? "30%"
             : deviceType == DeviceTypes.DESKTOP ? "17.5%"
@@ -38,8 +37,13 @@ export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
             : deviceType == DeviceTypes.DESKTOP ? "32.5%"
             : "25%",
         transform: deviceType == DeviceTypes.MOBILE ? "translate(0%, -15%)"
-            : deviceType == DeviceTypes.DESKTOP ? "translate(0%, -20%)"
-            : "translate(0%, -15%)"
+            : deviceType == DeviceTypes.DESKTOP ? "translate(0%, -35%)"
+                : "translate(0%, -15%)",
+        starSize: deviceType == DeviceTypes.MOBILE
+            ? "15vh"
+            : deviceType == DeviceTypes.DESKTOP
+            ? "20vh"
+            : "20vh"
     }
 
     return <div className="purple"
@@ -52,7 +56,7 @@ export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
             width: '100%'
         }}>
         <img
-            src={imageURL}
+            src={author.profilePictureUrl}
             height={responsiveStyles.radius}
             width={responsiveStyles.radius}
             style={{
@@ -65,11 +69,29 @@ export const ReviewCard = ({ imageURL, author, review }: ReviewCardData) => {
         <Stack
             style={{ transform: responsiveStyles.transform }}
             className="px-3">
+            {rating !== null && !isInputCard
+                ? <div className="d-flex justify-content-center align-items-center mb-3">
+                    <Stack direction="horizontal" gap={1}>
+                        {Array
+                            .from({ length: 5 })
+                            .map((_, index) => index < rating
+                                ? <img src={starFilled} height={responsiveStyles.starSize} />
+                                : <img src={starEmpty} height={responsiveStyles.starSize} />)}
+                    </Stack>
+                </div>
+                : null}
+            
             <div className="d-flex justify-content-center align-items-center semi-bold-font mb-3">
-                <i>""{review}""</i>
+                {isInputCard
+                    ? <Form.Control
+                        as="textarea"
+                        rows={3}
+                        placeholder="Enter Review"
+                        className="purple-placeholder" /> 
+                    : <i>"{title}"</i>}
             </div>
             <div className="ms-auto regular-font">
-                - {author}
+                - {author.name}
             </div>
         </Stack>
     </div>

@@ -10,6 +10,7 @@ import axios from "axios";
 import { ConvertToBase64 } from "../../utilities/FileUtils";
 import { useUserContext } from "../../hooks/useUserHook";
 import { ImageCropper } from "../Common/ImageCropper";
+import userImg from "../../../resources/media/user.svg";
 
 export type LoginModalData = {
     show: boolean,
@@ -32,7 +33,8 @@ export const LoginModal = (modalData: LoginModalData) => {
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
     const [signupSuccess, setSignupSuccess] = useState<boolean>(false);
     const { setUserFromToken } = useUserContext();
-    const [ showImageCropper, setShowImageCropper ] = useState<boolean>(false);
+    const [showImageCropper, setShowImageCropper] = useState<boolean>(false);
+    const [croppedImage, setCroppedImage] = useState<string | null>(null);
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
         errorAlertDescription: null
@@ -145,6 +147,7 @@ export const LoginModal = (modalData: LoginModalData) => {
         const updatedCommand = signupCommand;
         updatedCommand.password = event.target.value;
         setSignupCommand(updatedCommand);
+        console.log(signupCommand);
     };
 
     const addImageToSignUpCommand = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -152,11 +155,17 @@ export const LoginModal = (modalData: LoginModalData) => {
             const fileBase64 = await ConvertToBase64(event.target.files[0]) as string;
             setImage({ fileContent: fileBase64, fileName: event.target.files[0].name });
             setShowImageCropper(true);
-            //const updatedCommand = signupCommand;
-            //updatedCommand.profilePicture = fileBase64;
-            //setSignupCommand(updatedCommand);
             //singupFormRef.current?.reset();
         }
+    };
+
+    const cropImageCallback = (image: string) => {
+        setShowImageCropper(false);
+        setCroppedImage(image);
+        const updatedCommand = signupCommand;
+        updatedCommand.profilePicture = image;
+        setSignupCommand(updatedCommand);
+        console.log(signupCommand);
     };
 
     const loginModeForm = <Form
@@ -220,105 +229,102 @@ export const LoginModal = (modalData: LoginModalData) => {
         </Stack>
     </Form>;
 
-    const signupModeForm = showImageCropper
-        ? <ImageCropper
-            aspectRatio={1}
-            image={image.fileContent}
-            minWidth={150} />
-        : <Form
-            style={{ width: '100%', opacity: formOpacity }}
-            ref={singupFormRef}
-            onSubmit={handleSignup}>
-            {errorState.showErrorAlert
-                ? < DissmissableAlert
-                    title="Signup Failed!"
-                    variant="danger"
-                    description={errorState.errorAlertDescription} />
-                : null
-            }
-            <Form.Group className="mb-4" controlId="formEmail">
-                <Form.Control
-                    className="pink-placeholder"
-                    type="email"
-                    placeholder="Email"
-                    onChange={addEmailToSignupCommand} />
-            </Form.Group>
-            <Form.Group className="mb-4" controlId="formName">
-                <Form.Control
-                    className="pink-placeholder"
-                    type="input"
-                    placeholder="Name"
-                    onChange={addNameToSignupCommand} />
-            </Form.Group>
-            <Form.Group className="mb-4" controlId="formPassword">
-                <Form.Control
-                    className="pink-placeholder"
-                    type="password"
-                    placeholder="Password"
-                    onChange={addPasswordToSignupCommand} />
-            </Form.Group>
-            <Form.Group className="mb-4" controlId="formImage">
-                <Form.Label className="semi-bold-font mb-1">Upload Image</Form.Label>
-                {image.fileContent !== emptyUploadFile.fileContent
-                    ? <p>Image</p>
-                    : null}
-                <Form.Control
-                    className="pink-placeholder"
-                    type="file"
-                    onChange={addImageToSignUpCommand}
-                    disabled={disableControls}
-                    defaultValue={signupCommand.profilePicture} />
-            </Form.Group>
-            {showLoader ? <Loader /> : null}
-            <Stack
-                direction="vertical"
-                style={{ width: '100%' }}
-                className="d-flex justify-content-center align-items-center">
-                <Button
-                    variant="primary"
-                    className="admin-button my-2 light-font"
-                    style={{ width: '50%' }}
-                    type="submit">
-                    Sign Up
-                </Button>
-                <Button
-                    variant="primary"
-                    className="admin-button my-2 light-font"
-                    style={{ width: '50%' }}
-                    onClick={() => setIsLoginMode(true)}>
-                    Already a member?
-                </Button>
-            </Stack>
-        </Form>;
-
-    return <Modal
-        {...modalData}       
-        dialogClassName="modal-90w"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-    >
-        <Modal.Header className="light-pink" closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
-                {isLoginMode
-                    ? "Login to KARUSC"
-                    : showImageCropper
-                    ? "Crop Image"
-                    : "Create New Account"}
-            </Modal.Title>
-        </Modal.Header>
-        <Modal.Body className="light-pink d-flex justify-content-center align-items-center px-4">
-            {isLoginMode ? loginModeForm : signupModeForm}
-        </Modal.Body>
-        <Modal.Footer className="light-pink d-flex justify-content-center align-items-center">
-            {showImageCropper
-                ? <Stack direction="horizontal" gap={3}>
-                    <Button className="admin-button">Accept Crop</Button>
-                    <Button className="admin-button" onClick={() => setShowImageCropper(false)}>
-                        Cancel
+    const signupModeForm = <div>
+            <div className="d-flex justify-content-center align-items-center mb-4">
+            <img
+                src={croppedImage ?? userImg}
+                height="100vh"
+                style={{ borderRadius: "50%" }} />
+            </div>
+            <Form
+                style={{ width: '100%', opacity: formOpacity }}
+                ref={singupFormRef}
+                onSubmit={handleSignup}>
+                {errorState.showErrorAlert
+                    ? < DissmissableAlert
+                        title="Signup Failed!"
+                        variant="danger"
+                        description={errorState.errorAlertDescription} />
+                    : null
+                }
+                <Form.Group className="mb-4" controlId="formEmail">
+                    <Form.Control
+                        className="pink-placeholder"
+                        type="email"
+                        placeholder="Email"
+                        onChange={addEmailToSignupCommand} />
+                </Form.Group>
+                <Form.Group className="mb-4" controlId="formName">
+                    <Form.Control
+                        className="pink-placeholder"
+                        type="input"
+                        placeholder="Name"
+                        onChange={addNameToSignupCommand} />
+                </Form.Group>
+                <Form.Group className="mb-4" controlId="formPassword">
+                    <Form.Control
+                        className="pink-placeholder"
+                        type="password"
+                        placeholder="Password"
+                        onChange={addPasswordToSignupCommand} />
+                </Form.Group>
+                <Form.Group className="mb-4" controlId="formImage">
+                    <Form.Label className="semi-bold-font mb-1">
+                        {croppedImage !== null ? "Change Picture" : "Upload Image"}
+                    </Form.Label>
+                    <Form.Control
+                        className="pink-placeholder"
+                        type="file"
+                        onChange={addImageToSignUpCommand}
+                        disabled={disableControls}
+                        defaultValue={signupCommand.profilePicture} />
+                </Form.Group>
+                {showLoader ? <Loader /> : null}
+                <Stack
+                    direction="vertical"
+                    style={{ width: '100%' }}
+                    className="d-flex justify-content-center align-items-center">
+                    <Button
+                        variant="primary"
+                        className="admin-button my-2 light-font"
+                        style={{ width: '70%' }}
+                        type="submit">
+                        Sign Up
+                    </Button>
+                    <Button
+                        variant="primary"
+                        className="admin-button my-2 light-font"
+                        style={{ width: '70%' }}
+                        onClick={() => setIsLoginMode(true)}>
+                        Already a member?
                     </Button>
                 </Stack>
-                : <GoogleAuthComponent />}
-            
-        </Modal.Footer>
-    </Modal>;
+            </Form>
+        </div>;
+
+    return <>
+        <Modal
+            {...modalData}
+            dialogClassName="modal-90w"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered>
+            <Modal.Header className="light-pink" closeButton>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    {isLoginMode ? "Login to KARUSC" : "Create New Account"}
+                </Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="light-pink d-flex justify-content-center align-items-center px-4">
+                {isLoginMode ? loginModeForm : signupModeForm}
+            </Modal.Body>
+            <Modal.Footer className="light-pink d-flex justify-content-center align-items-center">
+                <GoogleAuthComponent />
+            </Modal.Footer>
+        </Modal>
+        <ImageCropper
+            aspectRatio={1}
+            image={image.fileContent}
+            minWidth={150}
+            callBack={cropImageCallback}
+            show={showImageCropper} />
+    </>;
 }   
