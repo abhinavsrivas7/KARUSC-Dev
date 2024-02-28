@@ -12,5 +12,12 @@ export type ReviewCardModel = {
     author: User,
     title: string | null,
     rating: number | null,
-    isInputCard : boolean
+    isInputCard: boolean,
+    cancelAddCallback: () => void,
+    addReviewCallback: (review: Review) => void
+};
+
+export type CreateReviewCommand = {
+    rating: number,
+    title: string
 };

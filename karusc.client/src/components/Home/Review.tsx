@@ -31,7 +31,9 @@ export const Review = () => {
                     author: review.author,
                     isInputCard: false,
                     rating: review.rating,
-                    title: review.title
+                    title: review.title,
+                    cancelAddCallback: removeAddReviewCard,
+                    addReviewCallback: addReviewCard
                 };
 
                 return reviewCard;
@@ -47,14 +49,39 @@ export const Review = () => {
             author: user,
             isInputCard: true,
             rating: null,
-            title: null
+            title: null,
+            cancelAddCallback: removeAddReviewCard,
+            addReviewCallback: addReviewCard
         };
 
-        setReviews(reviews !== null ? [...reviews, addReview] : [addReview]);
+        setReviews(reviews !== null ? [addReview, ...reviews] : [addReview]);
+    };
+
+    const removeAddReviewCard = () => {
+        if (user === null) throw new Error("User must be logged in");
+
+        if (reviews !== null) {
+            setReviews(reviews.filter(review => review.id !== "create-card"));
+        }
+    };
+
+    const addReviewCard = (addedReview: ReviewModel) => {
+        const addedReviewCard: ReviewCardModel = {
+            author: addedReview.author,
+            id: addedReview.id,
+            rating: addedReview.rating,
+            isInputCard: false,
+            title: addedReview.title,
+            addReviewCallback: addReviewCard,
+            cancelAddCallback: removeAddReviewCard
+        };
+        setReviews(reviews !== null
+            ? [addedReviewCard, ...reviews.filter(review => review.id !== "create-card")]
+            : [addedReviewCard]);
     };
     
     return <>
-        {showReviewsSection && reviews !== null && reviews.length > 0
+        {showReviewsSection && reviews !== null
             ? <div className="px-4 py-5">
                 <div className="d-flex justify-content-center align-items-center mb-4 semi-bold-font">
                     <h2>Customer Reviews</h2>
@@ -79,6 +106,8 @@ export const Review = () => {
                             rating={review.rating}
                             title={review.title}
                             id={review.id}
+                            cancelAddCallback={removeAddReviewCard}
+                            addReviewCallback={addReviewCard}
                             key={review.id} />
                     </div>)}
                 </Carousel>

@@ -40,7 +40,7 @@ export const Home = () => {
             images={carouselData}
             setControls={false}
             showIndicators={false}
-            intervalValue={1000}
+            intervalValue={3000}
             isDraggable={true} />
         {categoryData.length > 0
             ? <ShopBy componentFor="Category" data={categoryData} />

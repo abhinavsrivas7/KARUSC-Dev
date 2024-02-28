@@ -36,8 +36,6 @@ export const AddUser = () => {
         setShowLoader(true);
         axios.post(GetCreateAdminUserEndpoint(), signupCommand)
             .then(response => {
-                console.log("Success");
-                console.log(response);
                 if (response.status == 200) {
                     setDisableControls(false);
                     setShowLoader(false);

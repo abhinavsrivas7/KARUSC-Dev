@@ -30,7 +30,7 @@ export const getUserFromToken = (tokens: Token[]): StorableUser => {
         user: {
             id: payload.id,
             email: payload.email,
-            name: payload.role,
+            name: payload.name,
             profilePictureUrl: payload.profilepictureurl,
             role: payload.role == "Administrator" ? Role.Administrator : Role.Customer
         }

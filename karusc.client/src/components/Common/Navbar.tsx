@@ -18,7 +18,6 @@ export const Navbar = () => {
     const { getDeviceType } = useScreenSize();
     const { getUser, logOut } = useUserContext();
     const user = getUser();
-    console.log("Component reloaded and new user values is " + JSON.stringify(user));
 
     const handleLogout = () => {
         logOut();
