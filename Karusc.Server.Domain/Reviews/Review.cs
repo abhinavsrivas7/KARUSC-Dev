@@ -8,26 +8,30 @@ namespace Karusc.Server.Domain.Reviews
         public User? Author { get; private set; }
         public Guid? AuthorId { get; private set; }
         public string Title { get; private set; }
-        public string? Content { get; private set; }
         public Rating Rating { get; private set; }
 
-        private Review(string title, string? content, Rating rating) 
+        private Review(string title, Rating rating) 
         {
             Title = title;
-            Content = content;
             Rating = rating;
         }
 
         public static Review Create(
-            User author,
+            User currentUser,
             string title,
-            string? content,
             Rating rating)
         {
-            var review = new Review(title, content, rating);
-            review.Author = author;
+            if (((int)rating) < 1 || ((int)rating) > 5)
+            {
+                throw new Exception("Rating can only be between 1 to 5");
+            }
+
+            var review = new Review(title, rating);
+            review.Author = currentUser;
             review.AuthorId = review.Author.Id;
             return review;
         }
+
+        public bool IsDeleteableBy(User user) => user.Id == AuthorId;
     }
 }

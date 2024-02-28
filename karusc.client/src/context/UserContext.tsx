@@ -8,21 +8,23 @@ type LoggedInUserProviderProps = {
 
 type UserContext = {
     getUser: () => User | null,
+    getToken: () => Token[] | null,
     setUserFromToken: (tokens: Token[]) => void,
     logOut: () => void
 };
 
 export const LoggedInUserContext = createContext({} as UserContext);
 
-
 export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
-    const [storableUser, setStorableUser] = useState<StorableUser | null>();
+    const user = loadUserFromLocalStorage();
+    const [storableUser, setStorableUser] = useState<StorableUser | null>(user);
 
     const getUser = () => storableUser?.user ?? null;
+    const getToken = () => storableUser?.tokens ?? null;
+    console.log(getToken);
 
     const setUserFromToken = (tokens: Token[]) => {
-        console.log("Reached")
-        if (storableUser !== null) {
+        if (storableUser === null) {
             const user = getUserFromToken(tokens);
             setStorableUser(user);
         }
@@ -35,13 +37,6 @@ export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
     };
 
     useEffect(() => {
-        const user = loadUserFromLocalStorage();
-        if (user) {
-            setStorableUser(user);
-        }
-    }, []);
-
-    useEffect(() => {
         if (storableUser) {
             localStorage.setItem(localStorageKeyName, JSON.stringify(storableUser));
         }
@@ -51,7 +46,7 @@ export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
     }, [storableUser]);
 
     return (
-        <LoggedInUserContext.Provider value={{ getUser, setUserFromToken, logOut }}>
+        <LoggedInUserContext.Provider value={{ getUser, setUserFromToken, logOut, getToken }}>
             {children}
         </LoggedInUserContext.Provider>
     );

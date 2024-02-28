@@ -25,6 +25,7 @@ namespace Karusc.Server.Application.Collections.GetById
                     collection.Id,
                     collection.Name,
                     collection.ImageURL!))
+                .AsNoTracking()
                 .FirstOrDefaultAsync(collection => collection.Id == request.Id, cancellationToken)
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 

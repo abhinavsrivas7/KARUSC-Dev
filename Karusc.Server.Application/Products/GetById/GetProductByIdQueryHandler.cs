@@ -22,7 +22,8 @@ namespace Karusc.Server.Application.Products.GetById
         {
             var product = (await _context.Products
                 .Where(product => product.Id == request.Id)
-                .Select(ProductExpressions.Selector)              
+                .Select(ProductExpressions.Selector)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(cancellationToken))
                 ?? throw new KeyNotFoundException(request.Id.ToString());
 

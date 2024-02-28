@@ -130,9 +130,11 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Title");
 
                     b.ToTable("Products");
                 });
@@ -147,9 +149,6 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("char(36)");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("longtext");
-
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
@@ -161,7 +160,10 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", t =>
+                        {
+                            t.HasCheckConstraint("Review_Rating_Check", "Rating >= 1 AND Rating <= 5");
+                        });
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.UI.HomeCarouselImage", b =>

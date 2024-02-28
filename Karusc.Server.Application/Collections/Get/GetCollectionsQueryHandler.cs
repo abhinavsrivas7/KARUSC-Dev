@@ -27,6 +27,7 @@ namespace Karusc.Server.Application.Collections.Get
                     collection.ImageURL!))
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
             return !string.IsNullOrEmpty(_enrichmentPrefix)

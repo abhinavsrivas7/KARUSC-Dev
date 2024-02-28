@@ -11,39 +11,12 @@ namespace Karusc.Server.Application.Users.SignUp
 
         public SignUpCommandHandler(
             IKaruscDbContext context, 
-            IFileStorageService<User> fileStorageService)
-        {
-            _context = context;
-            _fileStorageService = fileStorageService;
-        }
+            IFileStorageService<User> fileStorageService) =>
+            (_context, _fileStorageService) = (context, fileStorageService);
 
-        public async Task<UserDto> Handle(SignUpCommand command, CancellationToken cancellationToken)
-        {
-            var user = User.Create(
-                command.Email,
-                command.Name,
-                command.Password.HashPassword(),
-                Role.Customer,
-                command.ProfilePicture);
-
-            if (!string.IsNullOrEmpty(user.ProfilePictureURL) && user.ProfilePicture is not null)
-            {
-                user.ProfilePictureURL = await _fileStorageService
-                    .Upload(user.ProfilePicture, cancellationToken);
-            }
-            
-            await _context.Users.AddAsync(user, cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return new UserDto(
-                user.Id, 
-                user.Email, 
-                user.Name,
-                string.IsNullOrEmpty(_fileStorageService.EnrichmentPrefix) 
-                    ? user.ProfilePictureURL
-                    : string.IsNullOrEmpty(user.ProfilePictureURL) 
-                    ? user.ProfilePictureURL
-                    : string.Concat(_fileStorageService.EnrichmentPrefix, user.ProfilePictureURL));
-        }
+        public async Task<UserDto> Handle(
+            SignUpCommand command,
+            CancellationToken cancellationToken) => await command
+            .SaveUser(_fileStorageService, _context, cancellationToken);
     }
 }

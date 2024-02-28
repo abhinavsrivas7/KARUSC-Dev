@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Application.Products.Get
 {
-    internal sealed class GetProductsQueryHandler : 
+    internal sealed class GetProductsSearchQueryHandler : 
         IRequestHandler<GetProductsQuery, ProductWithCountDto>
     {
         private readonly IKaruscDbContext _context;
         private readonly string? _enrichmentPrefix;
 
-        public GetProductsQueryHandler(
+        public GetProductsSearchQueryHandler(
             IKaruscDbContext context,
             IFileStorageService<Product> fileStorageService) => 
             (_context, _enrichmentPrefix) = (context, fileStorageService.EnrichmentPrefix);
@@ -26,6 +26,7 @@ namespace Karusc.Server.Application.Products.Get
                 .Select(ProductExpressions.Selector)
                 .Skip(request.PageSize * request.PageNumber)
                 .Take(request.PageSize)
+                .AsNoTracking()
                 .ToListAsync(cancellationToken);
 
             var count = await filteredProducts.CountAsync(cancellationToken);

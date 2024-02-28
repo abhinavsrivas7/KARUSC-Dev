@@ -7,12 +7,23 @@ namespace Karusc.Server.Application.Products
 {
     internal static class ProductExpressions
     {
+        internal static Expression<Func<Product, ProductDto>> SelectorWithoutJoin =>
+            product => new ProductDto(
+                    product.Id,
+                    product.Title,
+                    product.Price,
+                    product.Description,
+                    product.CareInstructions,
+                    product.Images!.Select(image => image.FileName).ToList(),
+                    null,
+                    null);
         internal static Expression<Func<Product, ProductDto>> Selector =>
             product => new ProductDto(
                     product.Id,
                     product.Title,
                     product.Price,
                     product.Description,
+                    product.CareInstructions,
                     product.Images!.Select(image => image.FileName).ToList(),
                     product.Categories!
                         .Select(category => new CategoryDto(

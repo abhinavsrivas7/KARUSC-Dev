@@ -10,7 +10,7 @@ namespace Karusc.Server.Infrastructure.Authentication
 {
     internal static class DependencyInjection
     {
-        internal static void AddJwtAuthentication(
+        internal static void AddAuthentication(
             this IServiceCollection services, 
             IConfiguration configuration)
         {
@@ -39,6 +39,8 @@ namespace Karusc.Server.Infrastructure.Authentication
                         LifetimeValidator = (_, end, _, _) => end > DateTime.UtcNow
                     };
                 });
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
         }
     }
 }

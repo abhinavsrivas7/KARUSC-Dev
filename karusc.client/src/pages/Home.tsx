@@ -9,7 +9,7 @@ import { Loader } from "../components/Common/Loader";
 import { ImageCarousel } from "../components/Common/ImageCarousel";
 
 export const Home = () => {
-
+    
     const [categoryData, setCategoryData] = useState<Category[]>([]);
     const [collectionData, setCollectionData] = useState<Collection[]>([]);
     const [carouselData, setCarouselData] = useState<string[]>([]);
@@ -40,7 +40,7 @@ export const Home = () => {
             images={carouselData}
             setControls={false}
             showIndicators={false}
-            intervalValue={1000}
+            intervalValue={3000}
             isDraggable={true} />
         {categoryData.length > 0
             ? <ShopBy componentFor="Category" data={categoryData} />
