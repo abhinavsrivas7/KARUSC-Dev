@@ -1,5 +1,6 @@
 ﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain.Reviews;
+using Karusc.Server.Domain.Users;
 using MediatR;
 
 namespace Karusc.Server.Application.Reviews.Create
@@ -7,13 +8,19 @@ namespace Karusc.Server.Application.Reviews.Create
     internal sealed class CreateReviewCommandHandler 
         : IRequestHandler<CreateReviewCommand, ReviewDto>
     {
-        private ICurrentUserService _currentUserService;
-        private IKaruscDbContext _context;
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IKaruscDbContext _context;
+        private readonly string? _enrichmentPrefix;
 
         public CreateReviewCommandHandler(
             ICurrentUserService currentUserService, 
-            IKaruscDbContext context) => (_currentUserService, _context) = 
-                (currentUserService, context);
+            IKaruscDbContext context,
+            IFileStorageService<User> fileStorageService)
+        {
+            _currentUserService = currentUserService;
+            _context = context;
+            _enrichmentPrefix = fileStorageService.EnrichmentPrefix;
+        } 
 
         public async Task<ReviewDto> Handle(
             CreateReviewCommand request, 
@@ -23,7 +30,19 @@ namespace Karusc.Server.Application.Reviews.Create
             var review = Review.Create(currentUser, request.Title, request.Rating);
             await _context.Reviews.AddAsync(review, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return new(review);
+            
+            var dto = new ReviewDto(review);
+            return !string.IsNullOrEmpty(_enrichmentPrefix)
+                ? dto with 
+                { 
+                    Author = dto.Author with 
+                    { 
+                        ProfilePictureUrl = string.Concat(
+                            _enrichmentPrefix, 
+                            dto.Author!.ProfilePictureUrl)
+                    } 
+                }
+                : new(review);
         }
     }
 }
