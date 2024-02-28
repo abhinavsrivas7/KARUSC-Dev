@@ -92,8 +92,8 @@ export const ProductDetails = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <span className="extra-bold-font">Core Instructions</span>
-                                <p>Product description like  this is made of this material  etc.</p>
+                                <span className="extra-bold-font">Care Instructions</span>
+                                <p>{product.careInstructions}</p>
                             </Col>
                         </Row>
                         <Row>

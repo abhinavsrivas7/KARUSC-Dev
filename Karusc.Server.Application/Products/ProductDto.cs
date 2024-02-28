@@ -8,7 +8,8 @@ namespace Karusc.Server.Application.Products
         Guid Id,
         string Title, 
         decimal Price, 
-        string Description, 
+        string Description,
+        string CareInstructions,
         List<string>? Images,
         List<CategoryDto>? Categories,
         List<CollectionDTO>? Collections)
@@ -18,6 +19,7 @@ namespace Karusc.Server.Application.Products
             p.Title, 
             p.Price, 
             p.Description, 
+            p.CareInstructions,
             p.Images?.Select(image => image.FileName)?.ToList(),
             p.Categories?.Select(category => new CategoryDto(category))?.ToList(),
             p.Collections?.Select(collection => new CollectionDTO(collection)).ToList()) {}

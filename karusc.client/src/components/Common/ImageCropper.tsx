@@ -5,6 +5,7 @@ import
     { Crop, PixelCrop, centerCrop, convertToPixelCrop, makeAspectCrop }
 from "react-image-crop";
 
+
 export type ImageCropperData = {
     show: boolean,
     aspectRatio: number,

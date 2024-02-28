@@ -65,6 +65,7 @@ export const ProductList = () => {
                                     price={item.price}
                                     id={item.id}
                                     description={item.description}
+                                    careInstructions={item.careInstructions}
                                     category={item.category}
                                     collection={item.collection} />
                             </NavLink>

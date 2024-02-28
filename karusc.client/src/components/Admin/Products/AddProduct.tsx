@@ -15,7 +15,7 @@ export const AddProduct = () => {
     const maxImagesCount = 5;
 
     const emptyCommand: CreateProductCommand = {
-        title: "", price: 0, description: "", categories: [], collections: [], images: []
+        title: "", price: 0, description: "", careInstructions: "", categories: [], collections: [], images: []
     };
 
     const [disableControls, setDisableControls] = useState<boolean>(false);
@@ -95,6 +95,12 @@ export const AddProduct = () => {
         setCreateCommand(updatedCommand);
     };
 
+    const addCareInstructions = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const updatedCommand = createCommand;
+        updatedCommand.careInstructions = event.target.value;
+        setCreateCommand(updatedCommand);
+    };
+
     const addCategory = (categoryId: string) => {
         const updatedCommand = createCommand;
         updatedCommand.categories.push(categoryId);
@@ -121,6 +127,7 @@ export const AddProduct = () => {
         setShowLoader(true);
         axios.post(GetProductsEndpoint(), createCommand)
             .then(response => {
+                console.log(response);
                 if (response.status == 201) {
                     setDisableControls(false);
                     setShowSuccessAlert(true);
@@ -190,7 +197,17 @@ export const AddProduct = () => {
                 onChange={addDescription}
                 disabled={disableControls}
                 defaultValue={createCommand.description} />
-        </Form.Group>     
+        </Form.Group> 
+        <Form.Group className="mb-4" controlId="formDescription">
+            <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter Care Instructions"
+                className="pink-placeholder"
+                onChange={addCareInstructions}
+                disabled={disableControls}
+                defaultValue={createCommand.careInstructions} />
+        </Form.Group> 
         <Form.Group className="mb-4" controlId="formImage">
             <Form.Label className="semi-bold-font">Upload Product Images</Form.Label>
             {images.length > 0

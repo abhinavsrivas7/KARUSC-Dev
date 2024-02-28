@@ -17,14 +17,13 @@ export const LoggedInUserContext = createContext({} as UserContext);
 
 export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
     const user = loadUserFromLocalStorage();
-    console.log("component reloaded and value is " + JSON.stringify(user));
     const [storableUser, setStorableUser] = useState<StorableUser | null>(user);
 
     const getUser = () => storableUser?.user ?? null;
     const getToken = () => storableUser?.tokens ?? null;
+    console.log(getToken);
 
     const setUserFromToken = (tokens: Token[]) => {
-        console.log("Reached")
         if (storableUser === null) {
             const user = getUserFromToken(tokens);
             setStorableUser(user);

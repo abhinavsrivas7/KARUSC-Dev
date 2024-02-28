@@ -136,15 +136,17 @@ export const Navbar = () => {
                                 Product List
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink
-                                style={{ textDecoration: 'none' }}
-                                to="/Admin"
-                                onClick={() => setShowDrawer(false)}
-                                className="regular-font light-pink"                            >
-                                Admin
-                            </NavLink>
-                        </li>
+                        {user?.role === 1 ?
+                            <li>
+                                <NavLink
+                                    style={{ textDecoration: 'none' }}
+                                    to="/Admin"
+                                    onClick={() => setShowDrawer(false)}
+                                    className="regular-font light-pink"                            >
+                                    Admin
+                                </NavLink>
+                            </li>
+                            : null}
                     </ul>
                 </Offcanvas.Body>
             </Offcanvas>
