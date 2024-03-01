@@ -5,19 +5,51 @@ import hamburgImg from "../../../resources/media/hamburger.svg";
 import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
 import { DeviceTypes } from "../../models/DeviceTypes";
 import { LoginModal } from "../Authentication/LoginModal";
 import { useUserContext } from "../../hooks/useUserHook";
+import { Search } from "../../models/SearchModels";
+import axios from "axios";
+import { GetSearchEndpoint } from "../../utilities/EndpointUtils";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
     const [showDrawer, setShowDrawer] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+    const [searchResults, setSearchResults] = useState<Search[]>([]);
     const { getDeviceType } = useScreenSize();
     const { getUser, logOut } = useUserContext();
     const user = getUser();
+    const navigate = useNavigate();
+
+    const getSearchResults = (searchTerm: string) => {
+        if (searchTerm && searchTerm !== '') {
+            axios.get(GetSearchEndpoint(), {
+                params: {
+                    text: searchTerm,
+                    resultSize: 5
+                }
+            }).then(response => setSearchResults(response.data));
+        }      
+    };
+
+    const handleSelectedSearchOption = (selectedOption: Search) => {
+        let path: string;
+
+        switch (selectedOption.resultType) {
+            case 'Category': path = 'Categories';
+                break;
+            case 'Collection': path = 'Collections'
+                break;
+            default: throw new Error("Invalid search result type")
+        }
+
+        setSearchActive(false);
+        navigate(`/ProductList?${path}=${selectedOption.id}`);        
+    };
 
     const handleLogout = () => {
         logOut();
@@ -70,25 +102,38 @@ export const Navbar = () => {
     </>;
 
     const searchActiveLayout = <>
-        <Stack direction="horizontal" className="me-auto ">
+        <Stack direction="horizontal" className="me-auto w-100" gap={2}>
             <Button
                 onClick={() => setSearchActive(false)}
                 variant="white"
                 style={{ width: '1.5rem', padding: 0, border: 0 }}>
                 <img src={backArrowImg} />
             </Button>
+            <div style={{ width: '100%' }} className="mb-4 py-1">
+                <ReactSearchAutocomplete<Search>
+                    items={searchResults}
+                    onSearch={getSearchResults}
+                    styling={{
+                        height: '2rem',
+                        backgroundColor: '#FFF3F5',
+                        placeholderColor: 'rgba(158, 45, 79, 0.56)',
+                        color: 'rgba(158, 45, 79, 0.56)',
+                        iconColor: 'rgba(158, 45, 79, 0.56)',
+                        lineColor: 'rgba(158, 45, 79, 0.56)',
+                        borderRadius: '0px',
+                        border: "0",
+                        boxShadow: "rgba(158, 45, 79, 0.56) 0px 1px 6px 0px"
+                    }}
+                    placeholder="Search..."
+                    showIcon={false}
+                    resultStringKeyName="title"
+                    fuseOptions={{ keys: [ "title" ] }}
+                    onSelect={handleSelectedSearchOption}
+                    formatResult={(result: Search) => <span>{result.title}</span>} />
+            </div>
+            
         </Stack>
-        <Container>
-            <input className="pink-placeholder" style={{ width: "100%" }} placeholder="Search..."></input>
-        </Container>
-        <Stack direction="horizontal" className="ms-auto">
-            <Button
-                onClick={() => setSearchActive(false)}
-                variant="white"
-                style={{ width: '1.45rem', padding: 0, border: 0 }}>
-                <img src={searchImg} />
-            </Button>
-        </Stack>
+
     </>;
 
     const navbarClass = getDeviceType() == DeviceTypes.MOBILE

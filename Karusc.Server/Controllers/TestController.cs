@@ -1,5 +1,6 @@
 using Karusc.Server.Application.Test;
-using Karusc.Server.Domain.Products;
+using Karusc.Server.Domain.Users;
+using Karusc.Server.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,7 @@ namespace Karusc.Server.Controllers
         private readonly IMediator _mediator;
         public TestController(IMediator mediator) => _mediator = mediator;
 
+        [HasRole(Role.Administrator)]
         [HttpPost]
         public async Task<IActionResult> Create(
             [FromBody] CreateBulkProductCommand command,
