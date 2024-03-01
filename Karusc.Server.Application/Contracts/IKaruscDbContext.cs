@@ -4,6 +4,8 @@ using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;
 using Karusc.Server.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Karusc.Server.Application.Contracts
 {
@@ -17,6 +19,7 @@ namespace Karusc.Server.Application.Contracts
         DbSet<User> Users { get; set; }
         DbSet<Address> Addresses { get; set; }
         DbSet<Review> Reviews { get; set; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);       
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
     }
 }

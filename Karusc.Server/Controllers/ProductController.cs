@@ -2,8 +2,6 @@ using Karusc.Server.Application.Products.Create;
 using Karusc.Server.Application.Products.Delete;
 using Karusc.Server.Application.Products.Get;
 using Karusc.Server.Application.Products.GetById;
-using Karusc.Server.Application.Products.Search;
-using Karusc.Server.Application.Products.SearchDiscovery;
 using Karusc.Server.Domain.Products;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -16,20 +14,6 @@ namespace Karusc.Server.Controllers
     {
         private readonly IMediator _mediator;
         public ProductController(IMediator mediator) => _mediator = mediator;
-
-        [HttpGet(nameof(Search))]
-        public async Task<IActionResult> Search(
-            [FromQuery] int pageSize,
-            [FromQuery] string productName,
-            CancellationToken cancellationToken =  default) => Ok(await _mediator.Send(
-                new GetProductsSearchQuery(pageSize,productName),cancellationToken));
-
-        [HttpGet(nameof(SearchDiscovery))]
-        public async Task<IActionResult> SearchDiscovery(
-            [FromQuery] int pageSize,
-            [FromQuery] string productName,
-            CancellationToken cancellationToken =  default) => Ok(await _mediator.Send(
-                new GetProductsSearchDiscoveryQuery(pageSize,productName),cancellationToken));
 
         [HttpGet(nameof(Get))]
         public async Task<IActionResult> Get(

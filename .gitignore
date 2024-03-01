@@ -30,3 +30,8 @@
 /node_modules
 /package-lock.json
 /package.json
+/karusc.client/karusc.client.esproj
+/karusc.client/package-lock.json
+/Karusc.Server/appsettings.json
+/Karusc.Server/Properties/launchSettings.json
+/karusc.client/.env
