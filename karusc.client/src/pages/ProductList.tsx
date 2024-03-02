@@ -20,27 +20,41 @@ export const ProductList = () => {
     const [totalPages, setTotalPages] = useState<number>(1);    
     const gapVal = getDeviceType() == DeviceTypes.DESKTOP ? 0 : 1;
     const gapClass = getDeviceType() == DeviceTypes.DESKTOP ? "my -2 px-3" : "my-2 px-1";
-
     const location = useLocation();
-    const state = location.state as ProductListFilter;
-    console.log("got state");
-    console.log(state.id);
-    console.log(state.name);
     
     useEffect(() => {
-        axios.get(GetProductsEndpoint(), {
-            params: {
-                pageSize: deviceType === DeviceTypes.MOBILE ? 9 : 12,
-                pageNumber: currentPage,
-                //categories: categoryId === '' ? null : categoryId,
-                //collections: collectionId === '' ? null : collectionId
+        const getProductsFilter = () => {
+            const state = location.state as ProductListFilter;
+            let params;
+
+            switch (state.name) {
+                case 'Category': params = {
+                    pageSize: deviceType === DeviceTypes.MOBILE ? 9 : 12,
+                    pageNumber: currentPage,
+                    categories: state.id
+                };
+                    break;
+
+                case 'Collection': params = {
+                    pageSize: deviceType === DeviceTypes.MOBILE ? 9 : 12,
+                    pageNumber: currentPage,
+                    categories: state.id
+                };
+                    break;
+
+                default: throw new Error("Invalid filter name");
             }
+            return params;
+        };
+
+        axios.get(GetProductsEndpoint(), {
+            params: getProductsFilter()
         }).then(response => {
             setProducts(response.data.products)
             setTotalPages(response.data.count);
 
         }).catch(() => setErrorState(true));
-    }, [currentPage, deviceType]);
+    }, [currentPage, deviceType, location.state]);
     
     return products
         ? <>
