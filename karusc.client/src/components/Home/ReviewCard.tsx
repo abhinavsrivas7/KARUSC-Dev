@@ -127,12 +127,12 @@ export const ReviewCard = ({
                         ? Array 
                             .from({ length: 5 })
                             .map((_, index) => index < rating
-                                ? <img src={starFilled} height={responsiveStyles.starSize} />
-                                : <img src={starEmpty} height={responsiveStyles.starSize} />)
+                                ? <img key={index} src={starFilled} height={responsiveStyles.starSize} />
+                                : <img key={index} src={starEmpty} height={responsiveStyles.starSize} />)
                         : Array
                             .from({ length: 5 })
                             .map((_, index) => index < createReviewCommand.rating
-                                ? <div className={responsiveStyles.ratingInputClass} >
+                                ? <div className={responsiveStyles.ratingInputClass} key={index}>
                                     <img
                                         src={starFilled}
                                         height={responsiveStyles.starSize}
@@ -141,7 +141,7 @@ export const ReviewCard = ({
                                             rating: index + 1
                                         })} />
                                 </div>
-                                : <div className={responsiveStyles.ratingInputClass}>
+                                : <div className={responsiveStyles.ratingInputClass} key={index}>
                                     <img
                                         src={starEmpty}
                                         height={responsiveStyles.starSize}

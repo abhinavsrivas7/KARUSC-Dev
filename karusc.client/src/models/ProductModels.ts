@@ -19,3 +19,8 @@ export type CreateProductCommand = {
     collections: string[];
 }
 
+export type ProductListFilter = {
+    id: string,
+    name: string
+}
+

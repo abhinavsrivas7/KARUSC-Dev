@@ -99,7 +99,7 @@ export const Review = () => {
                     minimumTouchDrag={1}
 
                 >
-                    {reviews.map((review) => <div className="px-2">
+                    {reviews.map((review) => <div key={review.id} className="px-2">
                         <ReviewCard
                             author={review.author}
                             isInputCard={review.isInputCard}
@@ -107,8 +107,7 @@ export const Review = () => {
                             title={review.title}
                             id={review.id}
                             cancelAddCallback={removeAddReviewCard}
-                            addReviewCallback={addReviewCard}
-                            key={review.id} />
+                            addReviewCallback={addReviewCard} />
                     </div>)}
                 </Carousel>
                 <div className="mt-4 d-flex justify-content-center align-items-center">
