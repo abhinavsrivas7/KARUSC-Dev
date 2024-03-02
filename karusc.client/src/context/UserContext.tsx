@@ -21,7 +21,6 @@ export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
 
     const getUser = () => storableUser?.user ?? null;
     const getToken = () => storableUser?.tokens ?? null;
-    console.log(getToken);
 
     const setUserFromToken = (tokens: Token[]) => {
         if (storableUser === null) {

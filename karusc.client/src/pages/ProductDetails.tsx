@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Product } from "../models/ProductModels";
-import { GetProductsEndpoint } from "../utilities/EndpointUtils";
+import { GetProductByIdEndpoint } from "../utilities/EndpointUtils";
 import axios from "axios";
 import { Loader } from "../components/Common/Loader";
 import { ImageCarousel } from "../components/Common/ImageCarousel";
@@ -16,28 +16,26 @@ export const ProductDetails = () => {
     const { getDeviceType } = useScreenSize();
     const marginClass = getDeviceType() === DeviceTypes.MOBILE ? "mt-4 px-5" : "px-5";
 
-
     const handleSharing = (title: string, text: string) => navigator
         .share({
             text: text,
             title: title,
             url: window.location.href
-        })
-        .then(() => console.log("Hooray! Your content was shared to tha world"));
+        });
    
 
     useEffect(() => {
         try {
             const id = window.location.href.split('/')?.slice(-1)[0]?.split('?')[1].split('=')[1];
 
-            axios.get(`${GetProductsEndpoint()}/${id}`)
+            axios.get(`${GetProductByIdEndpoint()}/${id}`)
                 .then(response => {
                     setProduct(response.data);
                 })
                 .catch(() => navigate("/"));
         }
         catch { navigate("/"); }
-    }, []);
+    }, [navigate]);
 
     return product
         ? <>
