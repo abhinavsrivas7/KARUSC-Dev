@@ -9,6 +9,7 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
 import shareImg from "../../resources/media/share.svg"
+import { FormatProductPrice } from "../utilities/ProductCardUtils";
 
 export const ProductDetails = () => {
     const navigate = useNavigate();
@@ -59,8 +60,7 @@ export const ProductDetails = () => {
                         </Row>
                         <Row>
                             <Col>
-                                <span className="extra-bold-font">Price: </span>
-                                <span>{product.price}</span>
+                                <span>{FormatProductPrice(product.price)}</span>
                                 <p className="light-font" style={{ fontSize: "small" }}>Tax Included</p>
                             </Col>
                         </Row>
