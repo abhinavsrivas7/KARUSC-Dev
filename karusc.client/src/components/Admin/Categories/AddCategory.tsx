@@ -2,14 +2,15 @@ import { Button, Form } from "react-bootstrap";
 import { ErrorAlert, UploadFile } from "../../../models/AdminModels";
 import { CreateCategoryCommand } from "../../../models/CategoryModels";
 import { useRef, useState } from "react";
-import { ConvertToBase64 } from "../../../utilities/FileUtils";
 import { GetCategoriesEndpoint } from "../../../utilities/EndpointUtils";
 import axios from "axios";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
 import { Loader } from "../../Common/Loader";
+import { ImageCropper } from "../../Common/ImageCropper";
+import { ConvertToBase64 } from "../../../utilities/FileUtils";
 
 export const AddCategory = () => {
-    const emptyUploadFile: UploadFile = { fileContent: "", fileName: "" };
+    const emptyUploadFile: UploadFile = { content: "", name: "", index: -1 };
     const emptyCommand: CreateCategoryCommand = { name: "", image: "" };
     const formRef = useRef<HTMLFormElement>(null);
     const [disableControls, setDisableControls] = useState<boolean>(false);
@@ -18,11 +19,22 @@ export const AddCategory = () => {
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
     const [createCommand, setCreateCommand] = useState<CreateCategoryCommand>(emptyCommand);
+    const [showImageCropper, setShowImageCropper] = useState<boolean>(false);
 
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
         errorAlertDescription: null
     });
+
+    const cropImageCallback = (returnedCroppedImage: string) => {
+        setShowImageCropper(false);
+        if (returnedCroppedImage !== null) {
+            setImage({ content: returnedCroppedImage, name: image.name, index: 0});
+            const updatedCommand = createCommand;
+            updatedCommand.image = returnedCroppedImage;
+            setCreateCommand(updatedCommand);
+        }        
+    }
 
     const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
         const updatedCommand = createCommand;
@@ -33,10 +45,8 @@ export const AddCategory = () => {
     const addImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files?.length > 0) {
             const fileBase64 = await ConvertToBase64(event.target.files[0]) as string;
-            setImage({ fileContent: fileBase64, fileName: event.target.files[0].name });
-            const updatedCommand = createCommand;
-            updatedCommand.image = fileBase64;
-            setCreateCommand(updatedCommand);
+            setImage({ content: fileBase64, name: event.target.files[0].name, index:0 });
+            setShowImageCropper(true);
             formRef.current?.reset();
         }
     };
@@ -64,8 +74,6 @@ export const AddCategory = () => {
                 }
             })
             .catch((response) => {
-                console.log(response);
-                console.log(response.response.data.Message);
                 setFormOpacity(1);
                 setShowLoader(false);
                 setErrorState({
@@ -80,51 +88,64 @@ export const AddCategory = () => {
             });
     };
 
-    return <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
-        {showSuccessAlert
-            ? < DissmissableAlert
-                title="Category Created Successfully!"
-                variant="success"
-                description={null} />
-            : null
-        }
-        {errorState.showErrorAlert
-            ? < DissmissableAlert
-                title="Category Could Not Be Created!"
-                variant="danger"
-                description={errorState.errorAlertDescription} />
-            : null
-        }
-        <Form.Group className="mb-4" controlId="formTitle">
-            <Form.Control
-                className="pink-placeholder"
-                type="text"
-                placeholder="Enter Title"
-                onChange={addTitle}
-                disabled={disableControls}
-                defaultValue={createCommand.name} />
-        </Form.Group>
-        <Form.Group className="mb-4" controlId="formImage">
-            <Form.Label className="semi-bold-font">Upload Category Image</Form.Label>
-            {image != emptyUploadFile
-                ? <p>{image.fileName}</p>
-                : null}
-            <Form.Control
-                className="pink-placeholder"
-                type="file"
-                onChange={addImage}
-                disabled={disableControls}
-                defaultValue={createCommand.image} />
-        </Form.Group>
-        {showLoader ? <Loader /> : null}
-        <Button
-            variant="primary"
-            className="admin-button mt-4"
-            style={{ width: '100%' }}
-            type="submit"
-            disabled={disableControls} >
-            Create Category
-        </Button>
-    </Form>;
+    return <>
+        <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
+            {showSuccessAlert
+                ? < DissmissableAlert
+                    title="Category Created Successfully!"
+                    variant="success"
+                    description={null} />
+                : null
+            }
+            {errorState.showErrorAlert
+                ? < DissmissableAlert
+                    title="Category Could Not Be Created!"
+                    variant="danger"
+                    description={errorState.errorAlertDescription} />
+                : null
+            }
+            <Form.Group className="mb-4" controlId="formTitle">
+                <Form.Control
+                    className="pink-placeholder"
+                    type="text"
+                    placeholder="Enter Title"
+                    onChange={addTitle}
+                    disabled={disableControls}
+                    defaultValue={createCommand.name} />
+            </Form.Group>
+            <Form.Group className="mb-4" controlId="formImage">
+                <Form.Label className="semi-bold-font mb-1">
+                    {createCommand.image !== null ? "Change Picture" : "Upload Image"}
+                </Form.Label>
+                {createCommand.image !== null
+                    ? <div className="my-2">
+                        <img src={createCommand.image} height="70vh" />
+                    </div>
+                    : null
+                }
+                <Form.Control
+                    className="pink-placeholder"
+                    type="file"
+                    onChange={addImage}
+                    disabled={disableControls}
+                    defaultValue={createCommand.image} />
+            </Form.Group>
+            {showLoader ? <Loader /> : null}
+            <Button
+                variant="primary"
+                className="admin-button mt-4"
+                style={{ width: '100%' }}
+                type="submit"
+                disabled={disableControls} >
+                Create Category
+            </Button>
+        </Form>;
+        <ImageCropper
+            aspectRatio={1}
+            image={image.content}
+            minWidth={150}
+            circularCrop={false}
+            callBack={cropImageCallback}
+            show={showImageCropper} />
+    </>;
 }
-

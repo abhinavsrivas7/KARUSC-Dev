@@ -4,6 +4,7 @@ import
     ReactCrop,
     { Crop, PixelCrop, centerCrop, convertToPixelCrop, makeAspectCrop }
 from "react-image-crop";
+import { DissmissableAlert } from "./DissmissableAlert";
 
 
 export type ImageCropperData = {
@@ -11,7 +12,13 @@ export type ImageCropperData = {
     aspectRatio: number,
     minWidth: number,
     image: string,
+    circularCrop: boolean,
     callBack: (imageBase64: string) => void
+};
+
+type ErrorState = {
+    show: boolean,
+    message: string
 };
 
 export const ImageCropper = ({
@@ -19,12 +26,14 @@ export const ImageCropper = ({
     aspectRatio,
     minWidth,
     image,
+    circularCrop,
     callBack
 }: ImageCropperData) => {
     const [crop, setCrop] = useState<Crop>();
     const imgRef = useRef<HTMLImageElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
+    const [error, setError] = useState<ErrorState>({ show: false, message: "" });
    
     const onImageLoad = (event: React.SyntheticEvent<HTMLImageElement, Event>) => {
         const { width, height } = event.currentTarget;
@@ -38,10 +47,27 @@ export const ImageCropper = ({
             width,
             height
         );
-        setCrop(centerCrop(crop, width, height));
+
         const image = imgRef.current;
-        const pixelCrop = convertToPixelCrop(crop, image?.width ?? 0, image?.height ?? 0);
-        setCompletedCrop(pixelCrop);
+        if (image?.width && image?.height) {
+            if (image.width < minWidth || image.height < (minWidth / aspectRatio)) {
+                setError({
+                    show: true,
+                    message: `Image is too small. Please upload a minimum size of ${minWidth}x${minWidth / aspectRatio}.`
+                });
+            }
+            setCrop(centerCrop(crop, width, height));
+            const pixelCrop = convertToPixelCrop(crop, width, height);
+            pixelCrop.x = ((image?.width ?? 0) - minWidth) / 2;
+            pixelCrop.y = ((image?.height ?? 0) - (minWidth / aspectRatio)) / 2;
+            setCompletedCrop(pixelCrop);
+        }
+        else {
+            setError({
+                show: true,
+                message: `Invalid image uploaded.`
+            });
+        }
     };
 
     const getCroppedImageData = () => {       
@@ -96,35 +122,44 @@ export const ImageCropper = ({
             </Modal.Title>
         </Modal.Header>
         <Modal.Body className="light-pink d-flex justify-content-center align-items-center px-4">
-            <ReactCrop
-                crop={crop}
-                onChange={(pixelCrop, percentCrop) => {
-                    setCompletedCrop(pixelCrop);
-                    setCrop(percentCrop);
-                }}
-                circularCrop
-                keepSelection
-                aspect={aspectRatio}
-                minWidth={minWidth}>
-                <img
-                    ref={imgRef}
-                    src={image}
-                    style={{ maxHeight: "70vh" }}
-                    onLoad={onImageLoad} />
-            </ReactCrop>
-            <canvas
-                ref={canvasRef}
-                style={{
-                    objectFit: 'contain',
-                    width: completedCrop?.width,
-                    height: completedCrop?.height,
-                    display: "none"
-                }}
-            />
+            {error.show
+                ? < DissmissableAlert
+                    title={error.message}
+                    variant="danger"
+                    description={null} />           
+                : <>
+                    <ReactCrop
+                        crop={crop}
+                        onChange={(pixelCrop, percentCrop) => {
+                            console.log(pixelCrop);
+                            console.log(percentCrop);
+                            setCompletedCrop(pixelCrop);
+                            setCrop(percentCrop);
+                        }}
+                        circularCrop={circularCrop}
+                        keepSelection
+                        aspect={aspectRatio}
+                        minWidth={minWidth}>
+                        <img
+                            ref={imgRef}
+                            src={image}
+                            style={{ maxHeight: "70vh" }}
+                            onLoad={onImageLoad} />
+                    </ReactCrop>
+                    <canvas
+                        ref={canvasRef}
+                        style={{
+                            objectFit: 'contain',
+                            width: completedCrop?.width,
+                            height: completedCrop?.height,
+                            display: "none"
+                        }}
+                    />
+                </>}              
         </Modal.Body>
         <Modal.Footer className="light-pink d-flex justify-content-center align-items-center">
             <Container className="d-flex justify-content-center align-items-center mt-3">
-                <Button className="admin-button" onClick={getCroppedImageData}>Save</Button>
+                <Button className="admin-button" onClick={getCroppedImageData} disabled={error.show}>Save</Button>
             </Container>
         </Modal.Footer>
     </Modal>;

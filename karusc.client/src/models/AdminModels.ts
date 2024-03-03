@@ -1,6 +1,7 @@
 export type UploadFile = {
-    fileContent: string,
-    fileName: string
+    content: string,
+    name: string,
+    index: number
 };
 
 export type ErrorAlert = {
