@@ -19,7 +19,7 @@ export type LoginModalData = {
 
 export const LoginModal = (modalData: LoginModalData) => {
 
-    const emptyUploadFile: UploadFile = { fileContent: "", fileName: "" };
+    const emptyUploadFile: UploadFile = { content: "", name: "", index: -1 };
     const [isLoginMode, setIsLoginMode] = useState<boolean>(true);
     const emptyLoginCommand: LoginCommand = { email: "", password: "" };
     const emptySignUpCommand: SingupCommand = { email: "", name: "", password: "", profilePicture: "" };
@@ -153,7 +153,7 @@ export const LoginModal = (modalData: LoginModalData) => {
     const addImageToSignUpCommand = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files?.length > 0) {
             const fileBase64 = await ConvertToBase64(event.target.files[0]) as string;
-            setImage({ fileContent: fileBase64, fileName: event.target.files[0].name });
+            setImage({ content: fileBase64, name: event.target.files[0].name, index: 0});
             setShowImageCropper(true);
             //singupFormRef.current?.reset();
         }
@@ -165,7 +165,6 @@ export const LoginModal = (modalData: LoginModalData) => {
         const updatedCommand = signupCommand;
         updatedCommand.profilePicture = image;
         setSignupCommand(updatedCommand);
-        console.log(signupCommand);
     };
 
     const loginModeForm = <Form
@@ -322,8 +321,9 @@ export const LoginModal = (modalData: LoginModalData) => {
         </Modal>
         <ImageCropper
             aspectRatio={1}
-            image={image.fileContent}
+            image={image.content}
             minWidth={150}
+            circularCrop={true}
             callBack={cropImageCallback}
             show={showImageCropper} />
     </>;

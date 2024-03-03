@@ -6,25 +6,35 @@ import { GetHomeCarouselImageEndpoint } from "../../../utilities/EndpointUtils";
 import axios from "axios";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
 import { Loader } from "../../Common/Loader";
+import { ImageCropper } from "../../Common/ImageCropper";
 
 export const AddHomeCarouselImage = () => {
-    const emptyUploadFile: UploadFile = { fileContent: "", fileName: "" };
+    const emptyUploadFile: UploadFile = { content: "", name: "", index: -1 };
     const formRef = useRef<HTMLFormElement>(null);
     const [disableControls, setDisableControls] = useState<boolean>(false);
     const [formOpacity, setFormOpacity] = useState<number>(1);
     const [showSuccessAlert, setShowSuccessAlert] = useState<boolean>(false);
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [image, setImage] = useState<UploadFile>(emptyUploadFile);
+    const [showImageCropper, setShowImageCropper] = useState<boolean>(false);
+
     const [errorState, setErrorState] = useState<ErrorAlert>({
         showErrorAlert: false,
         errorAlertDescription: null
     });
 
+    const cropImageCallback = (returnedCroppedImage: string) => {
+        setShowImageCropper(false);
+        if (returnedCroppedImage !== null) {
+            setImage({ content: returnedCroppedImage, name: image.name, index: 0 });
+        }
+    }
 
     const addImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files?.length > 0) {
             const fileBase64 = await ConvertToBase64(event.target.files[0]) as string;
-            setImage({ fileContent: fileBase64, fileName: event.target.files[0].name });
+            setImage({ content: fileBase64, name: event.target.files[0].name, index: 0 });
+            setShowImageCropper(true);
             formRef.current?.reset();
         }
     };
@@ -39,7 +49,7 @@ export const AddHomeCarouselImage = () => {
         setShowSuccessAlert(false);
         setFormOpacity(0.1);
         setShowLoader(true);
-        axios.post(GetHomeCarouselImageEndpoint(), { image: image.fileContent })
+        axios.post(GetHomeCarouselImageEndpoint(), { image: image.content })
             .then(response => {
                 if (response.status == 201) {
                     setDisableControls(false);
@@ -69,7 +79,8 @@ export const AddHomeCarouselImage = () => {
 
 
 
-    return <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
+    return <>
+    <Form ref={formRef} onSubmit={handleSubmit} style={{ opacity: formOpacity }}>
         {showSuccessAlert
             ? < DissmissableAlert
                 title="Home Carousel Image Added Successfully!"
@@ -85,16 +96,21 @@ export const AddHomeCarouselImage = () => {
             : null
         }
         <Form.Group className="mb-4" controlId="formImage">
-            <Form.Label className="semi-bold-font">Upload Home Carousel Image</Form.Label>
-            {image != emptyUploadFile
-                ? <p>{image.fileName}</p>
-                : null}
+            <Form.Label className="semi-bold-font mb-1">
+                {image.content !== null ? "Change Picture" : "Upload Image"}
+            </Form.Label>
+            {image.content !== null
+                ? <div className="my-2">
+                    <img src={image.content} height="70vh" />
+                </div>
+                : null
+            }
             <Form.Control
                 className="pink-placeholder"
                 type="file"
                 onChange={addImage}
                 disabled={disableControls}
-                defaultValue={image.fileContent} />
+                defaultValue={image.content} />
         </Form.Group>
         {showLoader ? <Loader /> : null}
         <Button
@@ -106,5 +122,13 @@ export const AddHomeCarouselImage = () => {
             Add Carousel Image
         </Button>
     </Form>;
+    <ImageCropper
+        aspectRatio={3.67}
+        image={image.content}
+        minWidth={250}
+        circularCrop={false}
+        callBack={cropImageCallback}
+        show={showImageCropper} />
+    </>
 }
 
