@@ -1,4 +1,5 @@
 ﻿using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Orders;
 using Karusc.Server.Domain.Reviews;
 
 namespace Karusc.Server.Domain.Users
@@ -13,6 +14,8 @@ namespace Karusc.Server.Domain.Users
         public Role Role { get; init; }
         public List<Address>? Addresses { get; private set; } = null;
         public List<Review>? Reviews { get; private set; } = null;
+        public Cart? Cart { get; set; } = null;
+        public List<Order>? Orders { get; set; } = null;
 
         private User(string email, string name, string passwordHash, Role role)
         {
@@ -34,7 +37,5 @@ namespace Karusc.Server.Domain.Users
             user.ProfilePictureURL = user.ProfilePicture.FileName;           
             return user;
         }
-
-        public void AddAddress(List<Address> addresses) => Addresses = addresses;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Karusc.Server.Application.Contracts;
 using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Orders;
 using Karusc.Server.Domain.Products;
 using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;
@@ -19,6 +20,10 @@ namespace Karusc.Server.Infrastructure.Persistence
         public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<LineItem<Order>> OrderLineItems { get; set; }
+        public DbSet<LineItem<Cart>> CartLineItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

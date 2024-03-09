@@ -109,8 +109,8 @@
     color: #890074 !important;
 }
 
-div.offcanvas-start {
-    max-width: 50% !important;
+div.offcanvas-start, div.offcanvas-end {
+    max-width: 70% !important;
     background-color: #FFF3F5 !important;
 }
 /*CUSTOM STYLES -end*/
