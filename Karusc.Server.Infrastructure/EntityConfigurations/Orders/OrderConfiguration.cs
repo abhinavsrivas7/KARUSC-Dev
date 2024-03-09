@@ -9,6 +9,8 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
         public void Configure(EntityTypeBuilder<Order> builder)
         {
             builder.AddLineItemEntityConfiguration();
+            builder.HasIndex(o => o.Status);
+            builder.Property(o => o.Status).IsRequired();
 
             builder
                 .HasOne(o => o.Address)

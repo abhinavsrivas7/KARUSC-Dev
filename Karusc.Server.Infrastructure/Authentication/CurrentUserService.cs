@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Karusc.Server.Infrastructure.Authentication
 {
-    internal class CurrentUserService : ICurrentUserService
+    internal sealed class CurrentUserService : ICurrentUserService
     {
         private HttpContext _httpContext;
         private IKaruscDbContext _dbContext;

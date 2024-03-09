@@ -6,6 +6,7 @@ namespace Karusc.Server.Domain.Orders
     {
         public Address? Address { get; private set; } = null;
         public Guid? AddressId { get; private set; } = null;
+        public OrderStatus Status { get; private set; } = OrderStatus.Created;
         private Order() : base() { }
 
         public static Order Create(User owner, Address address)
