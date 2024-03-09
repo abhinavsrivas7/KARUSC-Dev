@@ -1,9 +1,18 @@
-import { Button, Container, Dropdown, Nav, Navbar as NavbarBs, Offcanvas, Stack, } from "react-bootstrap";
+import {
+    Button,
+    Dropdown,
+    Nav,
+    Navbar as NavbarBs,
+    Image as ImageBs,
+    Offcanvas,
+    Stack
+} from "react-bootstrap";
 import backArrowImg from "../../../resources/media/backArrow.svg";
 import userImg from "../../../resources/media/user.svg";
 import hamburgImg from "../../../resources/media/hamburger.svg";
 import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
+import closeImg from "../../../resources/media/close.svg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
@@ -17,7 +26,8 @@ import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
-    const [showDrawer, setShowDrawer] = useState<boolean>(false);
+    const [showMenuDrawer, setShowMenuDrawer] = useState<boolean>(false);
+    const [showCartDrawer, setShowCartDrawer] = useState<boolean>(false);
     const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
     const [searchResults, setSearchResults] = useState<Search[]>([]);
     const { getDeviceType } = useScreenSize();
@@ -57,11 +67,19 @@ export const Navbar = () => {
 
     const searchInactiveLayout = <>
         <Stack direction="horizontal" gap={2} className="me-auto">
-            <Button variant="white" style={{ width: '1.5rem', padding: 0, border: 0 }} onClick={() => setShowDrawer(true)}>
+            <Button
+                variant="white"
+                style={{ width: '1.5rem', padding: 0, border: 0 }}
+                onClick={() => setShowMenuDrawer(true)}>
                 <img src={hamburgImg}/>
             </Button>
             <Nav>
-                <Nav.Link to="/" as={NavLink} className="extra-bold-font light-pink mx-0 px-0 py-0">KARUSC</Nav.Link>
+                <Nav.Link
+                    to="/"
+                    as={NavLink}
+                    className="extra-bold-font light-pink mx-0 px-0 py-0">
+                    KARUSC
+                </Nav.Link>
             </Nav>
         </Stack>
         <Stack direction="horizontal" gap={3} className="ms-auto">
@@ -95,7 +113,10 @@ export const Navbar = () => {
                     </Dropdown>
             }
             
-            <Button variant="white" style={{ width: '1.75rem', padding: 0, border: 0 }}>
+            <Button
+                onClick={() => setShowCartDrawer(true)}
+                variant="white"
+                style={{ width: '1.75rem', padding: 0, border: 0 }}>
                 <img src={cartImg} />
             </Button>
         </Stack>
@@ -145,29 +166,55 @@ export const Navbar = () => {
             <NavbarBs className={navbarClass} sticky="top">
                 {isSearchActive ? searchActiveLayout : searchInactiveLayout}
             </NavbarBs>
-            <Offcanvas className="light-pink" show={showDrawer} onHide={() => setShowDrawer(false)}>
-                <Offcanvas.Header className="pt-0 pe-0">
-                    <Container className="ms-auto d-flex justify-content-end pe-0">
-                        <button
-                            className="light-pink semi-bold-font"
-                            onClick={() => setShowDrawer(false)}
-                            style={{ border: 'none', fontSize: '1.2rem' }}>
-                            X
-                        </button>
-                    </Container>
+            <Offcanvas
+                className="light-pink"
+                show={showMenuDrawer}
+                onHide={() => setShowMenuDrawer(false)}>
+                <Offcanvas.Header>
+                    <h1 className="extra-bold-font">KARUSC</h1>
+                    <Button
+                        onClick={() => setShowMenuDrawer(false)}
+                        className="pt-0"
+                        variant="white"
+                        style={{ border: '0' }}>
+                        <img src={closeImg} />
+                    </Button>
                 </Offcanvas.Header>
                 <Offcanvas.Body className="pt-0">
                     {user !== null
-                        ? <div className="bold-font">
-                            Hello, {user?.name}
-                        </div> 
+                        ? <><Stack
+                            className="p-2 purple"
+                            direction="horizontal"
+                            gap={2}
+                            style={{ border: "1px solid" }}>
+                            <div>
+                                <ImageBs
+                                    height="60vh"
+                                    src={user.profilePictureUrl}
+                                    roundedCircle />
+                            </div>
+                            <Stack direction="vertical" gap={0}>
+                                <div className="bold-font ps-1 pt-1 pb-0 mb-0">
+                                    {user.name}
+                                </div>
+                                <div className="thin-font px-1">
+                                    <Button
+                                        onClick={() => setShowMenuDrawer(false)}
+                                        variant="white"
+                                        className="admin-button ps-0 pt-0">
+                                        View Profile
+                                    </Button> 
+                                </div>
+                            </Stack>
+                        </Stack>
+                        <hr /></>
                         : null}
                     <ul>
                         <li>
                             <NavLink
                                 style={{ textDecoration: 'none' }}
                                 to="/"
-                                onClick={() => setShowDrawer(false)}
+                                onClick={() => setShowMenuDrawer(false)}
                                 className="regular-font light-pink"                            >
                                 Home
                             </NavLink>
@@ -176,7 +223,7 @@ export const Navbar = () => {
                             <NavLink
                                 style={{ textDecoration: 'none' }}
                                 to="/ProductList"
-                                onClick={() => setShowDrawer(false)}
+                                onClick={() => setShowMenuDrawer(false)}
                                 className="regular-font light-pink"                            >
                                 Product List
                             </NavLink>
@@ -186,13 +233,24 @@ export const Navbar = () => {
                                 <NavLink
                                     style={{ textDecoration: 'none' }}
                                     to="/Admin"
-                                    onClick={() => setShowDrawer(false)}
+                                    onClick={() => setShowMenuDrawer(false)}
                                     className="regular-font light-pink"                            >
                                     Admin
                                 </NavLink>
                             </li>
                             : null}
                     </ul>
+                </Offcanvas.Body>
+            </Offcanvas>
+            <Offcanvas
+                placement="end"
+                className="light-pink"
+                show={showCartDrawer}
+                onHide={() => setShowCartDrawer(false)}>
+                <Offcanvas.Header>
+                    <h2>Cart</h2>
+                </Offcanvas.Header>
+                <Offcanvas.Body className="pt-0">
                 </Offcanvas.Body>
             </Offcanvas>
             <LoginModal show={showLoginModal} onHide={() => setShowLoginModal(false)} />

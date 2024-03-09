@@ -1,4 +1,5 @@
 ﻿using Karusc.Server.Domain.Files;
+using Karusc.Server.Domain.Orders;
 using Karusc.Server.Domain.Products;
 using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;
@@ -19,6 +20,10 @@ namespace Karusc.Server.Application.Contracts
         DbSet<User> Users { get; set; }
         DbSet<Address> Addresses { get; set; }
         DbSet<Review> Reviews { get; set; }
+        DbSet<Order> Orders { get; set; }
+        DbSet<Cart> Carts { get; set; }
+        DbSet<LineItem<Order>> OrderLineItems { get; set; }
+        DbSet<LineItem<Cart>> CartLineItems { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);       
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
     }

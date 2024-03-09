@@ -23,6 +23,9 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Users
             builder.HasMany(u => u.Reviews)
                 .WithOne(r => r.Author)
                 .HasForeignKey(r => r.AuthorId);
+
+            builder.HasOne(u => u.Cart).WithOne(c => c.Owner);
+            builder.HasMany(u => u.Orders).WithOne(o => o.Owner);
         }
     }
 }
