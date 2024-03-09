@@ -23,8 +23,8 @@ namespace Karusc.Server.Application.Users.Login
             return user.PasswordHash.Equals(command.Password.HashPassword())
                 ? new() 
                 { 
-                    _jwtProvider.GenerateAccessToken(user), 
-                    _jwtProvider.GenerateRefreshToken(user) 
+                    _jwtProvider.GenerateToken(user, TokenType.AccessToken), 
+                    _jwtProvider.GenerateToken(user, TokenType.RefreshToken) 
                 }
                 : throw new ArgumentException("Invalid Credentials");
         }

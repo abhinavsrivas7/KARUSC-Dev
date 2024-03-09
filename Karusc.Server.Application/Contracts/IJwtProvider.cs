@@ -5,7 +5,6 @@ namespace Karusc.Server.Application.Contracts
 {
     public interface IJwtProvider
     {
-        Token GenerateAccessToken(User user);
-        Token GenerateRefreshToken(User user);
+        Token GenerateToken(User user, TokenType tokenType);
     }
 }

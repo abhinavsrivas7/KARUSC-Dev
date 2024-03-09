@@ -23,7 +23,7 @@ namespace Karusc.Server.Infrastructure.Authentication
             _fileStorageService = fileStorageService;
         }
 
-        private Token GenerateToken(User user, TokenType tokenType)
+        public Token GenerateToken(User user, TokenType tokenType)
         {
             DateTime expirtyTime = DateTime.UtcNow.AddHours(
                 tokenType == TokenType.AccessToken 
@@ -60,9 +60,5 @@ namespace Karusc.Server.Infrastructure.Authentication
             string tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
             return new(tokenType.ToString(), tokenValue, expirtyTime);
         }
-
-        public Token GenerateAccessToken(User user) => GenerateToken(user, TokenType.AccessToken);
-
-        public Token GenerateRefreshToken(User user) => GenerateToken(user, TokenType.RefreshToken);
     }
 }
