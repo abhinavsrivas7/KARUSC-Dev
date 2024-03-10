@@ -91,7 +91,9 @@ export const ProductList = () => {
                     <span className="">
                         {pageSize > totalProducts
                             ? totalProducts
-                            : pageSize * (currentPage + 1)}
+                            : pageSize * (currentPage + 1) > totalProducts
+                            ? totalProducts
+                            : pageSize * (currentPage + 1) }
                         /
                         {totalProducts}
                     </span>
