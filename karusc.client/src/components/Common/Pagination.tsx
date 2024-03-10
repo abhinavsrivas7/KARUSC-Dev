@@ -1,4 +1,4 @@
-import { Button, Container, Stack } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 
 type PaginationData = {
     currentPage: number;
