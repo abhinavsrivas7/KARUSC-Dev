@@ -64,8 +64,6 @@ export const ProductList = () => {
         axios.get(GetProductsEndpoint(), {
             params: getProductsFilter()
         }).then(response => {
-            console.log(response);
-            console.log()
             setProducts(response.data.products)
             setTotalProducts(response.data.count);
         }).catch(() => setErrorState(true));
@@ -91,7 +89,9 @@ export const ProductList = () => {
                     style={{ width: '20%' }}
                     className="d-flex justify-content-center align-items-center">
                     <span className="">
-                        {pageSize > totalProducts ? totalProducts : pageSize}
+                        {pageSize > totalProducts
+                            ? totalProducts
+                            : pageSize * (currentPage + 1)}
                         /
                         {totalProducts}
                     </span>
