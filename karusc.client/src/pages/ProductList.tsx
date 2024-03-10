@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { Product, ProductListFilter } from "../models/ProductModels";
 import { Loader } from "../components/Common/Loader";
 import { NoData } from "../components/Common/NoData";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Row, Stack } from "react-bootstrap";
 import { ProductCard } from "../components/Products/ProductCard";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
 import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
 import { NavLink, useLocation } from "react-router-dom";
 import { Pagination } from "../components/Common/Pagination";
+import { FilterSlider } from "../components/Products/FilterSlider";
 
 export const ProductList = () => {
     const { getDeviceType } = useScreenSize();
@@ -17,53 +18,112 @@ export const ProductList = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [errorState, setErrorState] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(0);
-    const [totalPages, setTotalPages] = useState<number>(1);    
+    const [totalProducts, setTotalProducts] = useState<number>(0);
+    const [showFilterSlider, setShowFilterSlider] = useState<boolean>(false);
     const gapVal = getDeviceType() == DeviceTypes.DESKTOP ? 0 : 1;
     const gapClass = getDeviceType() == DeviceTypes.DESKTOP ? "my -2 px-3" : "my-2 px-1";
     const location = useLocation();
+    const pageSize = deviceType === DeviceTypes.MOBILE ? 10 : 12;
     
     useEffect(() => {
         const getProductsFilter = () => {
             const state = location.state as ProductListFilter;
-            let params;
 
-            switch (state.name) {
-                case 'Category': params = {
-                    pageSize: deviceType === DeviceTypes.MOBILE ? 9 : 12,
-                    pageNumber: currentPage,
-                    categories: state.id
-                };
+            const defaultParams = {
+                pageSize: pageSize,
+                pageNumber: currentPage
+            };
+
+            if (state && state.name) {
+                let params;
+
+                switch (state.name) {
+                    case 'Category': params = {
+                        pageSize: pageSize,
+                        pageNumber: currentPage,
+                        categories: state.id
+                    };
                     break;
 
-                case 'Collection': params = {
-                    pageSize: deviceType === DeviceTypes.MOBILE ? 9 : 12,
-                    pageNumber: currentPage,
-                    categories: state.id
-                };
+                    case 'Collection': params = {
+                        pageSize: pageSize,
+                        pageNumber: currentPage,
+                        collections: state.id
+                    };
                     break;
 
-                default: throw new Error("Invalid filter name");
+                    default: params = defaultParams;
+                }
+
+                return params;
             }
-            return params;
+
+            return defaultParams;
         };
 
         axios.get(GetProductsEndpoint(), {
             params: getProductsFilter()
         }).then(response => {
+            console.log(response);
+            console.log()
             setProducts(response.data.products)
-            setTotalPages(response.data.count);
-
+            setTotalProducts(response.data.count);
         }).catch(() => setErrorState(true));
-    }, [currentPage, deviceType, location.state]);
+    }, [currentPage, pageSize, deviceType, location.state]);
     
     return products
         ? <>
             <Container className="d-flex justify-content-center align-items-center">
                 <h1 className="bold-font light-pink">KARUSC</h1>
             </Container>
-            <hr style={{color: "white"}}/>
+            <Stack direction="horizontal" className="mt-4 px-0" style={{ width: '100%' }}>
+                <div
+                    style={{ width: '40%' }}
+                    className="d-flex justify-content-center align-items-center">
+                    <Button
+                        variant="white"
+                        className="light-pink bold-font"
+                        onClick={() => setShowFilterSlider(true)}>
+                        Filter
+                    </Button>
+                </div>
+                <div
+                    style={{ width: '20%' }}
+                    className="d-flex justify-content-center align-items-center">
+                    <span className="">
+                        {pageSize > totalProducts ? totalProducts : pageSize}
+                        /
+                        {totalProducts}
+                    </span>
+                </div>
+                <div
+                    style={{ width: '40%'}}
+                    className="d-flex justify-content-center align-items-center">
+                    <Dropdown align="end">
+                        <Dropdown.Toggle 
+                            variant="white"
+                            className="light-pink bold-font">
+                            Sort
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="light-pink">
+                            <Dropdown.Item className="light-pink">
+                                Popularity
+                            </Dropdown.Item>
+                            <Dropdown.Item className="light-pink">
+                                Recently Added
+                            </Dropdown.Item>
+                            <Dropdown.Item className="light-pink">
+                                Price: Low To High
+                            </Dropdown.Item>
+                            <Dropdown.Item className="light-pink">
+                                Price: High To Low
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </div>  
+            </Stack>           
             <Container className="mt-4">
-                <Row md={4} xs={3} lg={4} gap={gapVal}>
+                <Row md={4} xs={2} lg={4} gap={gapVal}>
                     {products.map((item) => (
                         <Col key={item.id} className={gapClass}>
                             <NavLink
@@ -84,13 +144,14 @@ export const ProductList = () => {
                 </Row>
             </Container>
 
-            <Container className="mt-3 d-flex justify-content-center">
+            <Container className="mt-3 px-4 d-flex justify-content-center">
                 <Pagination
                     currentPage={currentPage}
-                    totalCount={totalPages / (deviceType === DeviceTypes.MOBILE ? 9 : 12)}
+                    totalCount={totalProducts / pageSize}
                     onPageChange={(newPage) => setCurrentPage(newPage)}
                 />
             </Container>
+            <FilterSlider show={showFilterSlider} onClose={() => setShowFilterSlider(false)} />
           </>
         : errorState
         ? <NoData />

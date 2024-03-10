@@ -4,7 +4,7 @@ namespace Karusc.Server.Domain.Orders
 {
     public class LineItem<T> where T : LineItemEntity<T>
     {
-        private static readonly (int Min, int Max) QuantityLimits = (1, 5);
+        public static readonly (int Min, int Max) QuantityLimits = (1, 5);
         public Guid Id { get; init; }
         public Product? Product { get; private set; }
         public Guid? ProductId { get; private set; }
@@ -22,7 +22,8 @@ namespace Karusc.Server.Domain.Orders
         {
             if(quantity < QuantityLimits.Min || quantity > QuantityLimits.Max)
             {
-                throw new InvalidDataException("Invalid quantity (1 - 5).");
+                throw new InvalidDataException(
+                    $"Invalid quantity ({QuantityLimits.Min} - {QuantityLimits.Max}).");
             }
 
             var lineItem = new LineItem<T>(quantity);

@@ -31,7 +31,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("CollectionProduct", b =>
@@ -46,7 +46,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CollectionProduct");
+                    b.ToTable("CollectionProduct", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Files.File<Karusc.Server.Domain.Products.Product>", b =>
@@ -66,7 +66,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("EntityId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Orders.Cart", b =>
@@ -88,7 +88,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.HasIndex("OwnerId")
                         .IsUnique();
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Orders.LineItem<Karusc.Server.Domain.Orders.Cart>", b =>
@@ -115,7 +115,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartLineItems", t =>
+                    b.ToTable("CartLineItems", null, t =>
                         {
                             t.HasCheckConstraint("CartLineItem_Quantity_Check", "Quantity >= 1 AND Quantity <= 5");
                         });
@@ -145,7 +145,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderLineItems", t =>
+                    b.ToTable("OrderLineItems", null, t =>
                         {
                             t.HasCheckConstraint("OrderLineItem_Quantity_Check", "Quantity >= 1 AND Quantity <= 5");
                         });
@@ -179,7 +179,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("Orders", t =>
+                    b.ToTable("Orders", null, t =>
                         {
                             t.HasCheckConstraint("Order_TotalAmount_Check", "TotalAmount >= 0");
                         });
@@ -203,7 +203,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Products.Collection", b =>
@@ -223,7 +223,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Products.Product", b =>
@@ -252,7 +252,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Title");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Reviews.Review", b =>
@@ -276,7 +276,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Reviews", t =>
+                    b.ToTable("Reviews", null, t =>
                         {
                             t.HasCheckConstraint("Review_Rating_Check", "Rating >= 1 AND Rating <= 5");
                         });
@@ -296,7 +296,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ImageURL");
 
-                    b.ToTable("HomeCarouselImages");
+                    b.ToTable("HomeCarouselImages", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Users.Address", b =>
@@ -345,7 +345,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Users.User", b =>
@@ -378,7 +378,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>

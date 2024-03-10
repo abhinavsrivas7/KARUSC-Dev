@@ -5,13 +5,13 @@ using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;
 using Karusc.Server.Domain.Users;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Karusc.Server.Application.Contracts
 {
     public interface IKaruscDbContext
     {
+        DatabaseFacade Database {  get; }
         DbSet<Product> Products { get; set; }
         DbSet<File<Product>> ProductImages { get; set; }
         DbSet<Category> Categories { get; set; }

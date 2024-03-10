@@ -3,7 +3,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import { ConvertToBase64 } from "../../../utilities/FileUtils";
 import { Category } from "../../../models/CategoryModels";
 import axios from "axios";
-import { GetCategoriesEndpoint, GetCollectionsEndpoint, GetProductsEndpoint } from "../../../utilities/EndpointUtils";
+import { GetCategoriesEndpoint, GetCollectionsEndpoint, GetProductByIdEndpoint } from "../../../utilities/EndpointUtils";
 import { Collection } from "../../../models/CollectionModels";
 import { DissmissableAlert } from "../../Common/DissmissableAlert";
 import { CreateProductCommand } from "../../../models/ProductModels";
@@ -149,7 +149,7 @@ export const AddProduct = () => {
         setShowSuccessAlert(false);
         setFormOpacity(0.1);
         setShowLoader(true);
-        axios.post(GetProductsEndpoint(), createCommand)
+        axios.post(GetProductByIdEndpoint(), createCommand)
             .then(response => {
                 console.log(response);
                 if (response.status == 201) {
