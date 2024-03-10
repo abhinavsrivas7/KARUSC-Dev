@@ -24,8 +24,9 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
             builder.Property(l => l.Quantity).IsRequired();
 
             builder.ToTable(b => b.HasCheckConstraint(
-                $"{entityName}LineItem_Quantity_Check",
-                "Quantity >= 1 AND Quantity <= 5"));
+                $"{entityName}{nameof(LineItem<T>)}_{nameof(LineItem<T>.Quantity)}_Check",
+                $"{nameof(LineItem<T>.Quantity)} >= {LineItem<T>.QuantityLimits.Min} AND " +
+                $"{nameof(LineItem<T>.Quantity)} <= {LineItem<T>.QuantityLimits.Max}"));
 
             builder
                 .HasOne(l => l.Parent)

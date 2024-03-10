@@ -29,8 +29,8 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
                     .IsRequired();
 
                 builder.ToTable(b => b.HasCheckConstraint(
-                    "Order_TotalAmount_Check",
-                    "TotalAmount >= 0"));
+                    $"{nameof(Order)}_{nameof(Order.TotalAmount)}_Check",
+                    $"{nameof(Order.TotalAmount)} >= 0"));
             }
 
             builder.HasMany(e => e.LineItems).WithOne(l => l.Parent);

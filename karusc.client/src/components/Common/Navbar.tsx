@@ -1,18 +1,9 @@
-import {
-    Button,
-    Dropdown,
-    Nav,
-    Navbar as NavbarBs,
-    Image as ImageBs,
-    Offcanvas,
-    Stack
-} from "react-bootstrap";
+import { Button, Dropdown, Nav, Navbar as NavbarBs, Stack } from "react-bootstrap";
 import backArrowImg from "../../../resources/media/backArrow.svg";
 import userImg from "../../../resources/media/user.svg";
 import hamburgImg from "../../../resources/media/hamburger.svg";
 import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
-import closeImg from "../../../resources/media/close.svg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../context/ScreenSizeContext";
@@ -23,6 +14,8 @@ import { Search } from "../../models/SearchModels";
 import axios from "axios";
 import { GetSearchEndpoint } from "../../utilities/EndpointUtils";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
+import { MenuSlider } from "./MenuSlider";
+import { CartSlider } from "../Cart/CartSlider";
 
 export const Navbar = () => {
     const [isSearchActive, setSearchActive] = useState<boolean>(false);
@@ -36,13 +29,11 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     const getSearchResults = (searchTerm: string) => {
-        if (searchTerm && searchTerm !== '') {
-            axios.get(GetSearchEndpoint(), {
-                params: {
-                    text: searchTerm,
-                    resultSize: 5
-                }
-            }).then(response => setSearchResults(response.data));
+        console.log(searchTerm);
+        if (searchTerm) {
+            axios
+                .get(GetSearchEndpoint(), { params: { text: searchTerm, resultSize: 4 } })
+                .then(response => setSearchResults(response.data));
         }      
     };
 
@@ -101,10 +92,9 @@ export const Navbar = () => {
                         <Dropdown.Toggle variant="white" className="light-pink">
                             <img height="25" style={{ borderRadius: "50%" }} src={user.profilePictureUrl} />
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu className="light-pink">
                             <Dropdown.Item className="light-pink">
-                                Change Picture
+                                View Profile
                             </Dropdown.Item>
                             <Dropdown.Item onClick={handleLogout} className="light-pink">
                                 Logout
@@ -151,10 +141,8 @@ export const Navbar = () => {
                     fuseOptions={{ keys: [ "title" ] }}
                     onSelect={handleSelectedSearchOption}
                     formatResult={(result: Search) => <span>{result.title}</span>} />
-            </div>
-            
+            </div>            
         </Stack>
-
     </>;
 
     const navbarClass = getDeviceType() == DeviceTypes.MOBILE
@@ -166,95 +154,9 @@ export const Navbar = () => {
             <NavbarBs className={navbarClass} sticky="top">
                 {isSearchActive ? searchActiveLayout : searchInactiveLayout}
             </NavbarBs>
-            <Offcanvas
-                className="light-pink"
-                show={showMenuDrawer}
-                onHide={() => setShowMenuDrawer(false)}>
-                <Offcanvas.Header>
-                    <h1 className="extra-bold-font">KARUSC</h1>
-                    <Button
-                        onClick={() => setShowMenuDrawer(false)}
-                        className="pt-0"
-                        variant="white"
-                        style={{ border: '0' }}>
-                        <img src={closeImg} />
-                    </Button>
-                </Offcanvas.Header>
-                <Offcanvas.Body className="pt-0">
-                    {user !== null
-                        ? <><Stack
-                            className="p-2 purple"
-                            direction="horizontal"
-                            gap={2}
-                            style={{ border: "1px solid" }}>
-                            <div>
-                                <ImageBs
-                                    height="60vh"
-                                    src={user.profilePictureUrl}
-                                    roundedCircle />
-                            </div>
-                            <Stack direction="vertical" gap={0}>
-                                <div className="bold-font ps-1 pt-1 pb-0 mb-0">
-                                    {user.name}
-                                </div>
-                                <div className="thin-font px-1">
-                                    <Button
-                                        onClick={() => setShowMenuDrawer(false)}
-                                        variant="white"
-                                        className="admin-button ps-0 pt-0">
-                                        View Profile
-                                    </Button> 
-                                </div>
-                            </Stack>
-                        </Stack>
-                        <hr /></>
-                        : null}
-                    <ul>
-                        <li>
-                            <NavLink
-                                style={{ textDecoration: 'none' }}
-                                to="/"
-                                onClick={() => setShowMenuDrawer(false)}
-                                className="regular-font light-pink"                            >
-                                Home
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                style={{ textDecoration: 'none' }}
-                                to="/ProductList"
-                                onClick={() => setShowMenuDrawer(false)}
-                                className="regular-font light-pink"                            >
-                                Product List
-                            </NavLink>
-                        </li>
-                        {user?.role === 1 ?
-                            <li>
-                                <NavLink
-                                    style={{ textDecoration: 'none' }}
-                                    to="/Admin"
-                                    onClick={() => setShowMenuDrawer(false)}
-                                    className="regular-font light-pink"                            >
-                                    Admin
-                                </NavLink>
-                            </li>
-                            : null}
-                    </ul>
-                </Offcanvas.Body>
-            </Offcanvas>
-            <Offcanvas
-                placement="end"
-                className="light-pink"
-                show={showCartDrawer}
-                onHide={() => setShowCartDrawer(false)}>
-                <Offcanvas.Header>
-                    <h2>Cart</h2>
-                </Offcanvas.Header>
-                <Offcanvas.Body className="pt-0">
-                </Offcanvas.Body>
-            </Offcanvas>
+            <MenuSlider show={showMenuDrawer} onClose={() => setShowMenuDrawer(false)} user={user} />
+            <CartSlider show={showCartDrawer} onClose={() => setShowCartDrawer(false)} />
             <LoginModal show={showLoginModal} onHide={() => setShowLoginModal(false)} />
         </>
     );
 }
-

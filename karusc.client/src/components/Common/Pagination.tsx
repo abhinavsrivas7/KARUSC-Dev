@@ -1,4 +1,4 @@
-import { Button, Container } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 
 type PaginationData = {
     currentPage: number;
@@ -12,10 +12,12 @@ export const Pagination = (paginationData: PaginationData) => {
         paginationData.onPageChange(newPage);
     };
 
-    return <>
-        <Container className="me-auto">
+    return <Stack direction="horizontal" className="my-4 px-0" style={{ width: '100%' }}>
+        <div
+            style={{ width: '40%' }}
+            className="d-flex justify-content-center align-items-center">
                <Button
-                    className="admin-button mb-4"
+                    className="admin-button"
                     variant="pink"
                     size="lg"
                     style={{ minWidth: '110px' }}
@@ -23,10 +25,13 @@ export const Pagination = (paginationData: PaginationData) => {
                     onClick={() => handlePageChange(paginationData.currentPage - 1)} >
                     Previous
                 </Button>
-        </Container>
-        <Container className="ms-auto d-flex justify-content-end">
+        </div>
+        <span style={{width: '50%'}}></span>
+        <div
+            style={{ width: '40%' }}
+            className="d-flex justify-content-center align-items-center">
                 <Button
-                    className="admin-button mb-4"
+                    className="admin-button"
                     variant="pink"
                     size="lg"
                     style={{ minWidth: '110px' }}
@@ -34,6 +39,6 @@ export const Pagination = (paginationData: PaginationData) => {
                     onClick={() => handlePageChange(paginationData.currentPage + 1)} >
                     Next
                 </Button>
-        </Container>
-    </>;
+        </div>
+    </Stack>;
 };
