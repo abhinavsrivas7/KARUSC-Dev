@@ -167,13 +167,11 @@ export const ReviewCard = ({
                                 className="admin-button pe-0"
                                 style={{ opacity: 0.85 }}
                                 onClick={cancelAddCallback}>
-                                Cancel
                                 <img height={responsiveStyles.starSize} src={cross} />
                             </Button>
                             <Button
                                 className="admin-button pe-0"
                                 onClick={handleCreateReview}>
-                                Add
                                 <img height={responsiveStyles.starSize} src={check} />
                             </Button>
                         </div>
