@@ -147,7 +147,11 @@ export const ProductList = () => {
             <Container className="mt-3 px-4 d-flex justify-content-center">
                 <Pagination
                     currentPage={currentPage}
-                    totalCount={totalProducts / pageSize}
+                    totalCount={totalProducts <= pageSize 
+                        ? 0
+                        : totalProducts % pageSize > 0
+                        ? totalProducts / pageSize
+                        : (totalProducts / pageSize) - 1}
                     onPageChange={(newPage) => setCurrentPage(newPage)}
                 />
             </Container>
