@@ -1,4 +1,5 @@
-﻿using Karusc.Server.Domain.Users;
+﻿using Karusc.Server.Domain.Orders;
+using Karusc.Server.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,7 +25,11 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Users
                 .WithOne(r => r.Author)
                 .HasForeignKey(r => r.AuthorId);
 
-            builder.HasOne(u => u.Cart).WithOne(c => c.Owner);
+            builder
+                .HasOne(u => u.Cart)
+                .WithOne(c => c.Owner)
+                .HasForeignKey<Cart>(c => c.OwnerId);
+
             builder.HasMany(u => u.Orders).WithOne(o => o.Owner);
         }
     }
