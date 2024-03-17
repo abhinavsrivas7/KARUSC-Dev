@@ -15,6 +15,7 @@ namespace Karusc.Server.Domain.Users
         public List<Address>? Addresses { get; private set; } = null;
         public List<Review>? Reviews { get; private set; } = null;
         public Cart? Cart { get; set; } = null;
+        public Guid? CartId { get; set; } = null;
         public List<Order>? Orders { get; set; } = null;
 
         private User(string email, string name, string passwordHash, Role role)
@@ -33,8 +34,13 @@ namespace Karusc.Server.Domain.Users
             string profilePicture)
         {
             User user = new User(email, name, passwordHash, role);           
+            
             user.ProfilePicture = new File<User>(user, profilePicture, string.Empty);
-            user.ProfilePictureURL = user.ProfilePicture.FileName;           
+            user.ProfilePictureURL = user.ProfilePicture.FileName;   
+            
+            user.Cart = Cart.Create(user);
+            user.CartId = user.Cart.Id;
+            
             return user;
         }
     }

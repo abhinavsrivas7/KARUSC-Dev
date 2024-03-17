@@ -18,7 +18,7 @@ namespace Karusc.Server.Domain.Orders
             Quantity = quantity;
         }
 
-        public static LineItem<T> Create(Product product, int quantity, T parent) 
+        internal static LineItem<T> Create(Product product, int quantity, T parent) 
         {
             if(quantity < QuantityLimits.Min || quantity > QuantityLimits.Max)
             {
@@ -34,7 +34,7 @@ namespace Karusc.Server.Domain.Orders
             return lineItem;
         }
 
-        public void ChangeQuantity(int increment)
+        internal void ChangeQuantity(int increment)
         {
             var newQuantity = Quantity + increment;
             

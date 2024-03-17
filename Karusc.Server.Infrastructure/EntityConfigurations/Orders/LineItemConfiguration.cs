@@ -1,4 +1,5 @@
 ﻿using Karusc.Server.Domain.Orders;
+using Karusc.Server.Domain.Products;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -37,6 +38,12 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
             builder
                 .Property(l => l.ParentId)
                 .HasColumnName($"{entityName}Id");
+
+            builder
+                .HasIndex(
+                    l => new { l.ProductId, l.ParentId }, 
+                    $"One-{nameof(LineItem<T>)}-per-{nameof(Product)}-per-{entityName}")
+                .IsUnique();
         }
     }
 }
