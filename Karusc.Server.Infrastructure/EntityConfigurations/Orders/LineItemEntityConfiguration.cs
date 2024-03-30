@@ -1,6 +1,5 @@
-﻿using Karusc.Server.Domain.Orders;
+﻿using Karusc.Server.Domain.LineItemEntities;
 using Karusc.Server.Domain.Users;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
@@ -27,18 +26,9 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
                     .WithMany(nameof(User.Orders))
                     .HasForeignKey(o => o.OwnerId)
                     .IsRequired();
-
-                builder.ToTable(b => b.HasCheckConstraint(
-                    $"{nameof(Order)}_{nameof(Order.TotalAmount)}_Check",
-                    $"{nameof(Order.TotalAmount)} >= 0"));
             }
 
             builder.HasMany(e => e.LineItems).WithOne(l => l.Parent);
-
-            builder
-                .Property(e => e.TotalAmount)
-                .HasPrecision(10, 2)
-                .IsRequired();
         }
     }
 }

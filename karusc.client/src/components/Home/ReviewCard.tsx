@@ -1,5 +1,5 @@
 import { Button, Form, Stack } from "react-bootstrap";
-import { useScreenSize } from "../../context/ScreenSizeContext";
+import { useScreenSize } from "../../hooks/useScreenSize";
 import { DeviceTypes } from "../../models/DeviceTypes";
 import { CreateReviewCommand, ReviewCardModel } from "../../models/ReviewModels";
 import starEmpty from "../../../resources/media/star-empty.svg";
@@ -7,7 +7,7 @@ import starFilled from "../../../resources/media/star-filled.svg";
 import check from "../../../resources/media/check.svg";
 import cross from "../../../resources/media/cross.svg";
 import { useState } from "react";
-import { useUserContext } from "../../hooks/useUserHook";
+import { useUserContext } from "../../hooks/useUser";
 import axios from "axios";
 import { GetReviewEndpoint } from "../../utilities/EndpointUtils";
 
@@ -51,17 +51,13 @@ export const ReviewCard = ({
         if (tokens === null || tokens.length !== 2)
             throw new Error("Must be logged in");
 
-        console.log(tokens.find(token => token.tokenType === "AccessToken")?.tokenValue);
-        console.log(createReviewCommand);
-
         axios.post(
             GetReviewEndpoint(),
             createReviewCommand,
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization':
-                        `Bearer ${tokens.find(token => token.tokenType === "AccessToken")?.tokenValue}`
+                    'Authorization': `Bearer ${tokens.find(token => token.tokenType === "AccessToken")?.tokenValue}`
                 }
             }
         ).then(response => { console.log(response.data); addReviewCallback(response.data); });

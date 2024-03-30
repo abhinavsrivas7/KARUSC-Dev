@@ -6,24 +6,40 @@ import axios from "axios";
 import { Loader } from "../components/Common/Loader";
 import { ImageCarousel } from "../components/Common/ImageCarousel";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
 import shareImg from "../../resources/media/share.svg"
 import { FormatProductPrice } from "../utilities/ProductCardUtils";
+import { useScreenSize } from "../hooks/useScreenSize";
+import { useCartContext } from "../hooks/useCart";
+import { DissmissableAlert } from "../components/Common/DissmissableAlert";
+import { QuantityButtons } from "../components/Common/QuantityButtons";
 
 export const ProductDetails = () => {
     const navigate = useNavigate();
     const [product, setProduct] = useState<Product | null>(null);
     const { getDeviceType } = useScreenSize();
+    const { getCart, addToCart } = useCartContext();
     const marginClass = getDeviceType() === DeviceTypes.MOBILE ? "mt-4 px-5" : "px-5";
+    const [showAddToCartLoader, setShowAddToCartLoader] = useState<boolean>(false);
+    const [showError, setShowError] = useState<boolean>(false);
+    const [errorDescription, setErrorDescription] = useState<string | null>(null);
+    const getCurrentQuantity = () => {
+        if (product) {
+            const lineItem = getCart().lineItems.find(li => li.product.id === product.id);
+            if (lineItem) {
+                return lineItem.quantity
+            }
+        }
 
+        return null;
+    }
+    const [currentQuantity, setCurrentQuantity] = useState<number | null>(getCurrentQuantity());
     const handleSharing = (title: string, text: string) => navigator
         .share({
             text: text,
             title: title,
             url: window.location.href
         });
-   
 
     useEffect(() => {
         try {
@@ -37,6 +53,34 @@ export const ProductDetails = () => {
         }
         catch { navigate("/"); }
     }, [navigate]);
+
+
+    useEffect(() => {
+        if (product) {
+            const lineItem = getCart().lineItems.find(li => li.product.id === product.id);
+            if (lineItem) {
+                setCurrentQuantity(lineItem.quantity);
+            }
+        }
+    }, [product, getCart]);
+
+
+    const handleAddToCart = (product: Product) => {
+        setShowAddToCartLoader(true);
+        addToCart(product)
+            .then(response => {
+                setShowAddToCartLoader(false);
+                if (typeof response === "string") {
+                    setErrorDescription(response);
+                    setShowError(true);
+                }
+                else {
+                    setCurrentQuantity(1);
+                }
+
+                setShowAddToCartLoader(false);
+            });
+    };
 
     return product
         ? <>
@@ -65,22 +109,38 @@ export const ProductDetails = () => {
                             </Col>
                         </Row>
                         <Row>
-                            <Button
-                                variant="primary"
-                                className="admin-button mt-1"
-                                type="submit"
-                                style={{ width: "50%" }}>
-                                Add To Cart
-                            </Button>
+                            {showAddToCartLoader
+                                ? <Loader />
+                                : showError
+                                ? <DissmissableAlert
+                                    title="Error in adding product to cart."
+                                    description={errorDescription}
+                                    variant="danger"
+                                        onClose={() => setShowError(false)} />
+                                : currentQuantity !== null && getCurrentQuantity() !== null
+                                ? <QuantityButtons
+                                    productId={product.id}
+                                    quantity={getCurrentQuantity()!} />
+                                : <Container>
+                                    <Button
+                                        variant="primary"
+                                        className="admin-button mt-1"
+                                        onClick={() => handleAddToCart(product)}
+                                        style={{ width: "50%" }}>
+                                        Add To Cart
+                                    </Button>
+                                </Container>}        
                         </Row>
                         <Row>
-                            <Button
-                                variant="primary"
-                                className="admin-button mt-4 mb-4"
-                                type="submit"
-                                style={{ width: "50%" }}>
-                                Buy Now
-                            </Button>
+                            <Container>
+                                <Button
+                                    variant="primary"
+                                    className="admin-button mt-4 mb-4"
+                                    type="submit"
+                                    style={{ width: "50%" }}>
+                                    Buy Now
+                                </Button>
+                            </Container>
                         </Row>
                         <Row>
                             <Col>

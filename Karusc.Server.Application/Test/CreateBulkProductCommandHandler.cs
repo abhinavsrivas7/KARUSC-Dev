@@ -50,18 +50,18 @@ namespace Karusc.Server.Application.Test
 
         }
 
-        private async Task<List<Category>?> GetCategories(HashSet<Guid>? categories) =>
+        private async Task<List<Category>> GetCategories(HashSet<Guid>? categories) =>
             categories is not null && categories.Any()
                 ? await _context.Categories
                     .Where(category => categories.Contains(category.Id))
                     .ToListAsync()
-                : null;
+                : new();
 
-        private async Task<List<Collection>?> GetCollections(HashSet<Guid>? collections) =>
+        private async Task<List<Collection>> GetCollections(HashSet<Guid>? collections) =>
             collections is not null && collections.Any()
                 ? await _context.Collections
                     .Where(category => collections.Contains(category.Id))
                     .ToListAsync()
-                : null;
+                : new();
     }
 }

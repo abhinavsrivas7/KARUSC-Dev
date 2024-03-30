@@ -7,7 +7,7 @@ namespace Karusc.Server.Application.Test
         decimal Price,
         string Description,
         string CareInstructions,
-        List<string>? Images,
+        List<string> Images,
         HashSet<Guid>? Categories,
         HashSet<Guid>? Collections) : IRequest<string>;
 }

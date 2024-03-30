@@ -4,8 +4,8 @@ import youtubeLogo from "../../../resources/media/youtube.svg"
 import pinterestLogo from "../../../resources/media/pinterest.svg"
 import { Col, Row, Stack } from "react-bootstrap"
 import { Link } from "react-router-dom"
-import { useScreenSize } from "../../context/ScreenSizeContext"
 import { DeviceTypes } from "../../models/DeviceTypes"
+import { useScreenSize } from "../../hooks/useScreenSize"
 
 export const Footer = () => {
     const { getDeviceType } = useScreenSize();

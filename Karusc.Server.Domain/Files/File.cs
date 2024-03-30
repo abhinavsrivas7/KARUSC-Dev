@@ -3,16 +3,14 @@
     public class File<T> where T : FileEntity
     {
         public Guid Id { get; init; } = Guid.NewGuid();
-        public T Entity { get; init; }
+        public T Entity { get; init; } = null!;
         public Guid EntityId { get; init; }
-        public string FileName { get; internal set; }
-        public string FileBase64 { get; init; }
+        public string FileName { get; internal set; } = string.Empty;
+        public string FileBase64 { get; init; } = string.Empty;
 
         private const string _exceptionMessage = "Invalid Base64";
 
-        #pragma warning disable CS8618
         public File() { }
-        #pragma warning restore CS8618
 
         public File(T entity, string file, string suffix)
         {

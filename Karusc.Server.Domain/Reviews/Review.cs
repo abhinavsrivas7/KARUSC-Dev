@@ -5,8 +5,8 @@ namespace Karusc.Server.Domain.Reviews
     public class Review
     {
         public Guid Id { get; private set; } = new Guid();
-        public User? Author { get; private set; }
-        public Guid? AuthorId { get; private set; }
+        public User Author { get; private set; } = null!;
+        public Guid AuthorId { get; private set; }
         public string Title { get; private set; }
         public Rating Rating { get; private set; }
 

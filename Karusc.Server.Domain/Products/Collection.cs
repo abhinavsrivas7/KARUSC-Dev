@@ -5,9 +5,9 @@ namespace Karusc.Server.Domain.Products
     public class Collection : FileEntity, ISearchableEntity
     {
         public string Name { get; private set; }
-        public File<Collection>? Image { get; private set; } = null;
-        public string? ImageURL { get; set; } = null;
-        public List<Product>? Products { get; private set; } = null;
+        public File<Collection> Image { get; private set; } = new();
+        public string ImageURL { get; set; } = string.Empty;
+        public List<Product> Products { get; private set; } = new();
 
         private Collection(string name) => Name = name;
 

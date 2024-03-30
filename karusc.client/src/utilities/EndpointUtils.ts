@@ -9,4 +9,5 @@ export const GetLoginEndpoint = () => baseUrl + 'user/login';
 export const GetSignupEndpoint = () => baseUrl + 'user/signup'; 
 export const GetCreateAdminUserEndpoint = () => baseUrl + 'user/createAdminUser'; 
 export const GetReviewEndpoint = () => baseUrl + 'review'; 
-export const GetSearchEndpoint = () => baseUrl + 'search'; 
+export const GetSearchEndpoint = () => baseUrl + 'search';
+export const CartEndpoint = () => baseUrl + 'cart';

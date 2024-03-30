@@ -14,9 +14,9 @@ namespace Karusc.Server.Application.Products
                     product.Price,
                     product.Description,
                     product.CareInstructions,
-                    product.Images!.Select(image => image.FileName).ToList(),
-                    null,
-                    null);
+                    product.Images.Select(image => image.FileName).ToList(),
+                    new List<CategoryDto>(),
+                    new List<CollectionDTO>());
         internal static Expression<Func<Product, ProductDto>> Selector =>
             product => new ProductDto(
                     product.Id,
@@ -24,14 +24,14 @@ namespace Karusc.Server.Application.Products
                     product.Price,
                     product.Description,
                     product.CareInstructions,
-                    product.Images!.Select(image => image.FileName).ToList(),
-                    product.Categories!
+                    product.Images.Select(image => image.FileName).ToList(),
+                    product.Categories
                         .Select(category => new CategoryDto(
                             category.Id,
                             category.Name,
                             category.ImageURL!))
                         .ToList(),
-                    product.Collections!
+                    product.Collections
                         .Select(collection => new CollectionDTO(
                             collection.Id,
                             collection.Name,
@@ -42,14 +42,12 @@ namespace Karusc.Server.Application.Products
             HashSet<Guid> categories,
             HashSet<Guid> collections) => categories.Any() && collections.Any()
             ? product => 
-                product.Categories!.Any(category => categories.Contains(category.Id)) &&
-                product.Collections!.Any(collection => collections.Contains(collection.Id))
+                product.Categories.Any(category => categories.Contains(category.Id)) &&
+                product.Collections.Any(collection => collections.Contains(collection.Id))
             : categories.Any() && !collections.Any()
-            ? product => product.Categories!.Any(category => categories.Contains(category.Id))
+            ? product => product.Categories.Any(category => categories.Contains(category.Id))
             : collections.Any() && !categories.Any()
-            ? product => product.Collections!.Any(collection => collections.Contains(collection.Id))
+            ? product => product.Collections.Any(collection => collections.Contains(collection.Id))
             : product => true;
-
-
     }
 }

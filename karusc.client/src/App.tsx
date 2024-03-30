@@ -9,24 +9,27 @@ import { ScreenSizeProvider } from "./context/ScreenSizeContext";
 import { Admin } from "./pages/Admin";
 import { ProductDetails } from "./pages/ProductDetails";
 import { LoggedInUserProvider } from "./context/UserContext";
+import { CartProvider } from "./context/CartContext";
 
 const App = () => {
 
     return <LoggedInUserProvider>
-    <ScreenSizeProvider>
-        <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
-        <Navbar />
-        <div className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/ProductList" element={<ProductList />} />
-                <Route path="/ProductDetails" element={<ProductDetails />} />
-                <Route path="/About" element={<About />} />
-                <Route path="/Admin" element={<Admin />} />
-            </Routes>
-        </div>
-        <Footer></Footer>
-        </ScreenSizeProvider>
+        <CartProvider>
+            <ScreenSizeProvider>
+                <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
+                <Navbar />
+                <div className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/ProductList" element={<ProductList />} />
+                        <Route path="/ProductDetails" element={<ProductDetails />} />
+                        <Route path="/About" element={<About />} />
+                        <Route path="/Admin" element={<Admin />} />
+                    </Routes>
+                </div>
+                <Footer></Footer>
+            </ScreenSizeProvider>
+        </CartProvider>
     </LoggedInUserProvider>
 };
 

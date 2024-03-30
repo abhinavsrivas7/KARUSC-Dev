@@ -1,4 +1,4 @@
-import { ReactNode, useContext, createContext, useState, useEffect } from "react";
+import { ReactNode, createContext, useState, useEffect } from "react";
 import { DeviceTypes } from "../models/DeviceTypes";
 import { getDeviceName } from "../utilities/ContextUtils";
 
@@ -10,10 +10,7 @@ type ScreenSizecontext = {
     getDeviceType: () => DeviceTypes
 }
 
-const ScreenSizeContext = createContext({} as ScreenSizecontext)
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const useScreenSize = () => useContext(ScreenSizeContext);
+export const ScreenSizeContext = createContext({} as ScreenSizecontext)
 
 export function ScreenSizeProvider({ children }: ScreenSizeProviderProps) {
     const [deviceType, setDeviceType] = useState<DeviceTypes>(getDeviceName(window.innerWidth));

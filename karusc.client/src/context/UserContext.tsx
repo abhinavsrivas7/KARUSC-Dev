@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { StorableUser, Token, User } from "../models/UserModels";
-import { getUserFromToken, loadUserFromLocalStorage, localStorageKeyName } from "../utilities/ContextUtils";
+import { getUserFromToken, loadUserFromLocalStorage, performLogOut, userKeyName } from "../utilities/ContextUtils";
 
 type LoggedInUserProviderProps = {
     children: ReactNode
@@ -37,10 +37,10 @@ export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
 
     useEffect(() => {
         if (storableUser) {
-            localStorage.setItem(localStorageKeyName, JSON.stringify(storableUser));
+            localStorage.setItem(userKeyName, JSON.stringify(storableUser));
         }
         else {
-            localStorage.removeItem(localStorageKeyName);
+            performLogOut();
         }
     }, [storableUser]);
 

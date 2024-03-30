@@ -1,5 +1,5 @@
 ﻿using Karusc.Server.Domain.Files;
-using Karusc.Server.Domain.Orders;
+using Karusc.Server.Domain.LineItemEntities;
 using Karusc.Server.Domain.Products;
 using Karusc.Server.Domain.Reviews;
 using Karusc.Server.Domain.UI;

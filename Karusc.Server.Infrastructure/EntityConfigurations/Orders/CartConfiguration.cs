@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Domain.Orders;
+﻿using Karusc.Server.Domain.LineItemEntities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

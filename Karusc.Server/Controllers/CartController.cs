@@ -1,6 +1,7 @@
-﻿using Karusc.Server.Application.Carts.AddToCart;
-using Karusc.Server.Application.Carts.GetCart;
-using Karusc.Server.Application.Carts.UpdateLineItem;
+﻿using Karusc.Server.Application.LineItemEntities.Carts.AddToCart;
+using Karusc.Server.Application.LineItemEntities.Carts.GetCart;
+using Karusc.Server.Application.LineItemEntities.Carts.RemoveFromCart;
+using Karusc.Server.Application.LineItemEntities.Carts.UpdateLineItem;
 using Karusc.Server.Domain.Users;
 using Karusc.Server.Infrastructure.Authentication;
 using MediatR;
@@ -33,10 +34,10 @@ namespace Karusc.Server.Controllers
             CancellationToken cancellationToken) =>
                 Ok(await _mediator.Send(command, cancellationToken));
 
-        [HttpDelete]
+        [HttpDelete("{lineItemId}")]
         public async Task<IActionResult> RemoveFromCart(
-            [FromBody] AddToCartCommand command,
+            [FromRoute] Guid lineItemId,
             CancellationToken cancellationToken) =>
-                Ok(await _mediator.Send(command, cancellationToken));
+                Ok(await _mediator.Send(new RemoveFromCartCommand(lineItemId), cancellationToken));
     }
 }

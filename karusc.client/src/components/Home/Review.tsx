@@ -7,7 +7,7 @@ import { Button } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import { GetReviewEndpoint } from '../../utilities/EndpointUtils';
 import axios from 'axios';
-import { useUserContext } from '../../hooks/useUserHook';
+import { useUserContext } from '../../hooks/useUser';
 
 const responsive = {
     desktop: { breakpoint: { max: 3000, min: 1024 }, items: 3.5, slidesToSlide: 4 },

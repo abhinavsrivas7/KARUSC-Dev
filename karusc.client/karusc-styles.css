@@ -110,8 +110,20 @@
 }
 
 div.offcanvas-start, div.offcanvas-end {
-    max-width: 70% !important;
+    max-width: 80% !important;
     background-color: #FFF3F5 !important;
+}
+
+@media screen and (max-width: 300px) {
+    div.offcanvas-start, div.offcanvas-end {
+        max-width: 100% !important;
+    }
+}
+
+.frost-card {
+    background: rgba(158, 45, 79, 0.1);
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
 }
 /*CUSTOM STYLES -end*/
 
