@@ -9,6 +9,7 @@ namespace Karusc.Server.Infrastructure.Authentication
     {
         private HttpContext _httpContext;
         private IKaruscDbContext _dbContext;
+        private User? _cachedCurrentUser = null;
 
         public CurrentUserService(
             IHttpContextAccessor httpContextAccessor, 
@@ -17,18 +18,25 @@ namespace Karusc.Server.Infrastructure.Authentication
         
         public async Task<User> GetCurrentUser(CancellationToken cancellationToken)
         {
-            var idClaim = _httpContext.User.Claims
+            if(_cachedCurrentUser is null)
+            {
+                var idClaim = _httpContext.User.Claims
                 .FirstOrDefault(claim => claim.Type.Equals(nameof(User.Id).ToLower()));
 
-            if (idClaim is null)
-            {
-                throw new InvalidOperationException("Invalid JWT");
-            }
+                if (idClaim is null)
+                {
+                    throw new InvalidOperationException("Invalid JWT");
+                }
 
-            return await _dbContext.Users.FirstOrDefaultAsync(
-                user => user.Id == Guid.Parse(idClaim.Value), 
-                cancellationToken)
-                ?? throw new KeyNotFoundException(idClaim.Value);
+                var user = await _dbContext.Users.FirstOrDefaultAsync(
+                    user => user.Id == Guid.Parse(idClaim.Value),
+                    cancellationToken)
+                    ?? throw new KeyNotFoundException(idClaim.Value);
+
+                _cachedCurrentUser = user;
+            }
+            
+            return _cachedCurrentUser;
         }
     }
 }

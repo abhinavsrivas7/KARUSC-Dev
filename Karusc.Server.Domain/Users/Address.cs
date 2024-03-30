@@ -11,8 +11,8 @@
         public string Country { get; private set; }
         public string Pincode { get; private set; }
         public string Phone { get; private set; }
-        public User? User { get; private set; }
-        public Guid? UserId { get; private set; }
+        public User User { get; private set; } = null!;
+        public Guid UserId { get; private set; }
 
         private Address(
             string recipient,

@@ -31,7 +31,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CategoryProduct");
+                    b.ToTable("CategoryProduct", (string)null);
                 });
 
             modelBuilder.Entity("CollectionProduct", b =>
@@ -46,7 +46,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ProductsId");
 
-                    b.ToTable("CollectionProduct");
+                    b.ToTable("CollectionProduct", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Files.File<Karusc.Server.Domain.Products.Product>", b =>
@@ -66,44 +66,37 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("EntityId");
 
-                    b.ToTable("ProductImages");
+                    b.ToTable("ProductImages", (string)null);
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Cart", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Cart", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("OwnerId")
-                        .IsRequired()
+                    b.Property<Guid>("OwnerId")
                         .HasColumnType("char(36)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId")
                         .IsUnique();
 
-                    b.ToTable("Carts");
+                    b.ToTable("Carts", (string)null);
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.LineItem<Karusc.Server.Domain.Orders.Cart>", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.LineItem<Karusc.Server.Domain.LineItemEntities.Cart>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ParentId")
-                        .IsRequired()
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("char(36)")
                         .HasColumnName("CartId");
 
-                    b.Property<Guid?>("ProductId")
-                        .IsRequired()
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -116,25 +109,23 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.HasIndex(new[] { "ProductId", "ParentId" }, "One-LineItem-per-Product-per-Cart")
                         .IsUnique();
 
-                    b.ToTable("CartLineItems", t =>
+                    b.ToTable("CartLineItems", null, t =>
                         {
                             t.HasCheckConstraint("CartLineItem_Quantity_Check", "Quantity >= 1 AND Quantity <= 5");
                         });
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.LineItem<Karusc.Server.Domain.Orders.Order>", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.LineItem<Karusc.Server.Domain.LineItemEntities.Order>", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ParentId")
-                        .IsRequired()
+                    b.Property<Guid>("ParentId")
                         .HasColumnType("char(36)")
                         .HasColumnName("OrderId");
 
-                    b.Property<Guid?>("ProductId")
-                        .IsRequired()
+                    b.Property<Guid>("ProductId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Quantity")
@@ -147,31 +138,26 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.HasIndex(new[] { "ProductId", "ParentId" }, "One-LineItem-per-Product-per-Order")
                         .IsUnique();
 
-                    b.ToTable("OrderLineItems", t =>
+                    b.ToTable("OrderLineItems", null, t =>
                         {
                             t.HasCheckConstraint("OrderLineItem_Quantity_Check", "Quantity >= 1 AND Quantity <= 5");
                         });
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Order", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Order", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("AddressId")
+                    b.Property<Guid>("AddressId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("OwnerId")
-                        .IsRequired()
+                    b.Property<Guid>("OwnerId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasPrecision(10, 2)
-                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -181,10 +167,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Status");
 
-                    b.ToTable("Orders", t =>
-                        {
-                            t.HasCheckConstraint("Order_TotalAmount_Check", "TotalAmount >= 0");
-                        });
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Products.Category", b =>
@@ -205,7 +188,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Products.Collection", b =>
@@ -215,6 +198,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.Property<string>("ImageURL")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -225,7 +209,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Name");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Products.Product", b =>
@@ -254,7 +238,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("Title");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Reviews.Review", b =>
@@ -263,8 +247,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("AuthorId")
-                        .IsRequired()
+                    b.Property<Guid>("AuthorId")
                         .HasColumnType("char(36)");
 
                     b.Property<int>("Rating")
@@ -278,7 +261,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Reviews", t =>
+                    b.ToTable("Reviews", null, t =>
                         {
                             t.HasCheckConstraint("Review_Rating_Check", "Rating >= 1 AND Rating <= 5");
                         });
@@ -298,7 +281,7 @@ namespace Karusc.Server.Infrastructure.Migrations
 
                     b.HasIndex("ImageURL");
 
-                    b.ToTable("HomeCarouselImages");
+                    b.ToTable("HomeCarouselImages", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Users.Address", b =>
@@ -339,15 +322,14 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<Guid?>("UserId")
-                        .IsRequired()
+                    b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Karusc.Server.Domain.Users.User", b =>
@@ -356,7 +338,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("CartId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Email")
@@ -383,7 +365,7 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>
@@ -427,20 +409,20 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.Navigation("Entity");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Cart", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Cart", b =>
                 {
                     b.HasOne("Karusc.Server.Domain.Users.User", "Owner")
                         .WithOne("Cart")
-                        .HasForeignKey("Karusc.Server.Domain.Orders.Cart", "OwnerId")
+                        .HasForeignKey("Karusc.Server.Domain.LineItemEntities.Cart", "OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.LineItem<Karusc.Server.Domain.Orders.Cart>", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.LineItem<Karusc.Server.Domain.LineItemEntities.Cart>", b =>
                 {
-                    b.HasOne("Karusc.Server.Domain.Orders.Cart", "Parent")
+                    b.HasOne("Karusc.Server.Domain.LineItemEntities.Cart", "Parent")
                         .WithMany("LineItems")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -457,9 +439,9 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.LineItem<Karusc.Server.Domain.Orders.Order>", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.LineItem<Karusc.Server.Domain.LineItemEntities.Order>", b =>
                 {
-                    b.HasOne("Karusc.Server.Domain.Orders.Order", "Parent")
+                    b.HasOne("Karusc.Server.Domain.LineItemEntities.Order", "Parent")
                         .WithMany("LineItems")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -476,11 +458,13 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Order", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Order", b =>
                 {
                     b.HasOne("Karusc.Server.Domain.Users.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Karusc.Server.Domain.Users.User", "Owner")
                         .WithMany("Orders")
@@ -515,12 +499,12 @@ namespace Karusc.Server.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Cart", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Cart", b =>
                 {
                     b.Navigation("LineItems");
                 });
 
-            modelBuilder.Entity("Karusc.Server.Domain.Orders.Order", b =>
+            modelBuilder.Entity("Karusc.Server.Domain.LineItemEntities.Order", b =>
                 {
                     b.Navigation("LineItems");
                 });
@@ -534,7 +518,8 @@ namespace Karusc.Server.Infrastructure.Migrations
                 {
                     b.Navigation("Addresses");
 
-                    b.Navigation("Cart");
+                    b.Navigation("Cart")
+                        .IsRequired();
 
                     b.Navigation("Orders");
 

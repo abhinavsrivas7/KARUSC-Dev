@@ -22,7 +22,7 @@ namespace Karusc.Server.Application.Collections.Create
             var collection = Collection.Create(request.Name, request.Image);
 
             collection.ImageURL = await _fileStorageService
-                .Upload(collection.Image!, cancellationToken);
+                .Upload(collection.Image, cancellationToken);
 
             await _context.Collections.AddAsync(collection, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

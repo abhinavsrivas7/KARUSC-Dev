@@ -31,7 +31,7 @@ namespace Karusc.Server.Application.Products.Delete
             
             await _context.SaveChangesAsync(cancellationToken);
 
-            if(product.Images is not null && product.Images.Any())
+            if(product.Images.Any())
             {
                 await _fileStorageService.BulkDelete(product.Images, cancellationToken);
             }

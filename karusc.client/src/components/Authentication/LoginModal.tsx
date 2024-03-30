@@ -8,7 +8,7 @@ import { Loader } from "../Common/Loader";
 import { GetLoginEndpoint, GetSignupEndpoint } from "../../utilities/EndpointUtils";
 import axios from "axios";
 import { ConvertToBase64 } from "../../utilities/FileUtils";
-import { useUserContext } from "../../hooks/useUserHook";
+import { useUserContext } from "../../hooks/useUser";
 import { ImageCropper } from "../Common/ImageCropper";
 import userImg from "../../../resources/media/user.svg";
 
@@ -127,7 +127,6 @@ export const LoginModal = (modalData: LoginModalData) => {
     const addPasswordToLoginCommand = (event: React.ChangeEvent<HTMLInputElement>) => {
         const updatedCommand = loginCommand;
         updatedCommand.password = event.target.value;
-        console.log(loginCommand);
         setLoginCommand(updatedCommand);
     };
 
@@ -147,7 +146,6 @@ export const LoginModal = (modalData: LoginModalData) => {
         const updatedCommand = signupCommand;
         updatedCommand.password = event.target.value;
         setSignupCommand(updatedCommand);
-        console.log(signupCommand);
     };
 
     const addImageToSignUpCommand = async (event: React.ChangeEvent<HTMLInputElement>) => {

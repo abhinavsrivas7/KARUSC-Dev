@@ -4,8 +4,8 @@ namespace Karusc.Server.Domain.UI
 {
     public class HomeCarouselImage : FileEntity
     {
-        public File<HomeCarouselImage>? Image { get; private set; } = null;
-        public string? ImageURL { get; set; } = null;
+        public File<HomeCarouselImage> Image { get; private set; } = new();
+        public string ImageURL { get; set; } = string.Empty;
         private HomeCarouselImage() {}
 
         public static HomeCarouselImage Create(string image)

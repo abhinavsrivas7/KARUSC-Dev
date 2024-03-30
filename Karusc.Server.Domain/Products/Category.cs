@@ -5,8 +5,8 @@ namespace Karusc.Server.Domain.Products
     public class Category : FileEntity, ISearchableEntity
     {
         public string Name { get; private set; }
-        public File<Category>? Image { get; private set; } = null;
-        public string? ImageURL { get; set; } = null;
+        public File<Category> Image { get; private set; } = new();
+        public string ImageURL { get; set; } = string.Empty;
         public List<Product>? Products { get; private set; } = null;
 
         private Category(string name) => Name = name;

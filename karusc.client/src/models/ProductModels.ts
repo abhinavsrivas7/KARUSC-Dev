@@ -1,11 +1,14 @@
+import { Category } from "./CategoryModels";
+import { Collection } from "./CollectionModels";
+
 export type Product = {
     id: string
     title: string
     price : number
     description: string
     careInstructions: string
-    category: string
-    collection: string
+    categories: Category[]
+    collections: Collection[]
     images :string []  
 };
 

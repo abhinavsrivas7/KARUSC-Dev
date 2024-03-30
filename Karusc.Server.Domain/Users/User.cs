@@ -1,5 +1,5 @@
 ﻿using Karusc.Server.Domain.Files;
-using Karusc.Server.Domain.Orders;
+using Karusc.Server.Domain.LineItemEntities;
 using Karusc.Server.Domain.Reviews;
 
 namespace Karusc.Server.Domain.Users
@@ -9,14 +9,14 @@ namespace Karusc.Server.Domain.Users
         public string Email { get; init; }
         public string Name { get; init; }
         public string PasswordHash { get; private set; }
-        public string? ProfilePictureURL { get; set; } = null;
-        public File<User>? ProfilePicture { get; private set; } = null;
+        public string ProfilePictureURL { get; set; } = string.Empty;
+        public File<User> ProfilePicture { get; private set; } = new();
         public Role Role { get; init; }
-        public List<Address>? Addresses { get; private set; } = null;
-        public List<Review>? Reviews { get; private set; } = null;
-        public Cart? Cart { get; set; } = null;
-        public Guid? CartId { get; set; } = null;
-        public List<Order>? Orders { get; set; } = null;
+        public List<Address> Addresses { get; private set; } = new();
+        public List<Review> Reviews { get; private set; } = new();
+        public Cart Cart { get; set; } = null!;
+        public Guid CartId { get; set; }
+        public List<Order> Orders { get; set; } = new();
 
         private User(string email, string name, string passwordHash, Role role)
         {

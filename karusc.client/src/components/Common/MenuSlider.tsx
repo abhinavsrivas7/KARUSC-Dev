@@ -15,7 +15,7 @@ export const MenuSlider = ({ show, onClose, user }: MenuSliderProps) => {
         show={show}
         onHide={onClose}>
         <Offcanvas.Header>
-            <h1 className="extra-bold-font">KARUSC</h1>
+            <h3 className="bold-font">Menu</h3>
             <Button
                 onClick={onClose}
                 className="pt-0"
@@ -26,32 +26,28 @@ export const MenuSlider = ({ show, onClose, user }: MenuSliderProps) => {
         </Offcanvas.Header>
         <Offcanvas.Body className="pt-0">
             {user !== null
-                ? <><Stack
-                    className="p-2 purple"
-                    direction="horizontal"
-                    gap={2}
-                    style={{ border: "1px solid" }}>
-                    <div>
-                        <ImageBs
-                            height="60vh"
-                            src={user.profilePictureUrl}
-                            roundedCircle />
-                    </div>
-                    <Stack direction="vertical" gap={0}>
-                        <div className="bold-font ps-1 pt-1 pb-0 mb-0">
-                            {user.name}
+                ? <Stack direction="vertical">
+                    <Stack
+                        className="p-2 frost-card"
+                        direction="horizontal"
+                        gap={2}>
+                        <div>
+                            <ImageBs
+                                height="60vh"
+                                src={user.profilePictureUrl}
+                                roundedCircle />
                         </div>
-                        <div className="thin-font px-1">
-                            <Button
-                                onClick={onClose}
-                                variant="white"
-                                className="admin-button ps-0 pt-0">
+                        <Stack direction="vertical" gap={0}>
+                            <div className="bold-font ps-1 pt-1 pb-0 mb-0">
+                                {user.name}
+                            </div>
+                            <div className="regular-font px-1">
                                 View Profile
-                            </Button>
-                        </div>
+                            </div>
+                        </Stack>
                     </Stack>
+                    <hr />
                 </Stack>
-                    <hr /></>
                 : null}
             <ul>
                 <li>

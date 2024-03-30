@@ -1,1 +1,1 @@
-export enum DeviceTypes { MOBILE, TABLET, DESKTOP }
+export enum DeviceTypes { MINI_MOBILE, MOBILE, TABLET, DESKTOP }

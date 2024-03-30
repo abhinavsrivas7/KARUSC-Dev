@@ -6,11 +6,11 @@ import { NoData } from "../components/Common/NoData";
 import { Button, Col, Container, Dropdown, Row, Stack } from "react-bootstrap";
 import { ProductCard } from "../components/Products/ProductCard";
 import { GetProductsEndpoint } from "../utilities/EndpointUtils";
-import { useScreenSize } from "../context/ScreenSizeContext";
 import { DeviceTypes } from "../models/DeviceTypes";
 import { NavLink, useLocation } from "react-router-dom";
 import { Pagination } from "../components/Common/Pagination";
 import { FilterSlider } from "../components/Products/FilterSlider";
+import { useScreenSize } from "../hooks/useScreenSize";
 
 export const ProductList = () => {
     const { getDeviceType } = useScreenSize();
@@ -138,8 +138,8 @@ export const ProductList = () => {
                                     id={item.id}
                                     description={item.description}
                                     careInstructions={item.careInstructions}
-                                    category={item.category}
-                                    collection={item.collection} />
+                                    categories={item.categories}
+                                    collections={item.collections} />
                             </NavLink>
                         </Col>
                     ))}

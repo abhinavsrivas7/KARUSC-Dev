@@ -10,6 +10,11 @@ namespace Karusc.Server.Application.Reviews
         Rating Rating)
     {
         internal ReviewDto(Review review) : 
-            this(review.Id, new UserDto(review.Author!), review.Title, review.Rating) { }
+            this(review.Id, new UserDto(review.Author), review.Title, review.Rating) { }
+
+        internal ReviewDto EnrichUserProfilePicture(string? enrichmentPrefix) => this with
+        {
+            Author = Author.EnrichProfilePicture(enrichmentPrefix)
+        };
     }
 }
