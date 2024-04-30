@@ -13,11 +13,12 @@ type QuantityButtonsProps = {
 
 export const QuantityButtons = ({ productId, quantity }: QuantityButtonsProps) => {
     const maxLineItemQuantity = import.meta.env.VITE_REACT_APP_MAX_ITEM_QUANTIY;
-    const { getCart, updateLineItem } = useCartContext();
+    const { getCart, updateLineItem, reLoad } = useCartContext();
     const [currentQuantity, setCurrentQuantity] = useState<number>(quantity);
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [errorDescription, setErrorDescription] = useState<string | null>(null);
+
     const handleIncrement = (mode: "+" | "-") =>  {
         const lineItemId = getCart()
             .lineItems
@@ -40,6 +41,7 @@ export const QuantityButtons = ({ productId, quantity }: QuantityButtonsProps) =
                             setCurrentQuantity(updatedLineItem.quantity);
                         }
                     }
+                    reLoad();
                     setShowLoader(false);
                 });
         }

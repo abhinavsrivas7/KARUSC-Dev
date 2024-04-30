@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { StorableUser, Token, User } from "../models/UserModels";
-import { getUserFromToken, loadUserFromLocalStorage, performLogOut, userKeyName } from "../utilities/ContextUtils";
+import { cartKeyName, getUserFromToken, loadUserFromLocalStorage, performLogOut, userKeyName } from "../utilities/ContextUtils";
 
 type LoggedInUserProviderProps = {
     children: ReactNode
@@ -9,7 +9,7 @@ type LoggedInUserProviderProps = {
 type UserContext = {
     getUser: () => User | null,
     getToken: () => Token[] | null,
-    setUserFromToken: (tokens: Token[]) => void,
+    setUserFromToken: (tokens: Token[]) => StorableUser | undefined,
     logOut: () => void
 };
 
@@ -26,6 +26,8 @@ export function LoggedInUserProvider({ children }: LoggedInUserProviderProps) {
         if (storableUser === null) {
             const user = getUserFromToken(tokens);
             setStorableUser(user);
+            localStorage.removeItem(cartKeyName);
+            return user;
         }
     };
 

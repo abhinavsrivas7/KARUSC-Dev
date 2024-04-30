@@ -11,17 +11,28 @@ namespace Karusc.Server.Application.LineItemEntities.Orders.CreateOrder
             ICurrentUserService currentUserService, 
             string? enrichmentPrefix) : base(context, currentUserService, enrichmentPrefix) { }
 
-        protected async Task<Order> CreateOrder(Guid addressId, CancellationToken cancellationToken)
+        protected async Task<Order> CreateOrder(
+            Guid shippingAddressId, 
+            Guid billingAddressId, 
+            CancellationToken cancellationToken)
         {
             var currentUser = await _currentUserService.GetCurrentUser(cancellationToken);
 
-            var address = await _context.Addresses
+            var shippingAddress = await _context.Addresses
                 .FirstOrDefaultAsync(
-                    address => address.Id == addressId && address.UserId == currentUser.Id,
+                    address => address.Id == shippingAddressId && address.UserId == currentUser.Id,
                     cancellationToken)
-                ?? throw new KeyNotFoundException("Address with the specified ID doesnt exist.");
+                ?? throw new KeyNotFoundException("Shipping Address with the specified ID doesnt exist.");
 
-            return Order.Create(currentUser, address);
+            var billingAddress = shippingAddressId == billingAddressId
+                ? shippingAddress
+                : await _context.Addresses
+                    .FirstOrDefaultAsync(
+                        address => address.Id == billingAddressId && address.UserId == currentUser.Id,
+                        cancellationToken)
+                    ?? throw new KeyNotFoundException("Billing Address with the specified ID doesnt exist.");
+
+            return Order.Create(currentUser, shippingAddress, billingAddress);
         }
     }
 }

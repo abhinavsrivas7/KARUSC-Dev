@@ -3,7 +3,7 @@ import { AddToCartCommand, Cart, UpdateLineItemCommand } from "../models/CartMod
 import { getCartFromLocalStorage, getGuestUserCart, performCartOperation } from "../utilities/ContextUtils";
 import { useUserContext } from "../hooks/useUser";
 import { Product } from "../models/ProductModels";
-import { CartEndpoint } from "../utilities/EndpointUtils";
+import { AddToCartEndpoint, CartEndpoint } from "../utilities/EndpointUtils";
 
 const maxCartItems = import.meta.env.VITE_REACT_APP_MAX_CART_ITEMS;
 const maxLineItemQuantity = import.meta.env.VITE_REACT_APP_MAX_ITEM_QUANTIY;
@@ -14,7 +14,8 @@ type CartProviderProps = {
 
 type CartContext = {
     getCart: () => Cart,
-    re: () => void,
+    setCartState: (newCart: Cart) => void,
+    reLoad: () => void,
     addToCart: (product: Product) => Promise<Cart | string>,
     updateLineItem: (lineItemid: string, incrementQuantity: number) => Promise<Cart | string>,
     removeFromCart: (lineItemId: string) => Promise<Cart | string>
@@ -27,7 +28,7 @@ export function CartProvider({ children }: CartProviderProps) {
     const user = getUser();
     const tokens = getToken();
     const [cart, setCart] = useState<Cart>(getGuestUserCart());
-    const [t, setT] = useState<boolean>(false);
+    const [reloadState, setReloadState] = useState<boolean>(false);
 
     useEffect(() => {
         getCartFromLocalStorage(user, tokens).then(cartResponse => alertOrSet(cartResponse))
@@ -46,7 +47,7 @@ export function CartProvider({ children }: CartProviderProps) {
                 performCartOperation(user, cart, {
                     method: method,
                     payload: payload,
-                    url: CartEndpoint(),
+                    url: method === "POST" ? AddToCartEndpoint() : CartEndpoint(),
                     alternateOperation: alternateOperation,
                     tokens: tokens
                 }).then(result => resolve(result));
@@ -54,7 +55,8 @@ export function CartProvider({ children }: CartProviderProps) {
     };
 
     const getCart = () => cart;
-    const re = () => setT(!t);
+    const setCartState = (newCart: Cart) => setCart(newCart);
+    const reLoad = () => setReloadState(!reloadState);
 
     const addToCart = (product: Product) => {
         const lineItem = cart.lineItems.find(lineItem => lineItem.product.id === product.id);
@@ -136,7 +138,7 @@ export function CartProvider({ children }: CartProviderProps) {
 
 
     return (
-        <UserCartContext.Provider value={{ getCart, addToCart, updateLineItem, removeFromCart, re }}>
+        <UserCartContext.Provider value={{ getCart, addToCart, updateLineItem, removeFromCart, reLoad, setCartState }}>
             {children}
         </UserCartContext.Provider>
     );

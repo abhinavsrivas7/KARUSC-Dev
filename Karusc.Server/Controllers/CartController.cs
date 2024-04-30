@@ -22,9 +22,15 @@ namespace Karusc.Server.Controllers
         public async Task<IActionResult> Get(CancellationToken cancellationToken) =>
             Ok(await _mediator.Send(new GetCartQuery(), cancellationToken));
 
-        [HttpPost]
+        [HttpPost(nameof(AddToCart))]
         public async Task<IActionResult> AddToCart(
             [FromBody] AddToCartCommand command,
+            CancellationToken cancellationToken) =>
+                Ok(await _mediator.Send(command, cancellationToken));
+
+        [HttpPost(nameof(AddLineItems))]
+        public async Task<IActionResult> AddLineItems(
+            [FromBody] AddLineItemsCommand command,
             CancellationToken cancellationToken) =>
                 Ok(await _mediator.Send(command, cancellationToken));
 

@@ -59,5 +59,25 @@
             address.UserId = address.User.Id;
             return address;
         }
+
+        public void Update(
+            string recipient,
+            string line1,
+            string line2,
+            string city,
+            string state,
+            string country,
+            string pincode,
+            string phone)
+        {
+            Recipient = recipient;
+            Line1 = line1; 
+            Line2 = line2; 
+            City = city;
+            State = state;
+            Country = country;
+            Pincode = pincode;
+            Phone = phone;
+        }
     }
 }

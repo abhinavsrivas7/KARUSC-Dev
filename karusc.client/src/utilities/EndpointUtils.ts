@@ -11,3 +11,8 @@ export const GetCreateAdminUserEndpoint = () => baseUrl + 'user/createAdminUser'
 export const GetReviewEndpoint = () => baseUrl + 'review'; 
 export const GetSearchEndpoint = () => baseUrl + 'search';
 export const CartEndpoint = () => baseUrl + 'cart';
+export const AddToCartEndpoint = () => baseUrl + 'cart/AddToCart';
+export const AddLineItemsEndpoint = () => baseUrl + 'cart/AddLineItems';
+export const GetAllAddressesEndpoint = () => baseUrl + 'address/GetAll';
+export const GetAddressByIdEndpoint = () => baseUrl + 'address/GetById';
+export const AddressEndpoint = () => baseUrl + 'address';

@@ -125,9 +125,35 @@ div.offcanvas-start, div.offcanvas-end {
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
 }
+.tooltip-inner {
+    background-color: #FFF3F5 !important;
+    border: 1px solid rgba(158, 45, 79, 0.56);
+    color: rgba(158, 45, 79, 0.56) !important;
+    border-radius: 0 !important;
+}
+
+.tooltip-arrow {
+    --bs-tooltip-bg: rgba(158, 45, 79, 0.56) !important;
+}
+
+.discount-input {
+    color: rgba(158, 45, 79, 0.56);
+    line-height: 2em;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid rgba(158, 45, 79, 0.56);
+    background-color: #FFF3F5;
+    border-radius: 0;
+}
+
+.discount-input::-webkit-input-placeholder {
+    color: rgba(158, 45, 79, 0.56) !important;
+}
+
+.discount-input:focus {
+    outline: none;
+}
 /*CUSTOM STYLES -end*/
-
-
 /* ADMIN STYLES - start*/
 button[id^='admin-tab-'], button[id^='admin-tab-']:hover {
     background-color: #FFF3F5;

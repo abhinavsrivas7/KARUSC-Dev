@@ -73,7 +73,7 @@ export const Navbar = () => {
                 </Nav.Link>
             </Nav>
         </Stack>
-        <Stack direction="horizontal" gap={3} className="ms-auto">
+        <Stack direction="horizontal" gap={getDeviceType() === DeviceTypes.MINI_MOBILE ? 0 : 3} className="ms-auto">
             <Button
                 onClick={() => setSearchActive(true)}
                 variant="white"
