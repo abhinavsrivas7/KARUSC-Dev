@@ -16,7 +16,7 @@ namespace Karusc.Server.Application.LineItemEntities.Orders.CreateOrder
 
         public async Task<OrderDto> Handle(CreateOrderFromCartCommand request, CancellationToken cancellationToken)
         {
-            var order = await CreateOrder(request.AddressId, cancellationToken);
+            var order = await CreateOrder(request.ShippingAddressId, request.BillingAddressId, cancellationToken);
             var currentUser = await _currentUserService.GetCurrentUser(cancellationToken);
 
             var cart = await _context.Carts

@@ -12,6 +12,7 @@
 - Node.js  `>= 18.16.0`
 - npm  `>= 9.5.1`
 - MySQL server `8.0.35`
+- az cli
 
 #### Setup
 - Change the value `ASPNETCORE_ENVIRONMENT` from `Production` to `Local` in `launchSettings.json`.
@@ -34,6 +35,41 @@
   }
 }
 ```  
+
+### For Initial Deployment on a new Azure Account
+ - Create a new account and create a resource group named `KaruscRG`.
+ - Create the AppService and Azure MySQL server with access to all resources from Azure.
+   (Not a safe practice but will try to improve using either managed keys or VPC)
+ - Update these variables in `cd.yaml` - `AZURE_WEBAPP_NAME`, `AZURE_MYSQL_SERVER_NAME`.
+ - Run the following command to create a new service principal in the azure account
+ ```
+ az login
+ az ad sp create-for-rbac --name "GitHubActionsSP" --role contributor --scopes /subscriptions/{subscription-id}
+ az account set --subscription {subscription-id}
+ ```
+ - Allow access to the create SP in the Access Control (IAM) blade on the app service.
+ - Download the publish profile. If you face an error saying basic auth is not enabled:
+    - Go to configuration blade - general settings and allow both types of basic auth
+ - Update the following Github secrets 
+    - `AZURE_SP_APP_ID`
+    - `AZURE_SP_PASSWORD`
+    - `AZURE_SP_TENANT_ID`
+    - `AZURE_WEBAPP_PUBLISH_PROFILE`
+    - `DATABASE_CONNECTION_STRING`
+ ```
+ Server={server};UserID={user};Password={pass};Database=KaruscDB;SslMode=Required;SslCa="./DigiCertGlobalRootCA.crt.pem";
+ ```
+ - Create a new storage zone and link it with a new pull zone in bunny.net
+ - Update the following keys in `appSettings.Production.json`
+    - `StorageZone`
+    - `Region`
+    - `CDN_URL`
+    - `CLIENT-CORS-ORIGIN`
+ - Add the following in the Configuration blade of the app service
+    - `BunnyFileStorage__AccessKey`
+    - `JwtConfiguration__SecretKey`
+    - `KaruscDB` (Connection String)
+ - Update the .env file in client project with the api URL
 
 ### External Links
 #### ERD

@@ -1,4 +1,4 @@
-﻿using Karusc.Server.Application.Users;
+﻿using Karusc.Server.Application.Addresses;
 using Karusc.Server.Domain.LineItemEntities;
 
 namespace Karusc.Server.Application.LineItemEntities.Orders
@@ -7,7 +7,8 @@ namespace Karusc.Server.Application.LineItemEntities.Orders
         Guid Id, 
         Guid OwnerId, 
         List<LineItemDto<Order>> LineItems, 
-        AddressDto Address,
+        AddressDto ShippingAddress,
+        AddressDto BillingAddress,
         string status)
     {
         internal OrderDto(Order order) : this(
@@ -16,7 +17,8 @@ namespace Karusc.Server.Application.LineItemEntities.Orders
             order.LineItems
                 .Select(lineItem => new LineItemDto<Order>(lineItem))
                 .ToList(),
-            new(order.Address),
+            new(order.ShippingAddress),
+            new(order.BillingAddress),
             order.Status.ToString()) { }
 
         internal OrderDto EnrichLineItems(string? enrichmentprefix) => string.IsNullOrEmpty(enrichmentprefix)

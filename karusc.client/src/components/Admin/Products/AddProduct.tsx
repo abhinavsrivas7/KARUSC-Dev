@@ -92,8 +92,6 @@ export const AddProduct = () => {
     };
 
     const addTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(images);
-        console.log(createCommand);
         const updatedCommand = createCommand;
         updatedCommand.title = event.target.value;
         setCreateCommand(updatedCommand);
@@ -163,8 +161,6 @@ export const AddProduct = () => {
                 }
             })
             .catch((response) => {
-                console.log(response);
-                console.log(response.response.data.Message);
                 setFormOpacity(1);
                 setShowLoader(false);
                 setErrorState({

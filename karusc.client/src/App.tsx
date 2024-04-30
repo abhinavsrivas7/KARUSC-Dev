@@ -10,6 +10,7 @@ import { Admin } from "./pages/Admin";
 import { ProductDetails } from "./pages/ProductDetails";
 import { LoggedInUserProvider } from "./context/UserContext";
 import { CartProvider } from "./context/CartContext";
+import { Checkout } from "./pages/Checkout";
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
                         <Route path="/ProductDetails" element={<ProductDetails />} />
                         <Route path="/About" element={<About />} />
                         <Route path="/Admin" element={<Admin />} />
+                        <Route path="/Checkout" element={<Checkout /> } />
                     </Routes>
                 </div>
                 <Footer></Footer>

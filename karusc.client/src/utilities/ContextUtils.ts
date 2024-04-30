@@ -4,11 +4,11 @@ import { Cart, CartApiOperation } from "../models/CartModels";
 import { DeviceTypes } from "../models/DeviceTypes";
 import { Role, StorableUser, Token, User } from "../models/UserModels";
 import { jwtDecode } from "jwt-decode";
-import { CartEndpoint } from "./EndpointUtils";
+import { AddLineItemsEndpoint, CartEndpoint } from "./EndpointUtils";
 
 
 export const userKeyName = "karusUser";
-const cartKeyName = "karusCart";
+export const cartKeyName = "karusCart";
 const guestCartId = "GUEST-CART-ID";
 
 export const loadUserFromLocalStorage = (): StorableUser | null => {
@@ -19,7 +19,7 @@ export const loadUserFromLocalStorage = (): StorableUser | null => {
         : null;
 }
 
-export const getDeviceName = (width: number) => width < 300
+export const getDeviceName = (width: number) => width < 400
     ? DeviceTypes.MINI_MOBILE
     : width < 768
     ? DeviceTypes.MOBILE
@@ -108,7 +108,7 @@ export const getCartFromLocalStorage = (user: User | null, tokens: Token[] | nul
     }
 }
 
-const fetchCartForUser = (tokens: Token[] | null): Promise<Cart | "Invalid Tokens"> => {
+export const fetchCartForUser = (tokens: Token[] | null): Promise<Cart | "Invalid Tokens"> => {
     const tokenResponse = validateTokens(tokens);
     if (tokenResponse === false) return Promise.resolve("Invalid Tokens");
     return new Promise<Cart>(resolve => {
@@ -121,9 +121,35 @@ const fetchCartForUser = (tokens: Token[] | null): Promise<Cart | "Invalid Token
             })
             .then(response => resolve(response.data));
     })
+};
+
+export const AddLineItemsToUserCart = (tokens: Token[], cart: Cart): Promise<Cart | string> => {
+    const tokenResponse = validateTokens(tokens);
+    if (tokenResponse === false) return Promise.resolve("Invalid Tokens");
+    if (cart.lineItems.length === 0) return Promise.resolve(cart);
+
+    return new Promise<Cart>(resolve => {
+        axios.post(
+            AddLineItemsEndpoint(),
+            {
+                lineItems: cart.lineItems.map(li => {
+                    return {
+                        productId: li.product.id,
+                        quantity: li.quantity
+                    };
+                })
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${tokenResponse}`
+                }
+            }
+        ).then(response => resolve(response.data));
+    });    
 }
 
-const validateTokens = (tokens: Token[] | null): string | false => {
+export const validateTokens = (tokens: Token[] | null): string | false => {
     if (tokens === null || tokens.length !== 2) {
         return false;
     }

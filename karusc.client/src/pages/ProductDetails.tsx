@@ -7,7 +7,7 @@ import { Loader } from "../components/Common/Loader";
 import { ImageCarousel } from "../components/Common/ImageCarousel";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { DeviceTypes } from "../models/DeviceTypes";
-import shareImg from "../../resources/media/share.svg"
+import shareImg from "../../resources/media/share.svg";
 import { FormatProductPrice } from "../utilities/ProductCardUtils";
 import { useScreenSize } from "../hooks/useScreenSize";
 import { useCartContext } from "../hooks/useCart";
@@ -19,7 +19,7 @@ export const ProductDetails = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const { getDeviceType } = useScreenSize();
     const { getCart, addToCart } = useCartContext();
-    const marginClass = getDeviceType() === DeviceTypes.MOBILE ? "mt-4 px-5" : "px-5";
+    const marginClass = getDeviceType() === DeviceTypes.MOBILE || getDeviceType() === DeviceTypes.MINI_MOBILE ? "mt-4 px-5" : "px-5";
     const [showAddToCartLoader, setShowAddToCartLoader] = useState<boolean>(false);
     const [showError, setShowError] = useState<boolean>(false);
     const [errorDescription, setErrorDescription] = useState<string | null>(null);

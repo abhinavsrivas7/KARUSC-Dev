@@ -1,5 +1,4 @@
 ﻿using Karusc.Server.Application.Contracts;
-using Karusc.Server.Domain.LineItemEntities;
 using Karusc.Server.Domain.Products;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +17,7 @@ namespace Karusc.Server.Application.LineItemEntities.Orders.CreateOrder
         public async Task<OrderDto> Handle(
             CreateOrderFromLineItemCommand request, CancellationToken cancellationToken)
         {
-            var order = await CreateOrder(request.AddressId, cancellationToken);
+            var order = await CreateOrder(request.ShippingAddressId, request.BillingAddressId, cancellationToken);
 
             var product = await _context.Products
                 .Include(product => product.Images)

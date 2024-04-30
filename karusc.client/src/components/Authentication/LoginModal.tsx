@@ -1,7 +1,7 @@
 import { Button, Form, Modal, Stack } from "react-bootstrap";
 import { GoogleAuthComponent } from "./GoogleAuthComponent";
 import { useRef, useState } from "react";
-import { LoginCommand, SingupCommand } from "../../models/UserModels";
+import { LoginCommand, SingupCommand, StorableUser } from "../../models/UserModels";
 import { DissmissableAlert } from "../Common/DissmissableAlert";
 import { ErrorAlert, UploadFile } from "../../models/AdminModels";
 import { Loader } from "../Common/Loader";
@@ -14,7 +14,8 @@ import userImg from "../../../resources/media/user.svg";
 
 export type LoginModalData = {
     show: boolean,
-    onHide: () => void
+    onHide: () => void,
+    onLogin?: (user: StorableUser) => void
 }
 
 export const LoginModal = (modalData: LoginModalData) => {
@@ -58,7 +59,8 @@ export const LoginModal = (modalData: LoginModalData) => {
                     loginFormRef.current?.reset();
                     setLoginCommand(emptyLoginCommand);
                     try {
-                        setUserFromToken(response.data);
+                        const loggedInUser = setUserFromToken(response.data);
+                        if (loggedInUser && modalData.onLogin) modalData.onLogin(loggedInUser);
                     }
                     catch (error) {
                         console.log(error)

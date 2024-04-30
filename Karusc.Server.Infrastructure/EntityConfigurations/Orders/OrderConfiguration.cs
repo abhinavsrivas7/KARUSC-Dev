@@ -13,9 +13,16 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
             builder.Property(o => o.Status).IsRequired();
 
             builder
-                .HasOne(o => o.Address)
+                .HasOne(o => o.ShippingAddress)
                 .WithMany()
-                .HasForeignKey(o => o.AddressId);
+                .HasForeignKey(o => o.ShippingAddressId)
+                .IsRequired();
+
+            builder
+                .HasOne(o => o.BillingAddress)
+                .WithMany()
+                .HasForeignKey(o => o.BillingAddressId)
+                .IsRequired();
         }
     }
 }

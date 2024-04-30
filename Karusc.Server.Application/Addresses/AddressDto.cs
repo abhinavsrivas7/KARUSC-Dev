@@ -1,8 +1,9 @@
 ﻿using Karusc.Server.Domain.Users;
 
-namespace Karusc.Server.Application.Users
+namespace Karusc.Server.Application.Addresses
 {
-    internal record AddressDto(
+    public record AddressDto(
+        Guid Id,
         string Recipient,
         string Line1,
         string Line2,
@@ -13,7 +14,8 @@ namespace Karusc.Server.Application.Users
         string Phone,
         Guid UserId)
     {
-        internal AddressDto(Address address): this(
+        internal AddressDto(Address address) : this(
+            address.Id,
             address.Recipient,
             address.Line1,
             address.Line2,
@@ -22,6 +24,7 @@ namespace Karusc.Server.Application.Users
             address.Country,
             address.Pincode,
             address.Phone,
-            address.UserId) { }
+            address.UserId)
+        { }
     };
 }
