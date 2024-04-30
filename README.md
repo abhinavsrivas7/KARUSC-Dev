@@ -47,7 +47,7 @@
  az ad sp create-for-rbac --name "GitHubActionsSP" --role contributor --scopes /subscriptions/{subscription-id}
  az account set --subscription {subscription-id}
  ```
- - Allow access to the create SP in the Access Control (IAM) blade on the app service.
+ - Allow access to the create SP in the Access Control (IAM) blade on the resource group.
  - Download the publish profile. If you face an error saying basic auth is not enabled:
     - Go to configuration blade - general settings and allow both types of basic auth
  - Update the following Github secrets 
