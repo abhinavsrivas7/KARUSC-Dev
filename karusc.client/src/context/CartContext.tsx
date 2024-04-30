@@ -3,7 +3,7 @@ import { AddToCartCommand, Cart, UpdateLineItemCommand } from "../models/CartMod
 import { getCartFromLocalStorage, getGuestUserCart, performCartOperation } from "../utilities/ContextUtils";
 import { useUserContext } from "../hooks/useUser";
 import { Product } from "../models/ProductModels";
-import { AddToCartCartEndpoint, AddToCartEndpoint, CartEndpoint } from "../utilities/EndpointUtils";
+import { AddToCartEndpoint, CartEndpoint } from "../utilities/EndpointUtils";
 
 const maxCartItems = import.meta.env.VITE_REACT_APP_MAX_CART_ITEMS;
 const maxLineItemQuantity = import.meta.env.VITE_REACT_APP_MAX_ITEM_QUANTIY;
