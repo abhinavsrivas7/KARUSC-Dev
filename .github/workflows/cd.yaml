@@ -48,10 +48,11 @@ jobs:
         az mysql flexible-server firewall-rule create --resource-group ${{ env.AZURE_RESOURCE_GROUP }} --name ${{ env.AZURE_MYSQL_SERVER_NAME }} --rule-name ${{ env.AZURE_MYSQL_FIREWALL_RULE_NAME }} --start-ip-address $runner_ip --end-ip-address $runner_ip
 
     - name: Update database
+      env:
+        KARUSC_DB_CONNECTION_STRING: ${{ secrets.DATABASE_CONNECTION_STRING }}
       run: |
         cd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         dotnet tool install -g dotnet-ef --version ${{ env.DOTNET_EF_TOOL_VERSION }}
-        export KARUSC_DB_CONNECTION_STRING=${{ secrets.DATABASE_CONNECTION_STRING }}
         dotnet ef database update -p Karusc.Server.Infrastructure -s Karusc.Server
 
     - name: Delete Firewall Rule

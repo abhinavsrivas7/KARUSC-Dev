@@ -16,19 +16,13 @@ namespace Karusc.Server.Infrastructure.FileStorage
         {
             if (environment.IsLocal())
             {
-                services.Configure<LocalFileStorage>(configuration
-                    .GetSection(nameof(LocalFileStorage)));
-
-                services.AddScoped(typeof(IFileStorageService<>), 
-                    typeof(LocalFileStorageService<>));
+                services.Configure<LocalFileStorage>(configuration.GetSection(nameof(LocalFileStorage)));
+                services.AddScoped(typeof(IFileStorageService<>), typeof(LocalFileStorageService<>));
             }
             else
             {
-                services.Configure<BunnyFileStorage>(configuration
-                    .GetSection(nameof(BunnyFileStorage)));
-
-                services.AddScoped(typeof(IFileStorageService<>), 
-                    typeof(BunnyFileStorageService<>));
+                services.Configure<BunnyFileStorage>(configuration.GetSection(nameof(BunnyFileStorage)));
+                services.AddScoped(typeof(IFileStorageService<>), typeof(BunnyFileStorageService<>));
             }
         }
     }

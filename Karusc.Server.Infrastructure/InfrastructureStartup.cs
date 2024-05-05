@@ -1,5 +1,6 @@
 ﻿using Karusc.Server.Infrastructure.Authentication;
 using Karusc.Server.Infrastructure.FileStorage;
+using Karusc.Server.Infrastructure.Payments;
 using Karusc.Server.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ namespace Karusc.Server.Infrastructure
             services.AddPersistence(configuration);
             services.AddFileStorage(configuration, environment);
             services.AddAuthentication(configuration);
+            services.AddPayments(configuration);
         }
 
         public static bool IsLocal(this IWebHostEnvironment environment) => environment
