@@ -365,12 +365,19 @@ export const Checkout = () => {
                             <h6>{FormatProductPrice(getTotal())}</h6>
                         </div>
                     </div>
-                    <div className="mb-3 mt-3" style={{ width: responsive.contentWidth }}>
+                    <div className="mb-3 mt-3  d-flex justify-content-between" style={{ width: responsive.contentWidth }}>
+                        <Button
+                            size="lg"
+                            className="admin-button"
+                            onClick={() => navigate('/')}
+                            style={{ width: "45%" }}>
+                            Back to Home
+                        </Button>
                         <Button
                             size="lg"
                             className="admin-button"
                             disabled={!enablePayButton}
-                            style={{ width: "100%" }}>
+                            style={{ width: "45%" }}>
                             Pay Now
                         </Button>
                     </div>

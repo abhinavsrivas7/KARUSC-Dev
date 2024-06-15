@@ -1,44 +1,52 @@
 ﻿using Karusc.Server.Infrastructure;
-using Karusc.Server.Infrastructure.Configuration;
-using Microsoft.Extensions.FileProviders;
+using Karusc.Server.Application;
+using Karusc.Server.Infrastructure.Persistence;
+using Karusc.Server.Infrastructure.FileStorage;
 
 namespace Karusc.Server
 {
-    public static class StartupExtensions
+    internal static class StartupExtensions
     {
-        public const string CorsPolicy = "karusc-cors-policy";
+        private const string CorsPolicy = "karusc-cors-policy";
         private const string _corsConfigSection = "CLIENT-CORS-ORIGIN";
 
-        public static void AddCorsFromConfig(
-            this IServiceCollection services,
-            IConfiguration configuration) => services
-                .AddCors(options => options
-                    .AddPolicy(CorsPolicy, policy => policy
-                        .WithOrigins(configuration.GetSection(_corsConfigSection).Value!)
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()));
+        internal static void AddCorsFromConfig(this IServiceCollection services, IConfiguration configuration) => 
+            services.AddCors(options => options
+                .AddPolicy(CorsPolicy, policy => policy
+                    .WithOrigins(configuration.GetSection(_corsConfigSection).Value!)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()));
 
-        public static void UseKaruscStaticFiles(
-            this WebApplication app, 
-            IWebHostEnvironment environment,
-            IConfiguration configuration)
+        internal static WebApplication InstallKarusc(this WebApplication app)
         {
-            var localFileStorage = configuration
-                .GetSection(nameof(LocalFileStorage))
-                .Get<LocalFileStorage>();
+            app.ApplyMigrations();
+            app.UseDefaultFiles();
+            app.UseKaruscStaticFiles();
+            app.UseSwagger(); // Comment these 2 lines
+            app.UseSwaggerUI(); // to turn of swagger
+            app.UseHttpsRedirection();
+            app.UseExceptionHandler();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.MapControllers();
+            app.UseCors(CorsPolicy);
 
-            if (environment.IsLocal() && localFileStorage is not null)
-            {
-                app.UseStaticFiles(new StaticFileOptions()
-                {
-                    FileProvider = new PhysicalFileProvider(localFileStorage.DirectoryPath),
-                    RequestPath = localFileStorage.RequestPath
-                });
-            }
-            else
-            {
-                app.UseStaticFiles();
-            }
+            return app;
+        }
+
+        internal static WebApplicationBuilder SetupKarusc(this WebApplicationBuilder builder)
+        {
+            builder.Services.AddCorsFromConfig(builder.Configuration);
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            builder.Services.AddApplication();
+            builder.Services.AddInfrastructure(builder.Configuration, builder.Environment);
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+            builder.Services.AddProblemDetails();
+            builder.Services.AddHttpContextAccessor();
+
+            return builder;
         }
     }
 }

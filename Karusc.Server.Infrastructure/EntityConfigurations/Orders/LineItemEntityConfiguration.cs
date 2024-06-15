@@ -6,8 +6,8 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
 {
     internal static class LineItemEntityConfiguration
     { 
-        internal static void AddLineItemEntityConfiguration<T>(
-            this EntityTypeBuilder<T> builder) where T : LineItemEntity<T>
+        internal static void AddLineItemEntityConfiguration<T>(this EntityTypeBuilder<T> builder) 
+            where T : LineItemEntity<T>
         {
             builder.HasKey(e => e.Id);
             
@@ -16,7 +16,7 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
                 builder
                     .HasOne(c => c.Owner)
                     .WithOne(nameof(User.Cart))
-                    .HasForeignKey<Cart>(nameof(LineItemEntity<T>.OwnerId))
+                    .HasForeignKey<Cart>(c => c.OwnerId)
                     .IsRequired();
             }
             else

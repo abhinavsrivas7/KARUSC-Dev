@@ -11,13 +11,16 @@ import { ProductDetails } from "./pages/ProductDetails";
 import { LoggedInUserProvider } from "./context/UserContext";
 import { CartProvider } from "./context/CartContext";
 import { Checkout } from "./pages/Checkout";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { ShippingAndDelivery } from "./pages/ShippingAndDelivery";
+import { ReturnAndExchange } from "./pages/ReturnAndExchange";
 
 const App = () => {
 
     return <LoggedInUserProvider>
         <CartProvider>
             <ScreenSizeProvider>
-                <Banner title="Free shipping within India, on orders above INR 1000."></Banner>
+                <Banner title="Free shipping within India, on orders above INR 2000."></Banner>
                 <Navbar />
                 <div className="light-pink" style={{ paddingRight: '0px', paddingLeft: '0px', }}>
                     <Routes>
@@ -26,7 +29,11 @@ const App = () => {
                         <Route path="/ProductDetails" element={<ProductDetails />} />
                         <Route path="/About" element={<About />} />
                         <Route path="/Admin" element={<Admin />} />
-                        <Route path="/Checkout" element={<Checkout /> } />
+                        <Route path="/Checkout" element={<Checkout />} />
+                        <Route path="/PrivacyPolicy" element={<PrivacyPolicy />} />
+                        <Route path="/ShippingAndDelivery" element={<ShippingAndDelivery />} />
+                        <Route path="/ReturnAndExchange" element={<ReturnAndExchange />} />
+                        <Route path="/About" element={<About />} />
                     </Routes>
                 </div>
                 <Footer></Footer>

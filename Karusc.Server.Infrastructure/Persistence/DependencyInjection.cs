@@ -3,10 +3,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.AspNetCore.Builder;
 
 namespace Karusc.Server.Infrastructure.Persistence
 {
-    internal static class DependencyInjection
+    public static class DependencyInjection
     {
         private const string _connectionStringConfigName = "KaruscDB";
         private const string _connectionStringEnvironmentVariable = "KARUSC_DB_CONNECTION_STRING";
@@ -34,6 +35,13 @@ namespace Karusc.Server.Infrastructure.Persistence
                 action => action.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName)));
 
             services.AddScoped<IKaruscDbContext, KaruscDbContext>();
+        }
+
+        public static void ApplyMigrations(this WebApplication app)
+        {
+            using var scope = app.Services.CreateScope();
+            var karuscContext = scope.ServiceProvider.GetRequiredService<IKaruscDbContext>();
+            karuscContext.Database.Migrate();
         }
     }
 }

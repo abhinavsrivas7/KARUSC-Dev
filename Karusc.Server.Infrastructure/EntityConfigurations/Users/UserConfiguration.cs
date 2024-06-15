@@ -30,6 +30,11 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Users
                 .WithOne(c => c.Owner)
                 .HasForeignKey<Cart>(c => c.OwnerId);
 
+            builder
+                .HasOne(u => u.Wishlist)
+                .WithOne(w => w.Owner)
+                .HasForeignKey<Wishlist>(w => w.OwnerId);
+
             builder.HasMany(u => u.Orders).WithOne(o => o.Owner);
         }
     }

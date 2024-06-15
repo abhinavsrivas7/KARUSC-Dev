@@ -7,8 +7,8 @@ namespace Karusc.Server.Infrastructure.EntityConfigurations.Orders
 {
     internal static class LineItemConfiguration
     {
-        internal static void AddLineItemConfiguration<T>(
-            this EntityTypeBuilder<LineItem<T>> builder) where T : LineItemEntity<T>
+        internal static void AddLineItemConfiguration<T>(this EntityTypeBuilder<LineItem<T>> builder) 
+            where T : LineItemEntity<T>
         {
             string entityName = typeof(T) == typeof(Cart)
                 ? nameof(Cart)
