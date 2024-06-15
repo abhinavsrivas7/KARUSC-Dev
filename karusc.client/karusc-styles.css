@@ -171,6 +171,7 @@ button[id^='admin-tab-'].nav-link.active {
     background-color: #FFF3F5 !important;
     color: rgba(158, 45, 79, 0.56) !important;
 }
+
 .accordion-button::after {
     filter: invert(100%) grayscale();
 }

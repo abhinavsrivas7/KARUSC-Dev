@@ -15,7 +15,7 @@ namespace Karusc.Server.Domain.Users
         public List<Address> Addresses { get; private set; } = new();
         public List<Review> Reviews { get; private set; } = new();
         public Cart Cart { get; set; } = null!;
-        public Guid CartId { get; set; }
+        public Wishlist Wishlist { get; set; } = null!;
         public List<Order> Orders { get; set; } = new();
 
         private User(string email, string name, string passwordHash, Role role)
@@ -37,9 +37,8 @@ namespace Karusc.Server.Domain.Users
             
             user.ProfilePicture = new File<User>(user, profilePicture, string.Empty);
             user.ProfilePictureURL = user.ProfilePicture.FileName;   
-            
             user.Cart = Cart.Create(user);
-            user.CartId = user.Cart.Id;
+            user.Wishlist = Wishlist.Create(user);
             
             return user;
         }

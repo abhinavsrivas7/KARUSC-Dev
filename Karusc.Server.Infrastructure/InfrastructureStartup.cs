@@ -23,6 +23,7 @@ namespace Karusc.Server.Infrastructure
         }
 
         public static bool IsLocal(this IWebHostEnvironment environment) => environment
-            .EnvironmentName.Equals(_localEnvironmentName);
+            .EnvironmentName
+            .Equals(_localEnvironmentName);
     }
 }

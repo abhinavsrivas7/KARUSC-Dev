@@ -9,7 +9,7 @@ import { useScreenSize } from "../../hooks/useScreenSize"
 
 export const Footer = () => {
     const { getDeviceType } = useScreenSize();
-    const rowClass = getDeviceType() == DeviceTypes.MOBILE ? "mb-5 px-2" : "mb-5 px-5";
+    const rowClass = getDeviceType() == DeviceTypes.MOBILE || getDeviceType() == DeviceTypes.MINI_MOBILE ? "mb-5 px-2" : "mb-5 px-5";
 
     return <footer
         className="purple px-0 py-3 extra-light-font"
@@ -23,13 +23,13 @@ export const Footer = () => {
                 <div className="d-flex justify-content-start">
                     <div>
                         <p className="semi-bold-font">Links</p>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/PrivacyPolicy">
                             <p className="mb-1">Privacy Policy</p>
                         </Link>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/ReturnAndExchange">
                             <p className="mb-1">Return & Exchange</p>
                         </Link>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/ShippingAndDelivery">
                             <p>Shipping & Delivery</p>
                         </Link>
                     </div>
@@ -39,7 +39,7 @@ export const Footer = () => {
                 <div className="d-flex justify-content-end">
                     <div>
                         <p className="semi-bold-font">Info</p>
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/">
+                        <Link style={{ textDecoration: 'none', color: 'white' }} to="/About">
                             <p className="mb-1">About Us</p>
                         </Link>
                         <Link style={{ textDecoration: 'none', color: 'white' }} to="/">

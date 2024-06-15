@@ -4,6 +4,7 @@ import userImg from "../../../resources/media/user.svg";
 import hamburgImg from "../../../resources/media/hamburger.svg";
 import searchImg from "../../../resources/media/search.svg";
 import cartImg from "../../../resources/media/cart.svg";
+import wishlistImg from "../../../resources/media/heart.svg";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useScreenSize } from "../../hooks/useScreenSize";
@@ -73,23 +74,35 @@ export const Navbar = () => {
                 </Nav.Link>
             </Nav>
         </Stack>
-        <Stack direction="horizontal" gap={getDeviceType() === DeviceTypes.MINI_MOBILE ? 0 : 3} className="ms-auto">
+        <Stack direction="horizontal" gap={getDeviceType() === DeviceTypes.MINI_MOBILE ? 2 : 3} className="ms-auto">
             <Button
                 onClick={() => setSearchActive(true)}
                 variant="white"
                 style={{ width: '1.45rem', padding: 0, border: 0 }}>
                 <img src={searchImg} />
             </Button>
+            <Button
+                onClick={() => setShowCartDrawer(true)}
+                variant="white"
+                style={{ width: '1.45rem', padding: 0, border: 0 }}>
+                <img src={wishlistImg} />
+            </Button>
+            <Button
+                onClick={() => setShowCartDrawer(true)}
+                variant="white"
+                style={{ width: '1.75rem', padding: 0, border: 0 }}>
+                <img src={cartImg} />
+            </Button>
             {
                 user === null
                     ? <Button
                         variant="white"
-                        style={{ width: '1.5rem', padding: 0, border: 0 }}
+                        style={{ width: '1.45rem', padding: 0, border: 0 }}
                         onClick={() => setShowLoginModal(true)}>
                         <img src={userImg} />
                     </Button>
                     : <Dropdown align="end">
-                        <Dropdown.Toggle variant="white" className="light-pink">
+                        <Dropdown.Toggle variant="white" className="light-pink p-0 border-0">
                             <img height="25" style={{ borderRadius: "50%" }} src={user.profilePictureUrl} />
                         </Dropdown.Toggle>
                         <Dropdown.Menu className="light-pink">
@@ -101,14 +114,7 @@ export const Navbar = () => {
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-            }
-            
-            <Button
-                onClick={() => setShowCartDrawer(true)}
-                variant="white"
-                style={{ width: '1.75rem', padding: 0, border: 0 }}>
-                <img src={cartImg} />
-            </Button>
+            }          
         </Stack>
     </>;
 
